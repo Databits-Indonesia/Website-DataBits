@@ -111,7 +111,7 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) =>
                 <span className="font-bold text-black text-xs tracking-widest">BITS</span>
               </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">© 2024 DataBits, Inc.</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">© 2025 DataBits, Inc.</p>
           </div>
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Privacy Policy</a>
