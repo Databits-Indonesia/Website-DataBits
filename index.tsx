@@ -144,9 +144,14 @@ const HomePage = () => {
             <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg">
               Get Started Free
             </button>
-            <button className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all">
+            <a
+              href="https://wa.me/6289636344666"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all"
+            >
               Contact Sales
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -182,9 +187,14 @@ const HomePage = () => {
             <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to Innovate?</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
-                <button className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                    Contact Our Experts
-                </button>
+                <a
+                  href="https://wa.me/6289636344666"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+                >
+                  Contact Our Experts
+                </a>
             </div>
         </div>
       </section>
@@ -396,9 +406,15 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
         <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Start Your Transformation</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">Ready to harness the power of AI? Let's talk about your project.</p>
-            <button onClick={() => setCurrentPage('CONTACT')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                Contact Sales
-            </button>
+            <a
+              href="https://wa.me/6289636344666"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setCurrentPage('CONTACT')}
+              className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+            >
+              Contact Sales
+            </a>
         </div>
       </section>
     </div>
@@ -487,8 +503,8 @@ const ContactPage = () => {
         <div className="lg:w-1/3 flex flex-col gap-8">
             <div className="flex flex-col gap-6">
                 {[
-                    { icon: 'mail', text: 'contact@databits.ai', href: 'mailto:contact@databits.ai' },
-                    { icon: 'call', text: '+1 (555) 123-4567', href: 'tel:+15551234567' },
+                    { icon: 'mail', text: 'databitsteam@gmail.com', href: 'mailto:databitsteam@gmail.com' },
+                    { icon: 'call', text: '+62 896-3634-4666', href: 'https://wa.me/6289636344666' },
                     { icon: 'location_on', text: '123 Innovation Drive, Tech Park, Silicon Valley, CA 94043', sub: 'DataBits Headquarters', href: '#' }
                 ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4">
