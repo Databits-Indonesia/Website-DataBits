@@ -241,10 +241,10 @@ const AboutPage = () => {
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Story</h2>
         <div className="max-w-xl mx-auto">
             {[
-                { icon: 'flag', title: 'Foundation', date: 'March 2021' },
-                { icon: 'auto_awesome', title: 'First Product Launch', date: 'January 2022' },
-                { icon: 'monetization_on', title: 'Series A Funding', date: 'September 2022' },
-                { icon: 'public', title: 'Global Expansion', date: 'June 2023' }
+                { icon: 'flag', title: 'Foundation', date: 'March 2024' },
+                { icon: 'auto_awesome', title: 'First Product Launch', date: 'January 2025' },
+                { icon: 'monetization_on', title: 'Series A Funding', date: 'September 2025' },
+                { icon: 'public', title: 'Global Expansion', date: 'June 2026' }
             ].map((event, i, arr) => (
                 <div key={i} className="flex gap-4">
                     <div className="flex flex-col items-center">
