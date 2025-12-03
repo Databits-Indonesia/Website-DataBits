@@ -125,7 +125,7 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) =>
 
 // --- Pages ---
 
-const HomePage = () => {
+const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -141,7 +141,7 @@ const HomePage = () => {
             DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg">
+            <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg" onClick={() => { setCurrentPage('SERVICES'); }}>
               Get Started Free
             </button>
             <a
@@ -592,7 +592,7 @@ const App = () => {
         toggleTheme={toggleTheme}
       />
       <main className="flex-grow">
-        {currentPage === 'HOME' && <HomePage />}
+        {currentPage === 'HOME' && <HomePage setCurrentPage={setCurrentPage} />}
         {currentPage === 'SERVICES' && <ServicesPage setCurrentPage={setCurrentPage} />}
         {currentPage === 'ABOUT' && <AboutPage />}
         {currentPage === 'BLOG' && <BlogPage />}
