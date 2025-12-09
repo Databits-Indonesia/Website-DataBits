@@ -262,10 +262,10 @@ const AboutPage = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-                { name: 'Abdurrahman Al-atsary', role: 'CEO & Co-Founder', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBYd3xCEQszxZaXLQJJggOLxPfb4nL6f_rKTaysHNg55ZPaF3CYrDfnPCbI40mbpdbCLMcYQKXnDGslbmQIn9gCELUo1QkMifYTMC_JkQDNBvwLQkN2xgQJndcxmVDLI43vYa3jzveR858sAdkulvHt8oQ-RfeF7g9IGOgPVZcDbvxAt5y2yk1iA4ryZK5GZ9uyhFEZUWgEjkqE9b1CUoiKGExupiPnbIrHZTf7dd0mdfC8O3UrqRdd17YS73Iwf0D3r5njqtZZvO8I' },
+                { name: 'Abdurrahman Al-atsary', role: 'CEO & Co-Founder', img: 'https://media.licdn.com/dms/image/v2/D5603AQFH2iJ523ZBaQ/profile-displayphoto-crop_800_800/B56Zn_uEFGI0AI-/0/1760931890307?e=1766620800&v=beta&t=VtMJHPSSqRmUr8zgYQP-fU5gu8tcEIi_-DRdOOxTJ4E' },
                 { name: 'Miftahul Huda', role: 'CTO & Co-Founder', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBYd3xCEQszxZaXLQJJggOLxPfb4nL6f_rKTaysHNg55ZPaF3CYrDfnPCbI40mbpdbCLMcYQKXnDGslbmQIn9gCELUo1QkMifYTMC_JkQDNBvwLQkN2xgQJndcxmVDLI43vYa3jzveR858sAdkulvHt8oQ-RfeF7g9IGOgPVZcDbvxAt5y2yk1iA4ryZK5GZ9uyhFEZUWgEjkqE9b1CUoiKGExupiPnbIrHZTf7dd0mdfC8O3UrqRdd17YS73Iwf0D3r5njqtZZvO8I' },
-                { name: 'Emily White', role: 'Head of Research', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqU4lqOJ24MIZDuD0fdUomG0BJPrZ64eorCHJCTsgP9pgp44LR39w-34WZY6G-IOkkZ-BQ2OZljfqs7dAQsKYV1WQY8lT1bXEPoWuSvevbUhLUQBbtw0WVoGoCrFabEBvBjpnwa0nAtr-zeuDj8iW8zUY0JyiraCVOAT3sGUrWOJXJR1g9-nWK0D2_9Z_Kh89Ci2Nn2ARlpgudLPEZHyp9trhKubn6ztdzAv0XqmDKcodhd_yOzmbEBsBlY3AAtQerF1KQNVfaqYbu' },
-                { name: 'Husni Nafa Mubarok', role: 'Lead AI Engineer', img: 'https://avatars.githubusercontent.com/u/79038126?v=4' }
+                { name: 'Sasa Rahmalia', role: 'CMO', img: 'https://avatars.githubusercontent.com/u/112261654?v=4' },
+                { name: 'Husni Nafa Mubarok', role: 'Lead Data Scientist', img: 'https://avatars.githubusercontent.com/u/79038126?v=4' }
             ].map((member, i) => (
                 <div key={i} className="flex flex-col items-center text-center gap-4">
                     <img src={member.img} alt={member.name} className="w-40 h-40 rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-300 ring-2 ring-gray-200 dark:ring-gray-700" />
