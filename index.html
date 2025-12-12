@@ -48,6 +48,39 @@
       .material-symbols-outlined {
         font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
       }
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+        will-change: opacity, transform;
+      }
+      .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-stagger {
+        opacity: 0;
+        transform: translateY(32px) scale(0.95);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .reveal-stagger.in-view {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .reveal-stagger:nth-child(1) { transition-delay: 0.1s; }
+      .reveal-stagger:nth-child(2) { transition-delay: 0.2s; }
+      .reveal-stagger:nth-child(3) { transition-delay: 0.3s; }
+      .reveal-stagger:nth-child(4) { transition-delay: 0.4s; }
+      .reveal-stagger:nth-child(5) { transition-delay: 0.5s; }
+      .reveal-stagger:nth-child(6) { transition-delay: 0.6s; }
+      .typing-caret {
+        display: inline-block;
+        width: 0.6ch;
+        animation: blink 1s steps(1, end) infinite;
+      }
+      @keyframes blink {
+        50% { opacity: 0; }
+      }
       body {
         font-family: 'Space Grotesk', sans-serif;
       }

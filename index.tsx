@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // Navigation State
@@ -72,7 +72,7 @@ const Navbar = ({
           </span>
         </button>
 
-        <button className="hidden md:flex h-10 items-center justify-center rounded-lg bg-black px-4 text-sm font-bold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors">
+        <button className="hidden md:flex h-10 items-center justify-center rounded-lg bg-black px-4 text-sm font-bold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
           Request a Demo
         </button>
         <button
@@ -127,28 +127,109 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) =>
   );
 };
 
+// Animation helpers
+
+const useRevealAnimation = (trigger?: any) => {
+  useEffect(() => {
+    const elements = document.querySelectorAll('[data-animate="reveal"]');
+    const staggerElements = document.querySelectorAll('[data-animate="reveal-stagger"]');
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    elements.forEach((el) => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+
+    staggerElements.forEach((el) => {
+      el.classList.add('reveal-stagger');
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [trigger]);
+};
+
+const TypingHeadline = () => {
+  const lines = [
+    { text: 'Unlock Insights.', className: '' },
+    {
+      text: 'Automate Intelligence.',
+      className: 'bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-gray-900 dark:from-gray-400 dark:to-gray-100',
+    },
+  ];
+
+  const [typedLines, setTypedLines] = useState<string[]>(Array(lines.length).fill(''));
+  const [showCaret, setShowCaret] = useState(true);
+
+  useEffect(() => {
+    let lineIndex = 0;
+    let charIndex = 0;
+    let timer: number;
+
+    const typeNext = () => {
+      const currentLine = lines[lineIndex].text;
+      if (charIndex <= currentLine.length) {
+        setTypedLines((prev) => {
+          const next = [...prev];
+          next[lineIndex] = currentLine.slice(0, charIndex);
+          return next;
+        });
+        charIndex += 1;
+        timer = window.setTimeout(typeNext, 40);
+      } else if (lineIndex < lines.length - 1) {
+        lineIndex += 1;
+        charIndex = 0;
+        timer = window.setTimeout(typeNext, 150);
+      } else {
+        timer = window.setTimeout(() => setShowCaret(false), 1200);
+      }
+    };
+
+    typeNext();
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="inline-flex flex-col items-center leading-tight">
+      {lines.map((line, idx) => (
+        <span key={idx} className={`text-4xl md:text-6xl font-black tracking-tight text-gray-900 dark:text-white ${line.className}`}>
+          {typedLines[idx]}
+          {showCaret && idx === lines.length - 1 && <span className="typing-caret">|</span>}
+        </span>
+      ))}
+    </div>
+  );
+};
+
 // --- Pages ---
 
 const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="py-20 md:py-32 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-gray-900 dark:text-white mb-6">
-            Unlock Insights.<br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-gray-900 dark:from-gray-400 dark:to-gray-100">
-              Automate Intelligence.
-            </span>
-          </h1>
+      <section className="py-20 md:py-32 px-4" data-animate="reveal">
+        <div className="container mx-auto text-center max-w-4xl flex flex-col items-center gap-6">
+          <TypingHeadline />
           <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400 mb-10">
             DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg" onClick={() => { setCurrentPage('SERVICES'); }}>
+            <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg transform hover:scale-[1.02] active:scale-95" onClick={() => { setCurrentPage('SERVICES'); }}>
               Get Started Free
             </button>
-            <button onClick={() => setCurrentPage('CONTACT')} className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all">
+            <button onClick={() => setCurrentPage('CONTACT')} className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all transform hover:scale-[1.02] active:scale-95">
                 Contact Sales
             </button>
           </div>
@@ -156,7 +237,7 @@ const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) 
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900/50" data-animate="reveal">
         <div className="container mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">The Modern AI Platform</h2>
@@ -168,7 +249,7 @@ const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) 
               { icon: 'hub', title: 'Natural Language Processing', desc: 'Extract insights from unstructured text data, from sentiment analysis to document summarization.' },
               { icon: 'brush', title: 'Computer Vision', desc: 'Analyze images and videos to identify objects, faces, and patterns at scale for your applications.' },
             ].map((service, idx) => (
-              <div key={idx} className="p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark hover:shadow-lg transition-all duration-300 group">
+              <div key={idx} data-animate="reveal-stagger" className="p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark hover:shadow-lg transition-all duration-300 group">
                 <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <span className="material-symbols-outlined">{service.icon}</span>
                 </div>
@@ -181,12 +262,12 @@ const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) 
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4" data-animate="reveal">
         <div className="container mx-auto">
             <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to Innovate?</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
-                <button onClick={() => setCurrentPage('CONTACT')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                <button onClick={() => setCurrentPage('CONTACT')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
                     Contact Our Experts
                 </button>
             </div>
@@ -200,7 +281,7 @@ const AboutPage = () => {
   return (
     <div className="flex flex-col gap-16 pb-20">
       {/* Hero */}
-      <section className="pt-20 pb-10 px-4 text-center">
+      <section className="pt-20 pb-10 px-4 text-center" data-animate="reveal">
         <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6">Pioneering the Future of AI</h1>
         <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
           DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
@@ -208,7 +289,7 @@ const AboutPage = () => {
       </section>
 
       {/* Philosophy */}
-      <section className="px-4 container mx-auto">
+      <section className="px-4 container mx-auto" data-animate="reveal">
         <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Philosophy</h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Our work is guided by a core set of principles that define our identity and drive every decision we make.</p>
@@ -231,7 +312,7 @@ const AboutPage = () => {
       </section>
 
       {/* Story */}
-      <section className="px-4 container mx-auto">
+      <section className="px-4 container mx-auto" data-animate="reveal">
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Story</h2>
         <div className="max-w-xl mx-auto">
             {[
@@ -255,7 +336,7 @@ const AboutPage = () => {
       </section>
 
       {/* Team */}
-      <section className="px-4 container mx-auto">
+      <section className="px-4 container mx-auto" data-animate="reveal">
         <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet the Team</h2>
             <p className="text-gray-600 dark:text-gray-400">The brilliant minds behind DataBits.</p>
@@ -279,7 +360,7 @@ const AboutPage = () => {
       </section>
 
       {/* Join Us */}
-      <section className="px-4 container mx-auto">
+      <section className="px-4 container mx-auto" data-animate="reveal">
          <div className="bg-gray-100 dark:bg-[#192233] rounded-xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
             <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Join Us</h2>
@@ -296,7 +377,7 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
             Expert AI Services Tailored to You
@@ -308,7 +389,7 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
       </section>
 
       {/* Main Grid */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4" data-animate="reveal">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -349,7 +430,7 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
                 list: ["End-to-End Development", "Model Fine-tuning", "System Integration"]
               }
             ].map((s, i) => (
-              <div key={i} className="flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all">
+              <div key={i} data-animate="reveal-stagger" className="flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all">
                 <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6">
                    <span className="material-symbols-outlined">{s.icon}</span>
                 </div>
@@ -372,7 +453,7 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
       </section>
 
       {/* Process/How we work */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-[#192233]">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-[#192233]" data-animate="reveal">
          <div className="container mx-auto">
             <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Process</h2>
@@ -396,11 +477,11 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4" data-animate="reveal">
         <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Start Your Transformation</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">Ready to harness the power of AI? Let's talk about your project.</p>
-            <button onClick={() => setCurrentPage('CONTACT')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+            <button onClick={() => setCurrentPage('CONTACT')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
                 Contact Sales
             </button>
         </div>
@@ -466,7 +547,7 @@ const ProductsPage = () => {
 
   return (
      <div className="flex flex-col min-h-[calc(100vh-theme(spacing.20))]">
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
             Our Products
@@ -477,7 +558,7 @@ const ProductsPage = () => {
         </div>
       </section>
 
-      <section className="py-20 px-4">
+      <section className="py-20 px-4" data-animate="reveal">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.map((product, i) => (
@@ -524,7 +605,7 @@ const ProductsPage = () => {
       </section>
 
       {/* Open Source Section */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800" data-animate="reveal">
         <div className="container mx-auto">
             <div className="text-center mb-12">
                 <div className="flex items-center justify-center gap-2 mb-4">
@@ -577,6 +658,9 @@ const ProductsPage = () => {
 const BlogPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const categoryRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const categoryBarRef = useRef<HTMLDivElement | null>(null);
+  const [highlightStyle, setHighlightStyle] = useState<{ width: number; left: number }>({ width: 0, left: 0 });
 
   const allPosts = [
     {
@@ -619,6 +703,24 @@ const BlogPage = () => {
 
   const categories = ['All', 'Product Updates', 'Data Science', 'Engineering', 'AI Research', 'Industry Trends'];
 
+  useLayoutEffect(() => {
+    const updateHighlight = () => {
+      const barRect = categoryBarRef.current?.getBoundingClientRect();
+      const active = categoryRefs.current[selectedCategory];
+      if (barRect && active) {
+        const rect = active.getBoundingClientRect();
+        setHighlightStyle({
+          width: rect.width,
+          left: rect.left - barRect.left,
+        });
+      }
+    };
+
+    updateHighlight();
+    window.addEventListener('resize', updateHighlight);
+    return () => window.removeEventListener('resize', updateHighlight);
+  }, [selectedCategory]);
+
   const filteredPosts = allPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           post.desc.toLowerCase().includes(searchQuery.toLowerCase());
@@ -631,7 +733,7 @@ const BlogPage = () => {
   const postsToShow = isDefaultView ? allPosts.filter(p => !p.featured) : filteredPosts;
 
   return (
-    <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10">
+    <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10" data-animate="reveal">
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-2">The DataBits Blog</h1>
         <p className="text-gray-600 dark:text-gray-400 text-lg">Insights on AI Research, Product Updates, and Industry Trends</p>
@@ -649,14 +751,22 @@ const BlogPage = () => {
               className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#232f48] text-gray-900 dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-white outline-none" 
             />
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="relative flex gap-3 overflow-x-auto pb-2 scrollbar-hide" ref={categoryBarRef}>
+            {highlightStyle.width > 0 && (
+              <span
+                className="absolute top-0 bottom-0 rounded-full bg-black/5 dark:bg-white/10 transition-all duration-300"
+                style={{ width: highlightStyle.width, transform: `translateX(${highlightStyle.left}px)` }}
+                aria-hidden
+              />
+            )}
             {categories.map((tag, i) => (
                 <button 
                   key={i} 
+                  ref={(el) => { categoryRefs.current[tag] = el; }}
                   onClick={() => setSelectedCategory(tag)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap border transition-colors ${
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap border transition-all transform hover:scale-105 active:scale-95 ${
                     selectedCategory === tag 
-                      ? 'bg-black dark:bg-white text-white dark:text-black border-transparent' 
+                      ? 'bg-black dark:bg-white text-white dark:text-black border-transparent shadow-sm' 
                       : 'bg-transparent border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                 >
@@ -794,7 +904,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-10 py-16 flex flex-col gap-12">
+    <div className="container mx-auto px-4 md:px-10 py-16 flex flex-col gap-12" data-animate="reveal">
       <div className="max-w-xl">
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">Get in Touch</h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">We’d love to hear from you. Reach out for partnerships, inquiries, or support.</p>
@@ -914,6 +1024,8 @@ const ContactPage = () => {
 const App = () => {
   const [currentPage, setCurrentPage] = useState<Page>('HOME');
   const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useRevealAnimation(currentPage);
 
   useEffect(() => {
     if (document.documentElement.classList.contains('dark')) {
