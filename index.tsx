@@ -1,6 +1,7 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import * as motion from 'motion/react-client';
 
 // Navigation State
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
@@ -41,24 +42,66 @@ const Navbar = ({
       </div>
 
       <nav className="hidden items-center gap-9 md:flex">
-        <button onClick={() => setCurrentPage('HOME')} className={navLinkClass('HOME')}>
+        <motion.button onClick={() => setCurrentPage('HOME')} className={`${navLinkClass('HOME')} relative`}>
           Home
-        </button>
-        <button onClick={() => setCurrentPage('SERVICES')} className={navLinkClass('SERVICES')}>
+          {currentPage === 'HOME' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
+        <motion.button onClick={() => setCurrentPage('SERVICES')} className={`${navLinkClass('SERVICES')} relative`}>
             Services
-        </button>
-        <button onClick={() => setCurrentPage('PRODUCTS')} className={navLinkClass('PRODUCTS')}>
+            {currentPage === 'SERVICES' && (
+              <motion.div
+                layoutId="nav-underline"
+                className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+        </motion.button>
+        <motion.button onClick={() => setCurrentPage('PRODUCTS')} className={`${navLinkClass('PRODUCTS')} relative`}>
             Products
-        </button>
-        <button onClick={() => setCurrentPage('ABOUT')} className={navLinkClass('ABOUT')}>
+            {currentPage === 'PRODUCTS' && (
+              <motion.div
+                layoutId="nav-underline"
+                className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+        </motion.button>
+        <motion.button onClick={() => setCurrentPage('ABOUT')} className={`${navLinkClass('ABOUT')} relative`}>
           About
-        </button>
-        <button onClick={() => setCurrentPage('BLOG')} className={navLinkClass('BLOG')}>
+          {currentPage === 'ABOUT' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
+        <motion.button onClick={() => setCurrentPage('BLOG')} className={`${navLinkClass('BLOG')} relative`}>
           Blog
-        </button>
-        <button onClick={() => setCurrentPage('CONTACT')} className={navLinkClass('CONTACT')}>
+          {currentPage === 'BLOG' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
+        <motion.button onClick={() => setCurrentPage('CONTACT')} className={`${navLinkClass('CONTACT')} relative`}>
           Contact
-        </button>
+          {currentPage === 'CONTACT' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
       </nav>
 
       <div className="flex items-center gap-4">
@@ -281,39 +324,64 @@ const AboutPage = () => {
   return (
     <div className="flex flex-col gap-16 pb-20">
       {/* Hero */}
-      <section className="pt-20 pb-10 px-4 text-center" data-animate="reveal">
+      <motion.section 
+        className="pt-20 pb-10 px-4 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6">Pioneering the Future of AI</h1>
         <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
           DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
         </h2>
-      </section>
+      </motion.section>
 
       {/* Philosophy */}
-      <section className="px-4 container mx-auto" data-animate="reveal">
-        <div className="text-center mb-12">
+      <section className="px-4 container mx-auto">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Philosophy</h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Our work is guided by a core set of principles that define our identity and drive every decision we make.</p>
-        </div>
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
                 { icon: 'rocket_launch', title: 'Our Mission', text: 'To democratize access to powerful AI tools, enabling businesses of all sizes to innovate and thrive.' },
                 { icon: 'visibility', title: 'Our Vision', text: 'To create a future where intelligent technology seamlessly integrates with human life to solve the world\'s biggest challenges.' },
                 { icon: 'group', title: 'Our Values', text: 'Innovation, Integrity, and Collaboration are the pillars that support our work and our culture.' }
             ].map((item, i) => (
-                <div key={i} className="flex flex-col gap-4 p-8 rounded-xl border border-gray-200 dark:border-[#324467] bg-white dark:bg-[#192233] shadow-sm">
+                <motion.div 
+                  key={i} 
+                  className="flex flex-col gap-4 p-8 rounded-xl border border-gray-200 dark:border-[#324467] bg-white dark:bg-[#192233] shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                >
                     <span className="material-symbols-outlined text-4xl text-gray-900 dark:text-white">{item.icon}</span>
                     <div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{item.title}</h3>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{item.text}</p>
                     </div>
-                </div>
+                </motion.div>
             ))}
         </div>
       </section>
 
       {/* Story */}
-      <section className="px-4 container mx-auto" data-animate="reveal">
-        <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Story</h2>
+      <section className="px-4 container mx-auto">
+        <motion.h2 
+          className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >Our Story</motion.h2>
         <div className="max-w-xl mx-auto">
             {[
                 { icon: 'flag', title: 'Foundation', date: 'March 2024' },
@@ -321,7 +389,14 @@ const AboutPage = () => {
                 { icon: 'monetization_on', title: 'Series A Funding', date: 'September 2025' },
                 { icon: 'public', title: 'Global Expansion', date: 'June 2026' }
             ].map((event, i, arr) => (
-                <div key={i} className="flex gap-4">
+                <motion.div 
+                  key={i} 
+                  className="flex gap-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.15 }}
+                >
                     <div className="flex flex-col items-center">
                         <div className="text-gray-900 dark:text-white"><span className="material-symbols-outlined">{event.icon}</span></div>
                         {i < arr.length - 1 && <div className="w-0.5 bg-gray-300 dark:bg-[#324467] grow my-2"></div>}
@@ -330,17 +405,23 @@ const AboutPage = () => {
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white">{event.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{event.date}</p>
                     </div>
-                </div>
+                </motion.div>
             ))}
         </div>
       </section>
 
       {/* Team */}
-      <section className="px-4 container mx-auto" data-animate="reveal">
-        <div className="text-center mb-12">
+      <section className="px-4 container mx-auto">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet the Team</h2>
             <p className="text-gray-600 dark:text-gray-400">The brilliant minds behind DataBits.</p>
-        </div>
+        </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
                 { name: 'Abdurrahman Al-atsary', role: 'CEO & Co-Founder', img: 'https://media.licdn.com/dms/image/v2/D5603AQFH2iJ523ZBaQ/profile-displayphoto-crop_800_800/B56Zn_uEFGI0AI-/0/1760931890307?e=1766620800&v=beta&t=VtMJHPSSqRmUr8zgYQP-fU5gu8tcEIi_-DRdOOxTJ4E' },
@@ -348,26 +429,53 @@ const AboutPage = () => {
                 { name: 'Sasa Rahmalia', role: 'CMO', img: 'https://avatars.githubusercontent.com/u/112261654?v=4' },
                 { name: 'Husni Nafa Mubarok', role: 'Lead Data Scientist', img: 'https://avatars.githubusercontent.com/u/79038126?v=4' }
             ].map((member, i) => (
-                <div key={i} className="flex flex-col items-center text-center gap-4">
-                    <img src={member.img} alt={member.name} className="w-40 h-40 rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-300 ring-2 ring-gray-200 dark:ring-gray-700" />
+                <motion.div 
+                  key={i} 
+                  className="flex flex-col items-center text-center gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                >
+                    <motion.img 
+                      src={member.img} 
+                      alt={member.name} 
+                      className="w-40 h-40 rounded-full object-cover grayscale ring-2 ring-gray-200 dark:ring-gray-700"
+                      whileHover={{ 
+                        scale: 1.05, 
+                        filter: 'grayscale(0%)',
+                        transition: { duration: 0.3 } 
+                      }}
+                    />
                     <div>
                         <h4 className="font-bold text-gray-900 dark:text-white text-lg">{member.name}</h4>
                         <p className="text-gray-600 dark:text-gray-400 text-sm">{member.role}</p>
                     </div>
-                </div>
+                </motion.div>
             ))}
         </div>
       </section>
 
       {/* Join Us */}
-      <section className="px-4 container mx-auto" data-animate="reveal">
-         <div className="bg-gray-100 dark:bg-[#192233] rounded-xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <section className="px-4 container mx-auto">
+         <motion.div 
+           className="bg-gray-100 dark:bg-[#192233] rounded-xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left"
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.5 }}
+           whileHover={{ y: -4, transition: { duration: 0.2 } }}
+         >
             <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Join Us</h2>
                 <p className="text-gray-600 dark:text-gray-300">Help us build the future. We're looking for passionate individuals.</p>
             </div>
-            <button className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg whitespace-nowrap">View Open Positions</button>
-         </div>
+            <motion.button 
+              className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg whitespace-nowrap"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >View Open Positions</motion.button>
+         </motion.div>
       </section>
     </div>
   );
@@ -547,27 +655,36 @@ const ProductsPage = () => {
 
   return (
      <div className="flex flex-col min-h-[calc(100vh-theme(spacing.20))]">
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800" data-animate="reveal">
-        <div className="container mx-auto text-center max-w-4xl">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+        <motion.div 
+          className="container mx-auto text-center max-w-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
             Our Products
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Tools and platforms built to empower your data journey.
           </p>
-        </div>
+        </motion.div>
       </section>
 
-      <section className="py-20 px-4" data-animate="reveal">
+      <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.map((product, i) => (
-              <a
+              <motion.a
                 key={i}
                 href={product.link}
                 target={product.external ? "_blank" : "_self"}
                 rel={product.external ? "noopener noreferrer" : ""}
-                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : 'hover:-translate-y-1'}`}
+                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                whileHover={{ y: product.link !== '#' ? -8 : 0, transition: { duration: 0.2 } }}
                 onClick={(e) => {
                     if (product.link === '#') e.preventDefault();
                 }}
@@ -583,9 +700,12 @@ const ProductsPage = () => {
                   </div>
                 )}
 
-                <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6">
+                <motion.div 
+                  className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6"
+                  whileHover={{ scale: 1.1, rotate: 5, transition: { duration: 0.2 } }}
+                >
                    <span className="material-symbols-outlined">{product.icon}</span>
-                </div>
+                </motion.div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{product.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">{product.desc}</p>
 
@@ -598,30 +718,50 @@ const ProductsPage = () => {
                         Stay Tuned
                      </div>
                 )}
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>
       </section>
 
       {/* Open Source Section */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800" data-animate="reveal">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
         <div className="container mx-auto">
-            <div className="text-center mb-12">
-                <div className="flex items-center justify-center gap-2 mb-4">
+            <motion.div 
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+                <motion.div 
+                  className="flex items-center justify-center gap-2 mb-4"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
                     <div className="p-3 bg-black dark:bg-white rounded-full text-white dark:text-black">
                         <span className="material-symbols-outlined text-2xl">code</span>
                     </div>
-                </div>
+                </motion.div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Open Source</h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                     We believe in giving back to the community. Check out our open source contributions that are powering the next generation of AI tools.
                 </p>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {openSourceProjects.map((project, i) => (
-                    <div key={i} className="flex flex-col p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:border-gray-400 dark:hover:border-gray-600 transition-all group">
+                    <motion.div 
+                      key={i} 
+                      className="flex flex-col p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:border-gray-400 dark:hover:border-gray-600 transition-all group"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                    >
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{project.title}</h3>
                             <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.language}</span>
@@ -640,15 +780,26 @@ const ProductsPage = () => {
                                 GitHub <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
                             </a>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
             
-            <div className="mt-12 text-center">
-                 <a href="https://github.com/Databits-Indonesia" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all text-gray-900 dark:text-white">
+            <motion.div 
+              className="mt-12 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+                 <motion.a 
+                   href="https://github.com/Databits-Indonesia" 
+                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all text-gray-900 dark:text-white"
+                   whileHover={{ scale: 1.05 }}
+                   whileTap={{ scale: 0.95 }}
+                 >
                     View all repositories <span className="material-symbols-outlined">arrow_forward</span>
-                 </a>
-            </div>
+                 </motion.a>
+            </motion.div>
         </div>
       </section>
     </div>
@@ -658,9 +809,6 @@ const ProductsPage = () => {
 const BlogPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const categoryRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const categoryBarRef = useRef<HTMLDivElement | null>(null);
-  const [highlightStyle, setHighlightStyle] = useState<{ width: number; left: number }>({ width: 0, left: 0 });
 
   const allPosts = [
     {
@@ -703,24 +851,6 @@ const BlogPage = () => {
 
   const categories = ['All', 'Product Updates', 'Data Science', 'Engineering', 'AI Research', 'Industry Trends'];
 
-  useLayoutEffect(() => {
-    const updateHighlight = () => {
-      const barRect = categoryBarRef.current?.getBoundingClientRect();
-      const active = categoryRefs.current[selectedCategory];
-      if (barRect && active) {
-        const rect = active.getBoundingClientRect();
-        setHighlightStyle({
-          width: rect.width,
-          left: rect.left - barRect.left,
-        });
-      }
-    };
-
-    updateHighlight();
-    window.addEventListener('resize', updateHighlight);
-    return () => window.removeEventListener('resize', updateHighlight);
-  }, [selectedCategory]);
-
   const filteredPosts = allPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           post.desc.toLowerCase().includes(searchQuery.toLowerCase());
@@ -751,27 +881,37 @@ const BlogPage = () => {
               className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#232f48] text-gray-900 dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-white outline-none" 
             />
         </div>
-        <div className="relative flex gap-3 overflow-x-auto pb-2 scrollbar-hide" ref={categoryBarRef}>
-            {highlightStyle.width > 0 && (
-              <span
-                className="absolute top-0 bottom-0 rounded-full bg-black/5 dark:bg-white/10 transition-all duration-300"
-                style={{ width: highlightStyle.width, transform: `translateX(${highlightStyle.left}px)` }}
-                aria-hidden
-              />
-            )}
+        <div className="relative flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((tag, i) => (
-                <button 
+                <motion.button 
                   key={i} 
-                  ref={(el) => { categoryRefs.current[tag] = el; }}
                   onClick={() => setSelectedCategory(tag)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap border transition-all transform hover:scale-105 active:scale-95 ${
+                  initial={false}
+                  animate={{
+                    backgroundColor: selectedCategory === tag 
+                      ? 'var(--selected-bg)' 
+                      : 'transparent'
+                  }}
+                  className={`relative px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap border transition-all transform hover:scale-105 active:scale-95 ${
                     selectedCategory === tag 
                       ? 'bg-black dark:bg-white text-white dark:text-black border-transparent shadow-sm' 
-                      : 'bg-transparent border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
+                  style={{
+                    '--selected-bg': selectedCategory === tag 
+                      ? (document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000')
+                      : 'transparent'
+                  } as React.CSSProperties}
                 >
                     {tag}
-                </button>
+                    {selectedCategory === tag && (
+                      <motion.div
+                        layoutId="category-underline"
+                        className="absolute -bottom-2 left-0 right-0 h-0.5 bg-black dark:bg-white rounded-full"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                </motion.button>
             ))}
         </div>
       </div>
@@ -853,6 +993,7 @@ const ContactPage = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -878,16 +1019,20 @@ const ContactPage = () => {
     setSuccessMessage('');
     
     if (validateForm()) {
+      setIsSubmitting(true);
       // Simulate API call
-      setSuccessMessage("Thank you for reaching out! We'll get back to you shortly.");
-      setFormData({
-        fullName: '',
-        email: '',
-        companyName: '',
-        subject: '',
-        message: ''
-      });
-      setErrors({});
+      setTimeout(() => {
+        setSuccessMessage("Thank you for reaching out! We'll get back to you shortly.");
+        setFormData({
+          fullName: '',
+          email: '',
+          companyName: '',
+          subject: '',
+          message: ''
+        });
+        setErrors({});
+        setIsSubmitting(false);
+      }, 800);
     }
   };
 
@@ -912,14 +1057,26 @@ const ContactPage = () => {
 
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Info & Map */}
-        <div className="lg:w-1/3 flex flex-col gap-8">
+        <motion.div 
+          className="lg:w-1/3 flex flex-col gap-8"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
             <div className="flex flex-col gap-6">
                 {[
                     { icon: 'mail', text: 'databitsteam@gmail.com', href: 'mailto:databitsteam@gmail.com' },
                     { icon: 'call', text: '+62 896-3634-4666', href: 'https://wa.me/6289636344666' },
                     { icon: 'location_on', text: 'Lampung, Indonesia', sub: 'DataBits Headquarters', href: '#' }
                 ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-4">
+                    <motion.div 
+                      key={i} 
+                      className="flex items-start gap-4"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+                      whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                    >
                         <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white shrink-0">
                             <span className="material-symbols-outlined">{item.icon}</span>
                         </div>
@@ -927,28 +1084,49 @@ const ContactPage = () => {
                             {item.sub && <p className="font-bold text-gray-900 dark:text-white">{item.sub}</p>}
                             <a href={item.href} className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">{item.text}</a>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
-            <div className="h-64 rounded-xl overflow-hidden grayscale contrast-125 brightness-75">
+            <motion.div 
+              className="h-64 rounded-xl overflow-hidden grayscale contrast-125 brightness-75"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ scale: 1.02, grayscale: 0, transition: { duration: 0.3 } }}
+            >
                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGO_DGoz8Fe5XAhIRTNLShlpGBirZdKuA3ud_5ufDirt3JwEvDuGTHgV6T5XdrFtixSPCzalyNiU2gzEUQYK06eKWuX3zlJanjivun-0FI4WcNgLkoCWxi9wJArhYL76x7y6KhSgIxy8XklXGtNlE8FQdHAfY9ChBAJKRUxsXhhOuVXZmgA1maPDLzHnK0fYbFIjHFVsLJu7yX2t_49YFGxe-uS4ttxL3910qP6qTU5jPV-OECaFU8ue_aMmSkyo89sDqG60uStJj" alt="Map" className="w-full h-full object-cover" />
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
 
         {/* Form */}
-        <div className="lg:w-2/3">
+        <motion.div 
+          className="lg:w-2/3"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
             <div className="bg-white dark:bg-[#1C1C1C] border border-gray-200 dark:border-[#333333] rounded-2xl p-8">
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Send us a message</h3>
                 
                 {successMessage && (
-                  <div className="mb-6 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 flex items-center gap-2">
+                  <motion.div 
+                    className="mb-6 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 flex items-center gap-2"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <span className="material-symbols-outlined text-lg">check_circle</span>
                     {successMessage}
-                  </div>
+                  </motion.div>
                 )}
 
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-2">
+                    <motion.div 
+                      className="flex flex-col gap-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 }}
+                    >
                         <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
                         <input 
                           type="text" 
@@ -958,9 +1136,21 @@ const ContactPage = () => {
                           placeholder="John Doe" 
                           className={`bg-gray-50 dark:bg-[#121212] border ${errors.fullName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
                         />
-                        {errors.fullName && <span className="text-xs text-red-500 mt-1">{errors.fullName}</span>}
-                    </div>
-                    <div className="flex flex-col gap-2">
+                        {errors.fullName && (
+                          <motion.span 
+                            className="text-xs text-red-500 mt-1"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >{errors.fullName}</motion.span>
+                        )}
+                    </motion.div>
+                    <motion.div 
+                      className="flex flex-col gap-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.15 }}
+                    >
                         <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Work Email</label>
                         <input 
                           type="email" 
@@ -970,9 +1160,21 @@ const ContactPage = () => {
                           placeholder="john@company.com" 
                           className={`bg-gray-50 dark:bg-[#121212] border ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
                         />
-                        {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email}</span>}
-                    </div>
-                    <div className="flex flex-col gap-2 md:col-span-2">
+                        {errors.email && (
+                          <motion.span 
+                            className="text-xs text-red-500 mt-1"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >{errors.email}</motion.span>
+                        )}
+                    </motion.div>
+                    <motion.div 
+                      className="flex flex-col gap-2 md:col-span-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 }}
+                    >
                         <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Company Name</label>
                         <input 
                           type="text" 
@@ -982,9 +1184,21 @@ const ContactPage = () => {
                           placeholder="Innovate Inc." 
                           className={`bg-gray-50 dark:bg-[#121212] border ${errors.companyName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
                         />
-                        {errors.companyName && <span className="text-xs text-red-500 mt-1">{errors.companyName}</span>}
-                    </div>
-                    <div className="flex flex-col gap-2 md:col-span-2">
+                        {errors.companyName && (
+                          <motion.span 
+                            className="text-xs text-red-500 mt-1"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >{errors.companyName}</motion.span>
+                        )}
+                    </motion.div>
+                    <motion.div 
+                      className="flex flex-col gap-2 md:col-span-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.25 }}
+                    >
                         <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</label>
                         <input 
                           type="text" 
@@ -994,9 +1208,21 @@ const ContactPage = () => {
                           placeholder="Partnership Inquiry" 
                           className={`bg-gray-50 dark:bg-[#121212] border ${errors.subject ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
                         />
-                        {errors.subject && <span className="text-xs text-red-500 mt-1">{errors.subject}</span>}
-                    </div>
-                    <div className="flex flex-col gap-2 md:col-span-2">
+                        {errors.subject && (
+                          <motion.span 
+                            className="text-xs text-red-500 mt-1"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >{errors.subject}</motion.span>
+                        )}
+                    </motion.div>
+                    <motion.div 
+                      className="flex flex-col gap-2 md:col-span-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.3 }}
+                    >
                         <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Message</label>
                         <textarea 
                           rows={5} 
@@ -1006,14 +1232,49 @@ const ContactPage = () => {
                           placeholder="Your message..." 
                           className={`bg-gray-50 dark:bg-[#121212] border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 resize-none`}
                         ></textarea>
-                        {errors.message && <span className="text-xs text-red-500 mt-1">{errors.message}</span>}
-                    </div>
-                    <div className="md:col-span-2 mt-2">
-                        <button type="submit" className="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">Send Message</button>
-                    </div>
+                        {errors.message && (
+                          <motion.span 
+                            className="text-xs text-red-500 mt-1"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >{errors.message}</motion.span>
+                        )}
+                    </motion.div>
+                    <motion.div 
+                      className="md:col-span-2 mt-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.35 }}
+                    >
+                        <motion.button 
+                          type="submit" 
+                          className="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors relative overflow-hidden"
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.99 }}
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <motion.span
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className="flex items-center justify-center gap-2"
+                            >
+                              <motion.span
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                className="material-symbols-outlined"
+                              >progress_activity</motion.span>
+                              Sending...
+                            </motion.span>
+                          ) : (
+                            "Send Message"
+                          )}
+                        </motion.button>
+                    </motion.div>
                 </form>
             </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
