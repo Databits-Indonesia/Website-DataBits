@@ -6,6 +6,196 @@ import * as motion from 'motion/react-client';
 // Navigation State
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
+// SEO helpers
+type PageMeta = {
+  title: string;
+  description: string;
+  path: string;
+  structuredData?: Record<string, unknown>;
+};
+
+const SITE_URL = typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'https://databits.co-id.id';
+const SITE_NAME = 'DataBits';
+
+const ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.svg`,
+  sameAs: [
+    'https://github.com/Databits-Indonesia',
+    'https://www.linkedin.com/company/databits',
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: 'databitsteam@gmail.com',
+      telephone: '+62-896-3634-4666',
+      contactType: 'customer support',
+      areaServed: 'Worldwide',
+      availableLanguage: ['en', 'id'],
+    },
+  ],
+};
+
+const breadcrumbSchema = (meta: PageMeta) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: meta.title, item: `${SITE_URL}${meta.path}` },
+  ],
+});
+
+const PAGE_METADATA: Record<Page, PageMeta> = {
+  HOME: {
+    title: `${SITE_NAME} | AI Platform & Services`,
+    description:
+      'DataBits delivers AI solutions, predictive analytics, NLP, and computer vision to turn data into intelligence for modern businesses.',
+    path: '/',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_URL}/search?q={query}`,
+        'query-input': 'required name=query',
+      },
+    },
+  },
+  SERVICES: {
+    title: `${SITE_NAME} | AI Services & Consulting`,
+    description: 'AI strategy, machine learning, NLP, and computer vision services tailored to your business goals.',
+    path: '/services',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: 'AI Services',
+      provider: SITE_NAME,
+      url: `${SITE_URL}/services`,
+      areaServed: 'Worldwide',
+    },
+  },
+  PRODUCTS: {
+    title: `${SITE_NAME} | Products & Tools`,
+    description: 'Explore BitsChat, DataBits Convert, DataBits Shop, and open-source AI projects built by the DataBits team.',
+    path: '/products',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Products',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'BitsChat' },
+        { '@type': 'ListItem', position: 2, name: 'DataBits Convert' },
+        { '@type': 'ListItem', position: 3, name: 'DataBits Shop' },
+      ],
+    },
+  },
+  ABOUT: {
+    title: `${SITE_NAME} | About the Team`,
+    description: 'Meet the DataBits founders, mission, vision, and the story behind building responsible, innovative AI.',
+    path: '/about',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'About DataBits',
+      url: `${SITE_URL}/about`,
+    },
+  },
+  BLOG: {
+    title: `${SITE_NAME} | Blog & Insights`,
+    description: 'AI research, engineering deep-dives, data science guides, and product updates from the DataBits team.',
+    path: '/blog',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      name: 'DataBits Blog',
+      url: `${SITE_URL}/blog`,
+    },
+  },
+  CONTACT: {
+    title: `${SITE_NAME} | Contact & Sales`,
+    description: 'Contact DataBits for sales inquiries, partnerships, or support. We respond quickly to every message.',
+    path: '/contact',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ContactPage',
+      name: 'Contact DataBits',
+      url: `${SITE_URL}/contact`,
+    },
+  },
+};
+
+const upsertMeta = (attribute: 'name' | 'property', key: string, content: string) => {
+  const selector = `meta[${attribute}="${key}"]`;
+  let tag = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attribute, key);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('content', content);
+};
+
+const upsertLink = (rel: string, href: string) => {
+  const selector = `link[rel="${rel}"]`;
+  let tag = document.head.querySelector<HTMLLinkElement>(selector);
+  if (!tag) {
+    tag = document.createElement('link');
+    tag.setAttribute('rel', rel);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('href', href);
+};
+
+const injectStructuredData = (meta: PageMeta) => {
+  const scriptId = 'page-structured-data';
+  const existing = document.getElementById(scriptId);
+  const graph = [ORGANIZATION_SCHEMA, breadcrumbSchema(meta), meta.structuredData].filter(Boolean);
+  const payload = { '@context': 'https://schema.org', '@graph': graph };
+
+  if (existing) {
+    existing.textContent = JSON.stringify(payload);
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.id = scriptId;
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(payload);
+  document.head.appendChild(script);
+};
+
+const SEO = ({ meta }: { meta: PageMeta }) => {
+  useEffect(() => {
+    document.title = meta.title;
+
+    const canonical = `${SITE_URL}${meta.path}`;
+    upsertLink('canonical', canonical);
+    upsertMeta('name', 'description', meta.description);
+    upsertMeta('property', 'og:title', meta.title);
+    upsertMeta('property', 'og:description', meta.description);
+    upsertMeta('property', 'og:type', 'website');
+    upsertMeta('property', 'og:site_name', SITE_NAME);
+    upsertMeta('property', 'og:url', canonical);
+    upsertMeta('name', 'twitter:card', 'summary_large_image');
+    upsertMeta('name', 'twitter:title', meta.title);
+    upsertMeta('name', 'twitter:description', meta.description);
+    upsertMeta('name', 'theme-color', '#000000');
+
+    if (typeof window !== 'undefined' && window.history?.replaceState) {
+      window.history.replaceState(null, meta.title, meta.path);
+    }
+
+    injectStructuredData(meta);
+  }, [meta]);
+
+  return null;
+};
+
 // --- Components ---
 
 const Navbar = ({ 
@@ -439,7 +629,9 @@ const AboutPage = () => {
                 >
                     <motion.img 
                       src={member.img} 
-                      alt={member.name} 
+                      alt={`Portrait of ${member.name}`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-40 h-40 rounded-full object-cover grayscale ring-2 ring-gray-200 dark:ring-gray-700"
                       whileHover={{ 
                         scale: 1.05, 
@@ -921,7 +1113,13 @@ const BlogPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Articles</h2>
           <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
-              <img src={featuredPost.img} alt={featuredPost.title} className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" />
+              <img 
+                src={featuredPost.img} 
+                alt={featuredPost.title} 
+                loading="lazy"
+                decoding="async"
+                className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" 
+              />
               <div className="flex flex-col justify-center gap-4">
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {featuredPost.readTime}</span>
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{featuredPost.title}</h3>
@@ -942,7 +1140,13 @@ const BlogPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {postsToShow.map((post, i) => (
                   <div key={i} className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                      <img src={post.img} alt={post.title} className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img 
+                        src={post.img} 
+                        alt={post.title} 
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                      />
                       <div className="p-6 flex flex-col gap-3 flex-grow">
                           <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
                           <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{post.title}</h3>
@@ -1094,7 +1298,13 @@ const ContactPage = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
               whileHover={{ scale: 1.02, grayscale: 0, transition: { duration: 0.3 } }}
             >
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGO_DGoz8Fe5XAhIRTNLShlpGBirZdKuA3ud_5ufDirt3JwEvDuGTHgV6T5XdrFtixSPCzalyNiU2gzEUQYK06eKWuX3zlJanjivun-0FI4WcNgLkoCWxi9wJArhYL76x7y6KhSgIxy8XklXGtNlE8FQdHAfY9ChBAJKRUxsXhhOuVXZmgA1maPDLzHnK0fYbFIjHFVsLJu7yX2t_49YFGxe-uS4ttxL3910qP6qTU5jPV-OECaFU8ue_aMmSkyo89sDqG60uStJj" alt="Map" className="w-full h-full object-cover" />
+                <img 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGO_DGoz8Fe5XAhIRTNLShlpGBirZdKuA3ud_5ufDirt3JwEvDuGTHgV6T5XdrFtixSPCzalyNiU2gzEUQYK06eKWuX3zlJanjivun-0FI4WcNgLkoCWxi9wJArhYL76x7y6KhSgIxy8XklXGtNlE8FQdHAfY9ChBAJKRUxsXhhOuVXZmgA1maPDLzHnK0fYbFIjHFVsLJu7yX2t_49YFGxe-uS4ttxL3910qP6qTU5jPV-OECaFU8ue_aMmSkyo89sDqG60uStJj" 
+                  alt="Map showing DataBits headquarters"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover" 
+                />
             </motion.div>
         </motion.div>
 
@@ -1316,6 +1526,7 @@ const App = () => {
 
   return (
     <div className="flex min-h-screen flex-col font-display">
+      <SEO meta={PAGE_METADATA[currentPage]} />
       <Navbar 
         currentPage={currentPage} 
         setCurrentPage={setCurrentPage}
