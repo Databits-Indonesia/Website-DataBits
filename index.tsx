@@ -1127,10 +1127,12 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.1 }}
                     >
-                        <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
+                        <label htmlFor="fullName" className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
                         <input 
                           type="text" 
+                          id="fullName"
                           name="fullName"
+                          autoComplete="name"
                           value={formData.fullName}
                           onChange={handleChange}
                           placeholder="John Doe" 
@@ -1151,10 +1153,12 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.15 }}
                     >
-                        <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Work Email</label>
+                        <label htmlFor="email" className="text-sm font-medium text-gray-500 dark:text-gray-400">Work Email</label>
                         <input 
                           type="email" 
+                          id="email"
                           name="email"
+                          autoComplete="email"
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="john@company.com" 
@@ -1175,10 +1179,12 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.2 }}
                     >
-                        <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Company Name</label>
+                        <label htmlFor="companyName" className="text-sm font-medium text-gray-500 dark:text-gray-400">Company Name</label>
                         <input 
                           type="text" 
+                          id="companyName"
                           name="companyName"
+                          autoComplete="organization"
                           value={formData.companyName}
                           onChange={handleChange}
                           placeholder="Innovate Inc." 
@@ -1199,9 +1205,10 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.25 }}
                     >
-                        <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</label>
+                        <label htmlFor="subject" className="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</label>
                         <input 
                           type="text" 
+                          id="subject"
                           name="subject"
                           value={formData.subject}
                           onChange={handleChange}
@@ -1223,9 +1230,10 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.3 }}
                     >
-                        <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Message</label>
+                        <label htmlFor="message" className="text-sm font-medium text-gray-500 dark:text-gray-400">Message</label>
                         <textarea 
                           rows={5} 
+                          id="message"
                           name="message"
                           value={formData.message}
                           onChange={handleChange}
