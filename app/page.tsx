@@ -1,6 +1,7 @@
+'use client';
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 import * as motion from 'motion/react-client';
 
 // Navigation State
@@ -237,7 +238,7 @@ const Navbar = ({
           {currentPage === 'HOME' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -247,7 +248,7 @@ const Navbar = ({
             {currentPage === 'SERVICES' && (
               <motion.div
                 layoutId="nav-underline"
-                className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+                className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}
@@ -257,7 +258,7 @@ const Navbar = ({
             {currentPage === 'PRODUCTS' && (
               <motion.div
                 layoutId="nav-underline"
-                className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+                className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}
@@ -267,7 +268,7 @@ const Navbar = ({
           {currentPage === 'ABOUT' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -277,7 +278,7 @@ const Navbar = ({
           {currentPage === 'BLOG' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -287,7 +288,7 @@ const Navbar = ({
           {currentPage === 'CONTACT' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -334,7 +335,7 @@ const Navbar = ({
   );
 };
 
-const Footer = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) => {
+const Footer = ({ }: { setCurrentPage: (page: Page) => void }) => {
   return (
     <footer className="border-t border-gray-200 bg-background-light py-12 dark:border-gray-800 dark:bg-background-dark">
       <div className="container mx-auto px-4 md:px-10">
@@ -735,7 +736,7 @@ const ServicesPage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void
                    <span className="material-symbols-outlined">{s.icon}</span>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{s.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">{s.desc}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{s.desc}</p>
                 <div className="border-t border-gray-100 dark:border-gray-800 pt-4 mt-auto">
                     <ul className="space-y-2">
                         {s.list.map((item, k) => (
@@ -846,7 +847,7 @@ const ProductsPage = () => {
   ];
 
   return (
-     <div className="flex flex-col min-h-[calc(100vh-theme(spacing.20))]">
+     <div className="flex flex-col min-h-[calc(100vh-(--spacing(20)))]">
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
         <motion.div 
           className="container mx-auto text-center max-w-4xl"
@@ -872,7 +873,7 @@ const ProductsPage = () => {
                 href={product.link}
                 target={product.external ? "_blank" : "_self"}
                 rel={product.external ? "noopener noreferrer" : ""}
-                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
+                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative grow ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
@@ -899,7 +900,7 @@ const ProductsPage = () => {
                    <span className="material-symbols-outlined">{product.icon}</span>
                 </motion.div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{product.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">{product.desc}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{product.desc}</p>
 
                 {product.link !== '#' ? (
                      <div className="font-bold text-primary text-sm flex items-center gap-2">
@@ -947,7 +948,7 @@ const ProductsPage = () => {
                 {openSourceProjects.map((project, i) => (
                     <motion.div 
                       key={i} 
-                      className="flex flex-col p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:border-gray-400 dark:hover:border-gray-600 transition-all group"
+                      className="flex flex-col p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:border-gray-400 dark:hover:border-gray-600 transition-all group grow"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
@@ -958,7 +959,7 @@ const ProductsPage = () => {
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{project.title}</h3>
                             <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.language}</span>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">{project.desc}</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{project.desc}</p>
                         <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
                             <div className="flex items-center gap-1.5" title="Stars">
                                 <span className="material-symbols-outlined text-[18px]">star</span>
@@ -1139,7 +1140,7 @@ const BlogPage = () => {
         {postsToShow.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {postsToShow.map((post, i) => (
-                  <div key={i} className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
+                  <div key={i} className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow">
                       <img 
                         src={post.img} 
                         alt={post.title} 
@@ -1147,7 +1148,7 @@ const BlogPage = () => {
                         decoding="async"
                         className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
                       />
-                      <div className="p-6 flex flex-col gap-3 flex-grow">
+                      <div className="p-6 flex flex-col gap-3 grow">
                           <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
                           <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{post.title}</h3>
                           <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.desc}</p>
@@ -1296,7 +1297,7 @@ const ContactPage = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              whileHover={{ scale: 1.02, grayscale: 0, transition: { duration: 0.3 } }}
+              whileHover={{ scale: 1.02, filter: 'grayscale(0%)', transition: { duration: 0.3 } }}
             >
                 <img 
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGO_DGoz8Fe5XAhIRTNLShlpGBirZdKuA3ud_5ufDirt3JwEvDuGTHgV6T5XdrFtixSPCzalyNiU2gzEUQYK06eKWuX3zlJanjivun-0FI4WcNgLkoCWxi9wJArhYL76x7y6KhSgIxy8XklXGtNlE8FQdHAfY9ChBAJKRUxsXhhOuVXZmgA1maPDLzHnK0fYbFIjHFVsLJu7yX2t_49YFGxe-uS4ttxL3910qP6qTU5jPV-OECaFU8ue_aMmSkyo89sDqG60uStJj" 
@@ -1502,27 +1503,23 @@ const ContactPage = () => {
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState<Page>('HOME');
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useRevealAnimation(currentPage);
 
   useEffect(() => {
-    if (document.documentElement.classList.contains('dark')) {
-      setIsDarkMode(true);
-    } else {
-      setIsDarkMode(false);
-    }
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    if (newTheme) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
+
+  // Prevent hydration mismatch by not rendering until client-side is ready
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen flex-col font-display">
@@ -1530,10 +1527,10 @@ const App = () => {
       <Navbar 
         currentPage={currentPage} 
         setCurrentPage={setCurrentPage}
-        isDarkMode={isDarkMode}
+        isDarkMode={resolvedTheme === 'dark'}
         toggleTheme={toggleTheme}
       />
-      <main className="flex-grow">
+      <main className="grow">
         {currentPage === 'HOME' && <HomePage setCurrentPage={setCurrentPage} />}
         {currentPage === 'SERVICES' && <ServicesPage setCurrentPage={setCurrentPage} />}
         {currentPage === 'PRODUCTS' && <ProductsPage />}
@@ -1546,5 +1543,4 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.getElementById('root')!);
-root.render(<App />);
+export default App;
