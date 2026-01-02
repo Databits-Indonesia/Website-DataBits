@@ -483,7 +483,7 @@ const HomePage = ({ setCurrentPage }: { setCurrentPage: (page: Page) => void }) 
               { icon: 'hub', title: 'Natural Language Processing', desc: 'Extract insights from unstructured text data, from sentiment analysis to document summarization.' },
               { icon: 'brush', title: 'Computer Vision', desc: 'Analyze images and videos to identify objects, faces, and patterns at scale for your applications.' },
             ].map((service, idx) => (
-              <div key={idx} data-animate="reveal-stagger" className="p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark hover:shadow-lg transition-all duration-300 group">
+              <div key={idx} data-animate="reveal-stagger" className="p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all duration-300 group">
                 <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <span className="material-symbols-outlined">{service.icon}</span>
                 </div>
