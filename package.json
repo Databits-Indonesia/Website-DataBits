@@ -9,6 +9,10 @@
     "preview": "next start"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.1.1",
+    "@types/mdx": "^2.0.13",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "framer-motion": "^12.23.26",
