@@ -9,7 +9,7 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Navigation State
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH';
 
 // SEO helpers
 type PageMeta = {
@@ -132,6 +132,17 @@ const PAGE_METADATA: Record<Page, PageMeta> = {
       url: `${SITE_URL}/contact`,
     },
   },
+  RESEARCH: {
+    title: `${SITE_NAME} | Research`,
+    description: 'Reseach Open Source (Open Collaboration)',
+    path: '/research',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ResearchPage',
+      name: 'Research DataBits',
+      url: `${SITE_URL}/research`,
+    },
+  }
 };
 
 const upsertMeta = (attribute: 'name' | 'property', key: string, content: string) => {
@@ -257,10 +268,9 @@ const TypingHeadline = () => {
 };
 
 // --- Pages ---
-
 const HomePage = () => {
   const router = useRouter();
-  
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -275,7 +285,7 @@ const HomePage = () => {
               Get Started Free
             </button>
             <button onClick={() => router.push('/contact')} className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all transform hover:scale-[1.02] active:scale-95">
-                Contact Sales
+              Contact Sales
             </button>
           </div>
         </div>
@@ -309,27 +319,20 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="py-24 px-4" data-animate="reveal">
         <div className="container mx-auto">
-            <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to Innovate?</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
-                <button onClick={() => router.push('/contact')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
-                    Contact Our Experts
-                </button>
-            </div>
+          <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to Innovate?</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
+            <button onClick={() => router.push('/contact')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
+              Contact Our Experts
+            </button>
+          </div>
         </div>
       </section>
     </div>
   );
 };
 
-
-
-
-
-
-
 // --- App Root ---
-
 const App = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -347,9 +350,9 @@ const App = () => {
   return (
     <div className="flex min-h-screen flex-col font-display">
       <SEO meta={PAGE_METADATA['HOME']} />
-      <Navbar 
-        currentPage='HOME' 
-        setCurrentPage={() => {}}
+      <Navbar
+        currentPage='HOME'
+        setCurrentPage={() => { }}
         isDarkMode={resolvedTheme === 'dark'}
         toggleTheme={toggleTheme}
       />

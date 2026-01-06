@@ -12,7 +12,7 @@ type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
 const ProductsPage = () => {
   const [currentPage] = useState<Page>('PRODUCTS');
-//   const router = useRouter();
+  //   const router = useRouter();
   const { resolvedTheme } = useTheme();
   const { toggleTheme } = useThemeToggle();
 
@@ -72,83 +72,83 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={() => {}} 
-        isDarkMode={resolvedTheme === 'dark'} 
-        toggleTheme={toggleTheme} 
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={() => { }}
+        isDarkMode={resolvedTheme === 'dark'}
+        toggleTheme={toggleTheme}
       />
       <div className="flex flex-col min-h-[calc(100vh-(--spacing(20)))]">
         <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
-        <motion.div 
-          className="container mx-auto text-center max-w-4xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
-            Our Products
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Tools and platforms built to empower your data journey.
-          </p>
-        </motion.div>
-      </section>
+          <motion.div
+            className="container mx-auto text-center max-w-4xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
+              Our Products
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Tools and platforms built to empower your data journey.
+            </p>
+          </motion.div>
+        </section>
 
-      <section className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {products.map((product, i) => (
-              <motion.a
-                key={i}
-                href={product.link}
-                target={product.external ? "_blank" : "_self"}
-                rel={product.external ? "noopener noreferrer" : ""}
-                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative grow ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                whileHover={{ y: product.link !== '#' ? -8 : 0, transition: { duration: 0.2 } }}
-                onClick={(e) => {
+        <section className="py-20 px-4">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {products.map((product, i) => (
+                <motion.a
+                  key={i}
+                  href={product.link}
+                  target={product.external ? "_blank" : "_self"}
+                  rel={product.external ? "noopener noreferrer" : ""}
+                  className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative grow ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  whileHover={{ y: product.link !== '#' ? -8 : 0, transition: { duration: 0.2 } }}
+                  onClick={(e) => {
                     if (product.link === '#') e.preventDefault();
-                }}
-              >
-                {product.badge && (
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
-                    {product.badge}
-                  </div>
-                )}
-                 {product.external && (
-                  <div className="absolute top-4 right-4 text-gray-400">
-                    <span className="material-symbols-outlined text-sm">open_in_new</span>
-                  </div>
-                )}
-
-                <motion.div 
-                  className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6"
-                  whileHover={{ scale: 1.1, rotate: 5, transition: { duration: 0.2 } }}
+                  }}
                 >
-                   <span className="material-symbols-outlined">{product.icon}</span>
-                </motion.div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{product.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{product.desc}</p>
+                  {product.badge && (
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
+                      {product.badge}
+                    </div>
+                  )}
+                  {product.external && (
+                    <div className="absolute top-4 right-4 text-gray-400">
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    </div>
+                  )}
 
-                {product.link !== '#' ? (
-                     <div className="font-bold text-primary text-sm flex items-center gap-2">
-                        Open Product <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                     </div>
-                ) : (
+                  <motion.div
+                    className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6"
+                    whileHover={{ scale: 1.1, rotate: 5, transition: { duration: 0.2 } }}
+                  >
+                    <span className="material-symbols-outlined">{product.icon}</span>
+                  </motion.div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{product.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{product.desc}</p>
+
+                  {product.link !== '#' ? (
+                    <div className="font-bold text-primary text-sm flex items-center gap-2">
+                      Open Product <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </div>
+                  ) : (
                     <div className="font-bold text-gray-400 text-sm flex items-center gap-2">
-                        Stay Tuned
-                     </div>
-                )}
-              </motion.a>
-            ))}
+                      Stay Tuned
+                    </div>
+                  )}
+                </motion.a>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Open Source Section */}
+        {/* Open Source Section : Pindah ke portofolio
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
         <div className="container mx-auto">
             <motion.div 
@@ -225,7 +225,7 @@ const ProductsPage = () => {
                  </motion.a>
             </motion.div>
         </div>
-      </section>
+      </section> */}
       </div>
       <Footer />
     </>
