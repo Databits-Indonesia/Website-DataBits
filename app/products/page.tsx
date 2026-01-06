@@ -102,18 +102,18 @@ const ProductsPage = () => {
                 whileHover={{ y: product.link !== '#' ? -8 : 0, transition: { duration: 0.2 } }}
                 onClick={(e) => {
                     if (product.link === '#') e.preventDefault();
-                }}
-              >
-                {product.badge && (
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
-                    {product.badge}
-                  </div>
-                )}
-                 {product.external && (
-                  <div className="absolute top-4 right-4 text-gray-400">
-                    <span className="material-symbols-outlined text-sm">open_in_new</span>
-                  </div>
-                )}
+                  }}
+                >
+                  {product.badge && (
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
+                      {product.badge}
+                    </div>
+                  )}
+                  {product.external && (
+                    <div className="absolute top-4 right-4 text-gray-400">
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    </div>
+                  )}
 
                 <motion.div 
                   className="icon-box"
@@ -124,20 +124,20 @@ const ProductsPage = () => {
                 <h3 className="h3 mb-3">{product.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{product.desc}</p>
 
-                {product.link !== '#' ? (
-                     <div className="font-bold text-primary text-sm flex items-center gap-2">
-                        Open Product <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                     </div>
-                ) : (
+                  {product.link !== '#' ? (
+                    <div className="font-bold text-primary text-sm flex items-center gap-2">
+                      Open Product <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </div>
+                  ) : (
                     <div className="font-bold text-gray-400 text-sm flex items-center gap-2">
-                        Stay Tuned
-                     </div>
-                )}
-              </motion.a>
-            ))}
+                      Stay Tuned
+                    </div>
+                  )}
+                </motion.a>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Open Source Section */}
       <section className="section section-muted border-t border-gray-200 dark:border-gray-800">
@@ -216,7 +216,7 @@ const ProductsPage = () => {
                  </motion.a>
             </motion.div>
         </div>
-      </section>
+      </section> */}
       </div>
       <Footer />
     </>

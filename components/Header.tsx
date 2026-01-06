@@ -6,15 +6,19 @@ import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
+// Page Builder
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PORTOFOLIO';
 
+// Router
 const pageRoutes: Record<Page, string> = {
   HOME: '/',
   ABOUT: '/about',
   SERVICES: '/services',
   PRODUCTS: '/products',
   BLOG: '/blog',
-  CONTACT: '/contact'
+  CONTACT: '/contact',
+  RESEARCH: '/research',
+  PORTOFOLIO: '/porto'
 };
 
 const getCurrentPageFromPath = (pathname: string): Page => {
@@ -46,9 +50,21 @@ const Navbar = () => {
       </div>
 
       <nav className="hidden items-center gap-9 md:flex">
+        {/* HOME */}
         <motion.button onClick={() => router.push('/')} className={`${navLinkClass('HOME')} relative`}>
           Home
           {activePage === 'HOME' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="nav-underline"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
+        {/* ABOUT US */}
+        <motion.button onClick={() => router.push('/about')} className={`${navLinkClass('ABOUT')} relative`}>
+          About
+          {activePage === 'ABOUT' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
@@ -66,6 +82,7 @@ const Navbar = () => {
               />
             )}
         </motion.button>
+        {/* PRODUCTS */}
         <motion.button onClick={() => router.push('/products')} className={`${navLinkClass('PRODUCTS')} relative`}>
             Products
             {activePage === 'PRODUCTS' && (
@@ -96,6 +113,7 @@ const Navbar = () => {
             />
           )}
         </motion.button>
+        {/* CONTACT */}
         <motion.button onClick={() => router.push('/contact')} className={`${navLinkClass('CONTACT')} relative`}>
           Contact
           {activePage === 'CONTACT' && (
@@ -108,6 +126,7 @@ const Navbar = () => {
         </motion.button>
       </nav>
 
+      {/* Button Dark Mode */}
       <div className="flex items-center gap-4">
         <button 
           onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
@@ -130,7 +149,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile View Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-800 p-4 flex flex-col gap-4 md:hidden shadow-lg">
           <button onClick={() => { router.push('/'); setMobileMenuOpen(false); }} className={navLinkClass('HOME')}>Home</button>

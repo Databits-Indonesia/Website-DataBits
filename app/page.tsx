@@ -6,7 +6,7 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Navigation State
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH';
 
 // SEO helpers
 type PageMeta = {
@@ -129,6 +129,17 @@ const PAGE_METADATA: Record<Page, PageMeta> = {
       url: `${SITE_URL}/contact`,
     },
   },
+  RESEARCH: {
+    title: `${SITE_NAME} | Research`,
+    description: 'Reseach Open Source (Open Collaboration)',
+    path: '/research',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'ResearchPage',
+      name: 'Research DataBits',
+      url: `${SITE_URL}/research`,
+    },
+  }
 };
 
 const upsertMeta = (attribute: 'name' | 'property', key: string, content: string) => {
@@ -254,10 +265,9 @@ const TypingHeadline = () => {
 };
 
 // --- Pages ---
-
 const HomePage = () => {
   const router = useRouter();
-  
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -319,14 +329,7 @@ const HomePage = () => {
   );
 };
 
-
-
-
-
-
-
 // --- App Root ---
-
 const App = () => {
   const [mounted, setMounted] = useState(true);
 
