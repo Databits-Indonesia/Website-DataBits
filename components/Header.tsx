@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -72,6 +72,7 @@ const Navbar = () => {
             />
           )}
         </motion.button>
+        {/* SERVICES */}
         <motion.button onClick={() => router.push('/services')} className={`${navLinkClass('SERVICES')} relative`}>
             Services
             {activePage === 'SERVICES' && (
@@ -93,9 +94,10 @@ const Navbar = () => {
               />
             )}
         </motion.button>
-        <motion.button onClick={() => router.push('/about')} className={`${navLinkClass('ABOUT')} relative`}>
-          About
-          {activePage === 'ABOUT' && (
+        {/* RESEARCH */}
+        <motion.button onClick={() => router.push('/research')} className={`${navLinkClass('RESEARCH')} relative`}>
+          Research
+          {activePage === 'RESEARCH' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
@@ -103,6 +105,7 @@ const Navbar = () => {
             />
           )}
         </motion.button>
+        {/* BLOG */}
         <motion.button onClick={() => router.push('/blog')} className={`${navLinkClass('BLOG')} relative`}>
           Blog
           {activePage === 'BLOG' && (
@@ -117,6 +120,17 @@ const Navbar = () => {
         <motion.button onClick={() => router.push('/contact')} className={`${navLinkClass('CONTACT')} relative`}>
           Contact
           {activePage === 'CONTACT' && (
+            <motion.div
+              layoutId="nav-underline"
+              className="nav-underline"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+        </motion.button>
+        {/* PORTOFOLIO */}
+        <motion.button onClick={() => router.push('/porto')} className={`${navLinkClass('PORTOFOLIO')} relative`}>
+          Portofolio
+          {activePage === 'PORTOFOLIO' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
@@ -156,6 +170,8 @@ const Navbar = () => {
           <button onClick={() => { router.push('/services'); setMobileMenuOpen(false); }} className={navLinkClass('SERVICES')}>Services</button>
           <button onClick={() => { router.push('/products'); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>Products</button>
           <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
+          <button onClick={() => { router.push('/research'); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>Research </button>
+          <button onClick={() => { router.push('/porto'); setMobileMenuOpen(false); }} className={navLinkClass('PORTOFOLIO')}>Portofolio</button>
           <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
           <button onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }} className={navLinkClass('CONTACT')}>Contact</button>
           <button className="btn btn-primary w-full mt-2">

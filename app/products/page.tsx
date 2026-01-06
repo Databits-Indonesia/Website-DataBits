@@ -3,13 +3,13 @@
 import { motion } from 'framer-motion'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState } from 'react';
+// import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
-type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
+// type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
 const ProductsPage = () => {
-  const [currentPage] = useState<Page>('PRODUCTS');
+  // const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
 
   const products = [

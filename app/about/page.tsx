@@ -1,17 +1,14 @@
-'use client';
-
 import Navbar from '@/components/Header';
 import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
-import { useState } from 'react';
+// import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
-type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
-
+// type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'RESEARCH' | 'CONTACT' | 'ABOUT';
 
 const AboutPage = () => {
-  const [currentPage] = useState<Page>('ABOUT');
-//   const router = useRouter();
+  // const [currentPage] = useState<Page>('ABOUT');
+  // const router = useRouter();
   return (
     <>
       <Navbar />

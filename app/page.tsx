@@ -6,7 +6,7 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Navigation State
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PORTOFOLIO';
 
 // SEO helpers
 type PageMeta = {
@@ -139,7 +139,18 @@ const PAGE_METADATA: Record<Page, PageMeta> = {
       name: 'Research DataBits',
       url: `${SITE_URL}/research`,
     },
-  }
+  },
+  PORTOFOLIO: {
+    title: `${SITE_NAME} | Portofolio`,
+    description: 'Portofolio',
+    path: '/porto',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'PortofolioPage',
+      name: 'Portofolio DataBits',
+      url: `${SITE_URL}/porto`,
+    },
+  },
 };
 
 const upsertMeta = (attribute: 'name' | 'property', key: string, content: string) => {
@@ -208,7 +219,6 @@ const SEO = ({ meta }: { meta: PageMeta }) => {
 
   return null;
 };
-
 
 
 const TypingHeadline = () => {
@@ -331,8 +341,7 @@ const HomePage = () => {
 
 // --- App Root ---
 const App = () => {
-  const [mounted, setMounted] = useState(true);
-
+  // const [mounted, setMounted] = useState(true);
   return (
     <div className="flex min-h-screen flex-col font-display">
       <SEO meta={PAGE_METADATA['HOME']} />
