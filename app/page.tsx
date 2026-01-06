@@ -205,7 +205,7 @@ const TypingHeadline = () => {
     { text: 'Unlock Insights.', className: '' },
     {
       text: 'Automate Intelligence.',
-      className: 'bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-gray-900 dark:from-gray-400 dark:to-gray-100',
+      className: 'typing-line-2',
     },
   ];
 

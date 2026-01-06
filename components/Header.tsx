@@ -119,11 +119,11 @@ const Navbar = () => {
           <Moon className="absolute h-5 w-5 opacity-100 rotate-0 transition-all dark:opacity-0 dark:-rotate-90" />
         </button>
 
-        <button className="btn btn-primary hidden md:flex">
+        <button className="request-demo-button md:hidden">
           Request a Demo
         </button>
         <button
-          className="btn-icon md:hidden"
+          className="md:hidden text-black dark:text-white"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <span className="material-symbols-outlined text-3xl">menu</span>

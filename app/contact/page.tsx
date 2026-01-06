@@ -108,12 +108,12 @@ const ContactPage = () => {
                       transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
                       whileHover={{ x: 5, transition: { duration: 0.2 } }}
                     >
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white shrink-0">
+                        <div className="contact-logo-box">
                             <span className="material-symbols-outlined">{item.icon}</span>
                         </div>
                         <div>
-                            {item.sub && <p className="font-bold text-gray-900 dark:text-white">{item.sub}</p>}
-                            <a href={item.href} className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">{item.text}</a>
+                            {item.sub && <p className="font-bold icon-color">{item.sub}</p>}
+                            <a href={item.href} className="text-color">{item.text}</a>
                         </div>
                     </motion.div>
                 ))}

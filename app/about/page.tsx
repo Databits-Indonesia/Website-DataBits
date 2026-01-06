@@ -56,7 +56,7 @@ const AboutPage = () => {
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                    <span className="material-symbols-outlined text-4xl text-gray-900 dark:text-white">{item.icon}</span>
+                    <span className="material-symbols-outlined text-4xl icon-color">{item.icon}</span>
                     <div>
                         <h3 className="h3 mb-2">{item.title}</h3>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{item.text}</p>
@@ -91,7 +91,7 @@ const AboutPage = () => {
                   transition={{ duration: 0.4, delay: i * 0.15 }}
                 >
                     <div className="flex flex-col items-center">
-                        <div className="text-gray-900 dark:text-white"><span className="material-symbols-outlined">{event.icon}</span></div>
+                        <div className="icon-color"><span className="material-symbols-outlined">{event.icon}</span></div>
                         {i < arr.length - 1 && <div className="w-0.5 bg-gray-300 dark:bg-[#324467] grow my-2"></div>}
                     </div>
                     <div className="pb-8 pt-0.5">

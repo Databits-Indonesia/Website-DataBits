@@ -156,11 +156,11 @@ const ProductsPage = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                    <div className="p-3 bg-black dark:bg-white rounded-full text-white dark:text-black">
+                    <div className="code-icon">
                         <span className="material-symbols-outlined text-2xl">code</span>
                     </div>
                 </motion.div>
-                <h2 className="h2">Open Source</h2>
+                <h2 className="h2-sm">Open Source</h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                     We believe in giving back to the community. Check out our open source contributions that are powering the next generation of AI tools.
                 </p>
@@ -191,8 +191,8 @@ const ProductsPage = () => {
                                 <span className="material-symbols-outlined text-[18px]">call_split</span>
                                 <span className="font-mono">{project.forks}</span>
                             </div>
-                            <a href={project.link} className="ml-auto flex items-center gap-1 font-bold text-gray-900 dark:text-white hover:text-primary transition-colors">
-                                GitHub <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                            <a href={project.link} className="ml-auto flex items-center gap-1 font-bold icon-color hover:text-primary transition-colors">
+                                GitHub <span className="material-symbols-outlined text-[16px] icon-color">arrow_outward</span>
                             </a>
                         </div>
                     </motion.div>
