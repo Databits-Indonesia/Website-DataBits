@@ -77,7 +77,7 @@ const ProductsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
+          <h1 className="h1">
             Our Products
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -208,7 +208,7 @@ const ProductsPage = () => {
             >
                  <motion.a 
                    href="https://github.com/Databits-Indonesia" 
-                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all text-gray-900 dark:text-white"
+                   className="btn btn-secondary"
                    whileHover={{ scale: 1.05 }}
                    whileTap={{ scale: 0.95 }}
                  >

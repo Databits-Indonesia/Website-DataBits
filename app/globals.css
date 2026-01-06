@@ -244,6 +244,30 @@ background: var(--color-bg);
   margin: 0;
 }
 
+.h4 {
+  font-size: clamp(1rem, 0.3vw + 0.9rem, 1.25rem);
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.h4-sm {
+  font-size: clamp(0.875rem, 0.2vw + 0.85rem, 1rem);
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.h4-lg {
+  font-size: clamp(1.25rem, 0.4vw + 1rem, 1.5rem);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
 .typing-line {
   font-size: clamp(2.25rem, 2vw + 1.25rem, 3.75rem);
   line-height: 1.05;
@@ -274,10 +298,8 @@ background: var(--color-bg);
   font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
-  color: var(--color-primary-contrast);
 }
 
 .dark .material-symbols-outlined {
   filter: invert(1);
-  /* color: var(--color-primary); */
 }

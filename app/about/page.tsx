@@ -143,7 +143,7 @@ const AboutPage = () => {
                       }}
                     />
                     <div>
-                        <h4 className="font-bold text-gray-900 dark:text-white text-lg">{member.name}</h4>
+                        <h4 className="h4">{member.name}</h4>
                         <p className="text-gray-600 dark:text-gray-400 text-sm">{member.role}</p>
                     </div>
                 </motion.div>
