@@ -40,7 +40,7 @@ const Navbar = () => {
     `${activePage === page ? 'nav-link nav-link-active' : 'nav-link'}`;
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-background-light/80 px-4 py-4 backdrop-blur-md dark:border-gray-800 dark:bg-background-dark/80 md:px-10">
+    <header className="header ">
       <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push('/')}>
         <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
       </div>
@@ -51,7 +51,7 @@ const Navbar = () => {
           {activePage === 'HOME' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="nav-underline"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -61,7 +61,7 @@ const Navbar = () => {
             {activePage === 'SERVICES' && (
               <motion.div
                 layoutId="nav-underline"
-                className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+                className="nav-underline"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}
@@ -71,7 +71,7 @@ const Navbar = () => {
             {activePage === 'PRODUCTS' && (
               <motion.div
                 layoutId="nav-underline"
-                className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+                className="nav-underline"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}
@@ -81,7 +81,7 @@ const Navbar = () => {
           {activePage === 'ABOUT' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="nav-underline"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -91,7 +91,7 @@ const Navbar = () => {
           {activePage === 'BLOG' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="nav-underline"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -101,7 +101,7 @@ const Navbar = () => {
           {activePage === 'CONTACT' && (
             <motion.div
               layoutId="nav-underline"
-              className="absolute -bottom-5.5 left-0 right-0 h-0.5 bg-black dark:bg-white"
+              className="nav-underline"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}

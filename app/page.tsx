@@ -306,7 +306,7 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="section" data-animate="reveal">
         <div className="container mx-auto">
-            <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
+            <div className="cta-box">
                 <h2 className="h2 mb-6">Ready to Innovate?</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
                 <button onClick={() => router.push('/contact')} className="btn btn-primary">

@@ -70,7 +70,7 @@ const BlogPage = () => {
       <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10" data-animate="reveal">
       <div className="text-center">
-        <h1 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2">The DataBits Blog</h1>
+        <h1 className="h1">The DataBits Blog</h1>
         <p className="text-gray-600 dark:text-gray-400 text-lg">Insights on AI Research, Product Updates, and Industry Trends</p>
       </div>
 
@@ -83,7 +83,7 @@ const BlogPage = () => {
               placeholder="Search articles" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#232f48] text-gray-900 dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-white outline-none" 
+              className="search-box" 
             />
         </div>
         <div className="relative flex gap-3 overflow-x-auto pb-2 scrollbar-hide">

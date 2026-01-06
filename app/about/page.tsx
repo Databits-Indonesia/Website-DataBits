@@ -24,7 +24,7 @@ const AboutPage = () => {
         transition={{ duration: 0.5 }}
       >
         <h1 className="h1">Pioneering the Future of AI</h1>
-        <h2 className="h2-sm text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+        <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
         </h2>
       </motion.section>
@@ -49,7 +49,7 @@ const AboutPage = () => {
             ].map((item, i) => (
                 <motion.div 
                   key={i} 
-                  className="flex flex-col gap-4 p-8 rounded-xl border border-gray-200 dark:border-[#324467] bg-white dark:bg-[#192233] shadow-sm"
+                  className="card card-hover flex flex-col gap-4 p-6"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

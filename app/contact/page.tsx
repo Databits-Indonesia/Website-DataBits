@@ -142,8 +142,8 @@ const ContactPage = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-            <div className="bg-white dark:bg-[#1C1C1C] border border-gray-200 dark:border-[#333333] rounded-2xl p-8">
-                <h3 className="h3-lg mb-8">Send us a message</h3>
+            <div className="contact-form bg-white dark:bg-[#14202e] p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+                <h3 className="h3 mb-8">Send us a message</h3>
                 
                 {successMessage && (
                   <motion.div 
