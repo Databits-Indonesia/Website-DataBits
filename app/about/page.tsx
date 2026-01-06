@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar from '@/components/Header';
 import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
@@ -14,7 +16,7 @@ const AboutPage = () => {
       <Navbar />
       <div className="flex flex-col gap-16 pb-20">
       {/* Hero */}
-      <motion.section 
+      <motion.div 
         className="pt-20 pb-10 px-4 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -24,7 +26,7 @@ const AboutPage = () => {
         <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
         </h2>
-      </motion.section>
+      </motion.div>
 
       {/* Philosophy */}
       <section className="section container mx-auto">
