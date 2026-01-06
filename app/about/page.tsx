@@ -149,7 +149,7 @@ const AboutPage = () => {
                 </motion.div>
             ))}
         </div>
-      </section> */}
+      </section>
 
       {/* Join Us */}
       <section className="section container mx-auto">

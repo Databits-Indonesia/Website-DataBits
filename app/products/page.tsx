@@ -216,7 +216,7 @@ const ProductsPage = () => {
                  </motion.a>
             </motion.div>
         </div>
-      </section> */}
+      </section>
       </div>
       <Footer />
     </>
