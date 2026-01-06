@@ -5,16 +5,12 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 // import { useRouter } from 'next/navigation';
-import { useTheme } from 'next-themes';
-import { useThemeToggle } from '@/components/ThemeToggle';
 
 type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
 const ContactPage = () => {
   const [currentPage] = useState<Page>('CONTACT');
 //   const router = useRouter();
-  const { resolvedTheme } = useTheme();
-  const { toggleTheme } = useThemeToggle();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -83,12 +79,7 @@ const ContactPage = () => {
 
   return (
     <>
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={() => {}} 
-        isDarkMode={resolvedTheme === 'dark'} 
-        toggleTheme={toggleTheme} 
-      />
+      <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-16 flex flex-col gap-12" data-animate="reveal">
       <div className="max-w-xl">
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">Get in Touch</h1>
@@ -152,7 +143,7 @@ const ContactPage = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
             <div className="bg-white dark:bg-[#1C1C1C] border border-gray-200 dark:border-[#333333] rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Send us a message</h3>
+                <h3 className="h3-lg mb-8">Send us a message</h3>
                 
                 {successMessage && (
                   <motion.div 
@@ -182,7 +173,7 @@ const ContactPage = () => {
                           value={formData.fullName}
                           onChange={handleChange}
                           placeholder="John Doe" 
-                          className={`bg-gray-50 dark:bg-[#121212] border ${errors.fullName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
+                          className={`input ${errors.fullName ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.fullName && (
                           <motion.span 
@@ -208,7 +199,7 @@ const ContactPage = () => {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="john@company.com" 
-                          className={`bg-gray-50 dark:bg-[#121212] border ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
+                          className={`input ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.email && (
                           <motion.span 
@@ -234,7 +225,7 @@ const ContactPage = () => {
                           value={formData.companyName}
                           onChange={handleChange}
                           placeholder="Innovate Inc." 
-                          className={`bg-gray-50 dark:bg-[#121212] border ${errors.companyName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
+                          className={`input ${errors.companyName ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.companyName && (
                           <motion.span 
@@ -259,7 +250,7 @@ const ContactPage = () => {
                           value={formData.subject}
                           onChange={handleChange}
                           placeholder="Partnership Inquiry" 
-                          className={`bg-gray-50 dark:bg-[#121212] border ${errors.subject ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2`} 
+                          className={`input ${errors.subject ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.subject && (
                           <motion.span 
@@ -284,7 +275,7 @@ const ContactPage = () => {
                           value={formData.message}
                           onChange={handleChange}
                           placeholder="Your message..." 
-                          className={`bg-gray-50 dark:bg-[#121212] border ${errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-[#333333] focus:ring-black dark:focus:ring-white'} rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 resize-none`}
+                          className={`input ${errors.message ? 'border-red-500 focus:ring-red-500' : ''} resize-none`}
                         ></textarea>
                         {errors.message && (
                           <motion.span 
@@ -303,7 +294,7 @@ const ContactPage = () => {
                     >
                         <motion.button 
                           type="submit" 
-                          className="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors relative overflow-hidden"
+                          className="btn btn-primary w-full relative overflow-hidden"
                           whileHover={{ scale: 1.01 }}
                           whileTap={{ scale: 0.99 }}
                           disabled={isSubmitting}

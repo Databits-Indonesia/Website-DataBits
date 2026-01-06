@@ -6,30 +6,21 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useTheme } from 'next-themes';
-import { useThemeToggle } from '@/components/ThemeToggle';
 
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
 const ServicesPage = () => {
   const router = useRouter();
   const [currentPage] = useState<Page>('SERVICES');
-  const { resolvedTheme } = useTheme();
-  const { toggleTheme } = useThemeToggle();
   
   return (
     <>
-      <Navbar 
-        currentPage={currentPage}
-        setCurrentPage={() => {}}
-        isDarkMode={resolvedTheme === 'dark'}
-        toggleTheme={toggleTheme}
-      />
+      <Navbar />
       <div className="flex flex-col">
       {/* Hero */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800" data-animate="reveal">
+      <section className="section section-muted" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
+          <h1 className="h1">
             Expert AI Services Tailored to You
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -39,7 +30,7 @@ const ServicesPage = () => {
       </section>
 
       {/* Main Grid */}
-      <section className="py-20 px-4" data-animate="reveal">
+      <section className="section" data-animate="reveal">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -80,11 +71,11 @@ const ServicesPage = () => {
                 list: ["End-to-End Development", "Model Fine-tuning", "System Integration"]
               }
             ].map((s, i) => (
-              <div key={i} data-animate="reveal-stagger" className="flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all">
-                <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6">
+                <div key={i} data-animate="reveal-stagger" className="card card-hover flex flex-col">
+                 <div className="icon-box">
                    <span className="material-symbols-outlined">{s.icon}</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{s.title}</h3>
+                <h3 className="h3 mb-3">{s.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{s.desc}</p>
                 <div className="border-t border-gray-100 dark:border-gray-800 pt-4 mt-auto">
                     <ul className="space-y-2">
@@ -103,10 +94,10 @@ const ServicesPage = () => {
       </section>
 
       {/* Process/How we work */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-[#192233]" data-animate="reveal">
+      <section className="section section-muted" data-animate="reveal">
          <div className="container mx-auto">
             <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Process</h2>
+                <h2 className="h2">Our Process</h2>
                 <p className="text-gray-600 dark:text-gray-400">From concept to deployment, we're with you every step of the way.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -116,9 +107,9 @@ const ServicesPage = () => {
                     { num: "03", title: "Development", text: "Our team builds and trains your custom AI solution." },
                     { num: "04", title: "Deployment", text: "We integrate, test, and launch the solution into production." }
                 ].map((step, i) => (
-                    <div key={i} className="relative p-6 rounded-xl bg-white dark:bg-[#101622] border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div key={i} className="card card-hover relative">
                         <div className="text-4xl font-black text-gray-100 dark:text-gray-800 absolute top-4 right-4">{step.num}</div>
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 relative z-10">{step.title}</h3>
+                        <h3 className="h3-sm mb-2 relative z-10">{step.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 relative z-10">{step.text}</p>
                     </div>
                 ))}
@@ -127,11 +118,11 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-4" data-animate="reveal">
+      <section className="section" data-animate="reveal">
         <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Start Your Transformation</h2>
+            <h2 className="h2">Start Your Transformation</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">Ready to harness the power of AI? Let's talk about your project.</p>
-            <button onClick={() => router.push('/contact')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
+            <button onClick={() => router.push('/contact')} className="btn btn-primary">
                 Contact Sales
             </button>
         </div>

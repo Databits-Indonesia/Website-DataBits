@@ -1,6 +1,10 @@
-import { useState } from "react";
+"use client"
+
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
@@ -22,28 +26,18 @@ const getCurrentPageFromPath = (pathname: string): Page => {
   return entry ? (entry[0] as Page) : 'HOME';
 };
 
-const Navbar = ({ 
-  // currentPage, 
-  // setCurrentPage,
-  isDarkMode,
-  toggleTheme
-}: { 
-  currentPage: Page; 
-  setCurrentPage: (page: Page) => void;
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}) => {
+const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const activePage = getCurrentPageFromPath(pathname);
 
+  useEffect(() => setMounted(true), []);
+
   const navLinkClass = (page: Page) =>
-    `text-sm font-medium leading-normal cursor-pointer transition-colors ${
-      activePage === page
-        ? 'text-primary dark:text-white font-bold'
-        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-    }`;
+    `${activePage === page ? 'nav-link nav-link-active' : 'nav-link'}`;
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-background-light/80 px-4 py-4 backdrop-blur-md dark:border-gray-800 dark:bg-background-dark/80 md:px-10">
@@ -116,20 +110,20 @@ const Navbar = ({
 
       <div className="flex items-center gap-4">
         <button 
-          onClick={toggleTheme}
-          className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-black dark:text-white"
+          onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+          className="btn-icon"
           aria-label="Toggle Dark Mode"
+          disabled={!mounted}
         >
-          <span className="material-symbols-outlined">
-            {isDarkMode ? 'light_mode' : 'dark_mode'}
-          </span>
+          <Sun className="h-5 w-5 opacity-0 rotate-90 transition-all dark:opacity-100 dark:rotate-0" />
+          <Moon className="absolute h-5 w-5 opacity-100 rotate-0 transition-all dark:opacity-0 dark:-rotate-90" />
         </button>
 
-        <button className="hidden md:flex h-10 items-center justify-center rounded-lg bg-black px-4 text-sm font-bold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
+        <button className="btn btn-primary hidden md:flex">
           Request a Demo
         </button>
         <button
-          className="md:hidden text-black dark:text-white"
+          className="btn-icon md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <span className="material-symbols-outlined text-3xl">menu</span>
@@ -145,7 +139,7 @@ const Navbar = ({
           <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
           <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
           <button onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }} className={navLinkClass('CONTACT')}>Contact</button>
-          <button className="h-10 w-full rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold mt-2">
+          <button className="btn btn-primary w-full mt-2">
             Request a Demo
           </button>
         </div>

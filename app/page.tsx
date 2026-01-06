@@ -1,10 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-// import { motion } from 'framer-motion';
-import { useThemeToggle } from '@/components/ThemeToggle';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -247,7 +244,7 @@ const TypingHeadline = () => {
   return (
     <div className="inline-flex flex-col items-center leading-tight">
       {lines.map((line, idx) => (
-        <span key={idx} className={`text-4xl md:text-6xl font-black tracking-tight text-gray-900 dark:text-white ${line.className}`}>
+        <span key={idx} className={`typing-line ${line.className}`}>
           {typedLines[idx]}
           {showCaret && idx === lines.length - 1 && <span className="typing-caret">|</span>}
         </span>
@@ -264,17 +261,17 @@ const HomePage = () => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="py-20 md:py-32 px-4" data-animate="reveal">
+      <section className="section" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl flex flex-col items-center gap-6">
           <TypingHeadline />
           <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400 mb-10">
             DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold transition-all shadow-lg transform hover:scale-[1.02] active:scale-95" onClick={() => router.push('/services')}>
+            <button className="btn btn-primary w-full sm:w-auto shadow-lg" onClick={() => router.push('/services')}>
               Get Started Free
             </button>
-            <button onClick={() => router.push('/contact')} className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-all transform hover:scale-[1.02] active:scale-95">
+            <button onClick={() => router.push('/contact')} className="btn btn-secondary w-full sm:w-auto">
                 Contact Sales
             </button>
           </div>
@@ -282,10 +279,10 @@ const HomePage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900/50" data-animate="reveal">
+      <section className="section section-muted" data-animate="reveal">
         <div className="container mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">The Modern AI Platform</h2>
+            <h2 className="h2">The Modern AI Platform</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Everything you need to build, deploy, and scale AI applications.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -294,11 +291,11 @@ const HomePage = () => {
               { icon: 'hub', title: 'Natural Language Processing', desc: 'Extract insights from unstructured text data, from sentiment analysis to document summarization.' },
               { icon: 'brush', title: 'Computer Vision', desc: 'Analyze images and videos to identify objects, faces, and patterns at scale for your applications.' },
             ].map((service, idx) => (
-              <div key={idx} data-animate="reveal-stagger" className="p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all duration-300 group">
-                <div className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div key={idx} data-animate="reveal-stagger" className="card card-hover group">
+                <div className="icon-box icon-box-hover">
                   <span className="material-symbols-outlined">{service.icon}</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{service.title}</h3>
+                <h3 className="h3 mb-3">{service.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{service.desc}</p>
               </div>
             ))}
@@ -307,12 +304,12 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4" data-animate="reveal">
+      <section className="section" data-animate="reveal">
         <div className="container mx-auto">
             <div className="mx-auto max-w-4xl rounded-2xl bg-gray-100 dark:bg-[#192233] p-12 text-center border border-gray-200 dark:border-gray-800">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to Innovate?</h2>
+                <h2 className="h2 mb-6">Ready to Innovate?</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
-                <button onClick={() => router.push('/contact')} className="px-8 py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors transform hover:scale-[1.02] active:scale-95">
+                <button onClick={() => router.push('/contact')} className="btn btn-primary">
                     Contact Our Experts
                 </button>
             </div>
@@ -331,28 +328,12 @@ const HomePage = () => {
 // --- App Root ---
 
 const App = () => {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { toggleTheme } = useThemeToggle();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Prevent hydration mismatch by not rendering until client-side is ready
-  if (!mounted) {
-    return null;
-  }
+  const [mounted, setMounted] = useState(true);
 
   return (
     <div className="flex min-h-screen flex-col font-display">
       <SEO meta={PAGE_METADATA['HOME']} />
-      <Navbar 
-        currentPage='HOME' 
-        setCurrentPage={() => {}}
-        isDarkMode={resolvedTheme === 'dark'}
-        toggleTheme={toggleTheme}
-      />
+      <Navbar />
       <main className="grow">
         <HomePage />
       </main>

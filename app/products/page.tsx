@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useTheme } from 'next-themes';
-import { useThemeToggle } from '@/components/ThemeToggle';
 import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
@@ -13,8 +11,6 @@ type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 const ProductsPage = () => {
   const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
-  const { resolvedTheme } = useTheme();
-  const { toggleTheme } = useThemeToggle();
 
   const products = [
     {
@@ -72,14 +68,9 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={() => {}} 
-        isDarkMode={resolvedTheme === 'dark'} 
-        toggleTheme={toggleTheme} 
-      />
+      <Navbar />
       <div className="flex flex-col min-h-[calc(100vh-(--spacing(20)))]">
-        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+        <section className="section section-muted">
         <motion.div 
           className="container mx-auto text-center max-w-4xl"
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +86,7 @@ const ProductsPage = () => {
         </motion.div>
       </section>
 
-      <section className="py-20 px-4">
+      <section className="section">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.map((product, i) => (
@@ -104,7 +95,7 @@ const ProductsPage = () => {
                 href={product.link}
                 target={product.external ? "_blank" : "_self"}
                 rel={product.external ? "noopener noreferrer" : ""}
-                className={`flex flex-col p-8 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:shadow-lg transition-all relative grow ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
+                className={`card card-hover flex flex-col relative grow ${!product.external && product.link === '#' ? 'cursor-default opacity-80' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
@@ -125,12 +116,12 @@ const ProductsPage = () => {
                 )}
 
                 <motion.div 
-                  className="w-12 h-12 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mb-6"
+                  className="icon-box"
                   whileHover={{ scale: 1.1, rotate: 5, transition: { duration: 0.2 } }}
                 >
                    <span className="material-symbols-outlined">{product.icon}</span>
                 </motion.div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{product.title}</h3>
+                <h3 className="h3 mb-3">{product.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{product.desc}</p>
 
                 {product.link !== '#' ? (
@@ -149,7 +140,7 @@ const ProductsPage = () => {
       </section>
 
       {/* Open Source Section */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
+      <section className="section section-muted border-t border-gray-200 dark:border-gray-800">
         <div className="container mx-auto">
             <motion.div 
               className="text-center mb-12"
@@ -169,7 +160,7 @@ const ProductsPage = () => {
                         <span className="material-symbols-outlined text-2xl">code</span>
                     </div>
                 </motion.div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Open Source</h2>
+                <h2 className="h2">Open Source</h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                     We believe in giving back to the community. Check out our open source contributions that are powering the next generation of AI tools.
                 </p>
@@ -179,7 +170,7 @@ const ProductsPage = () => {
                 {openSourceProjects.map((project, i) => (
                     <motion.div 
                       key={i} 
-                      className="flex flex-col p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#101622] hover:border-gray-400 dark:hover:border-gray-600 transition-all group grow"
+                      className="card card-hover flex flex-col group grow"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
@@ -187,7 +178,7 @@ const ProductsPage = () => {
                       whileHover={{ y: -8, transition: { duration: 0.2 } }}
                     >
                         <div className="flex justify-between items-start mb-4">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{project.title}</h3>
+                            <h3 className="h3 group-hover:text-primary transition-colors">{project.title}</h3>
                             <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.language}</span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{project.desc}</p>

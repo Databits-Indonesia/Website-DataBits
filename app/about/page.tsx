@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
-import { useTheme } from 'next-themes';
-import { useThemeToggle } from '@/components/ThemeToggle';
 
 type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
@@ -14,16 +12,9 @@ type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 const AboutPage = () => {
   const [currentPage] = useState<Page>('ABOUT');
 //   const router = useRouter();
-  const { resolvedTheme } = useTheme();
-  const { toggleTheme } = useThemeToggle();
   return (
     <>
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={() => {}} 
-        isDarkMode={resolvedTheme === 'dark'} 
-        toggleTheme={toggleTheme} 
-      />
+      <Navbar />
       <div className="flex flex-col gap-16 pb-20">
       {/* Hero */}
       <motion.section 
@@ -32,14 +23,14 @@ const AboutPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6">Pioneering the Future of AI</h1>
-        <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+        <h1 className="h1">Pioneering the Future of AI</h1>
+        <h2 className="h2-sm text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
           DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
         </h2>
       </motion.section>
 
       {/* Philosophy */}
-      <section className="px-4 container mx-auto">
+      <section className="section container mx-auto">
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -47,7 +38,7 @@ const AboutPage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Philosophy</h2>
+            <h2 className="h2">Our Philosophy</h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Our work is guided by a core set of principles that define our identity and drive every decision we make.</p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -67,7 +58,7 @@ const AboutPage = () => {
                 >
                     <span className="material-symbols-outlined text-4xl text-gray-900 dark:text-white">{item.icon}</span>
                     <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                        <h3 className="h3 mb-2">{item.title}</h3>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{item.text}</p>
                     </div>
                 </motion.div>
@@ -76,9 +67,9 @@ const AboutPage = () => {
       </section>
 
       {/* Story */}
-      <section className="px-4 container mx-auto">
+      <section className="section container mx-auto">
         <motion.h2 
-          className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12"
+          className="h2 text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -104,7 +95,7 @@ const AboutPage = () => {
                         {i < arr.length - 1 && <div className="w-0.5 bg-gray-300 dark:bg-[#324467] grow my-2"></div>}
                     </div>
                     <div className="pb-8 pt-0.5">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">{event.title}</h3>
+                        <h3 className="h3-sm">{event.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{event.date}</p>
                     </div>
                 </motion.div>
@@ -113,7 +104,7 @@ const AboutPage = () => {
       </section>
 
       {/* Team */}
-      <section className="px-4 container mx-auto">
+      <section className="section container mx-auto">
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -121,7 +112,7 @@ const AboutPage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet the Team</h2>
+            <h2 className="h2">Meet the Team</h2>
             <p className="text-gray-600 dark:text-gray-400">The brilliant minds behind DataBits.</p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -161,9 +152,9 @@ const AboutPage = () => {
       </section>
 
       {/* Join Us */}
-      <section className="px-4 container mx-auto">
+      <section className="section container mx-auto">
          <motion.div 
-           className="bg-gray-100 dark:bg-[#192233] rounded-xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left"
+           className="cta-box flex flex-col md:flex-row items-center justify-between gap-8 md:text-left"
            initial={{ opacity: 0, y: 20 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
@@ -171,11 +162,11 @@ const AboutPage = () => {
            whileHover={{ y: -4, transition: { duration: 0.2 } }}
          >
             <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Join Us</h2>
+                <h2 className="h2-sm mb-2">Join Us</h2>
                 <p className="text-gray-600 dark:text-gray-300">Help us build the future. We're looking for passionate individuals.</p>
             </div>
             <motion.button 
-              className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg whitespace-nowrap"
+              className="btn btn-primary whitespace-nowrap"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >View Open Positions</motion.button>

@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
 // import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useThemeToggle } from '@/components/ThemeToggle';
 
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
@@ -14,8 +12,6 @@ const BlogPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState<Page>('BLOG');
-  const { resolvedTheme } = useTheme();
-  const { toggleTheme } = useThemeToggle();
 
   const allPosts = [
     {
@@ -71,12 +67,7 @@ const BlogPage = () => {
 
   return (
     <>
-      <Navbar 
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        isDarkMode={resolvedTheme === 'dark'}
-        toggleTheme={toggleTheme}
-      />
+      <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10" data-animate="reveal">
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2">The DataBits Blog</h1>
@@ -100,17 +91,7 @@ const BlogPage = () => {
                 <motion.button 
                   key={i} 
                   onClick={() => setSelectedCategory(tag)}
-                  initial={false}
-                  animate={{
-                    backgroundColor: selectedCategory === tag 
-                      ? 'var(--selected-bg)' 
-                      : 'transparent'
-                  }}
-                  className={`relative px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap border transition-all transform hover:scale-105 active:scale-95 ${
-                    selectedCategory === tag 
-                      ? 'bg-black dark:bg-white text-white dark:text-black border-transparent shadow-sm' 
-                      : 'border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`}
+                  className={`chip ${selectedCategory === tag ? 'chip-active' : ''}`}
                 >
                     {tag}
                     {selectedCategory === tag && (
@@ -128,7 +109,7 @@ const BlogPage = () => {
       {/* Featured Article - Only shown in default view */}
       {isDefaultView && featuredPost && (
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Articles</h2>
+          <h2 className="h2-sm mb-6">Featured Articles</h2>
           <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
               <img 
                 src={featuredPost.img} 
@@ -139,7 +120,7 @@ const BlogPage = () => {
               />
               <div className="flex flex-col justify-center gap-4">
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {featuredPost.readTime}</span>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{featuredPost.title}</h3>
+                  <h3 className="h3-lg group-hover:text-primary transition-colors">{featuredPost.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400">{featuredPost.desc}</p>
                   <span className="text-xs text-gray-500 dark:text-gray-400">{featuredPost.date}</span>
               </div>
@@ -149,7 +130,7 @@ const BlogPage = () => {
 
       {/* Article Grid */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        <h2 className="h2-sm mb-6">
           {isDefaultView ? 'All Articles' : `Search Results (${postsToShow.length})`}
         </h2>
         
@@ -166,7 +147,7 @@ const BlogPage = () => {
                       />
                       <div className="p-6 flex flex-col gap-3 grow">
                           <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{post.title}</h3>
+                          <h3 className="h3 group-hover:text-primary transition-colors">{post.title}</h3>
                           <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.desc}</p>
                           <div className="mt-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
                             <span>{post.date}</span>
