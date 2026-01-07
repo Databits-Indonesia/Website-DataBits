@@ -14,28 +14,44 @@ const ResearchPage = () => {
   
   const openSourceProjects = [
     {
+      title: 'Mangrove-Research',
+      desc: 'CNN model to predict mangrove species based on their leaves.',
+      // stars: '1.2k',
+      // forks: '234',
+      link: 'https://github.com/Databitss/Mangrove-Research',
+      kategori: 'CNN Model'
+    },
+    {
       title: 'Flask CNN Mangrove',
       desc: 'Web application with flask to predict mangrove types based on leaves with CNN.',
-      stars: '1.2k',
-      forks: '234',
+      // stars: '1.2k',
+      // forks: '234',
       link: 'https://github.com/Databits-Indonesia/Flask-CNN-Mangrove',
-      language: 'Website'
+      kategori: 'Website'
     },
     {
       title: 'databits',
       desc: 'Python library for Text Classifier using LSTM, GRU, and Transformer BERT.',
-      stars: '890',
-      forks: '156',
+      // stars: '890',
+      // forks: '156',
       link: 'https://github.com/Databitss/databits',
-      language: 'Python'
+      kategori: 'Python Library'
     },
     {
-      title: 'ResCB',
-      desc: 'Res4net base network with the Convolutional Block Attention Module (CBAM) to improve performance and efficiency.',
-      stars: '2.5k',
-      forks: '402',
-      link: 'https://github.com/Databitss/ResCB',
-      language: 'Python'
+      title: 'C-A ViViT',
+      desc: 'Creates a new ViViT-based video feature extraction architecture that has 3.5x lower GFLOPs by reducing the quadratic complexity of self-attention.',
+      // stars: '2.5k',
+      // forks: '402',
+      link: 'https://github.com/Databitss/VideoCaptioning',
+      kategori: 'AI Architecture'
+    },
+    {
+      title: 'AudioTransformer',
+      desc: 'AudioTransformer to process and analyze audio data using transformer-based architectures. It leverages the power of self-attention mechanisms to capture temporal and spectral features in audio signals.',
+      // stars: '2.5k',
+      // forks: '402',
+      link: 'https://github.com/Databitss/VideoCaptioning',
+      kategori: 'AI Architecture'
     }
   ];
 
@@ -99,17 +115,17 @@ const ResearchPage = () => {
                     >
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="h3 group-hover:text-primary transition-colors">{project.title}</h3>
-                            <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.language}</span>
+                            <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.kategori}</span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{project.desc}</p>
                         <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
                             <div className="flex items-center gap-1.5" title="Stars">
-                                <span className="material-symbols-outlined text-[18px]">star</span>
-                                <span className="font-mono">{project.stars}</span>
+                                {/* <span className="material-symbols-outlined text-[18px]">star</span> */}
+                                {/* <span className="font-mono">{project.stars}</span> */}
                             </div>
                             <div className="flex items-center gap-1.5" title="Forks">
-                                <span className="material-symbols-outlined text-[18px]">call_split</span>
-                                <span className="font-mono">{project.forks}</span>
+                                {/* <span className="material-symbols-outlined text-[18px]">call_split</span> */}
+                                {/* <span className="font-mono">{project.forks}</span> */}
                             </div>
                             <a href={project.link} className="ml-auto flex items-center gap-1 font-bold icon-color hover:text-primary transition-colors">
                                 GitHub <span className="material-symbols-outlined text-[16px] icon-color">arrow_outward</span>

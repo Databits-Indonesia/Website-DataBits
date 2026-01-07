@@ -6,12 +6,9 @@ import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
-
 const BlogPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [currentPage, setCurrentPage] = useState<Page>('BLOG');
 
   const allPosts = [
     {
