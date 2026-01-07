@@ -102,7 +102,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team */}
+      {/* Team
       <section className="section container mx-auto">
         <motion.div 
           className="text-center mb-12"
@@ -148,7 +148,7 @@ const AboutPage = () => {
                 </motion.div>
             ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Join Us */}
       <section className="section container mx-auto">

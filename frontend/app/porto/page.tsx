@@ -5,3 +5,5 @@ const hello = () => {
         "Hello Page Porto"
     );
 };
+
+export default hello;
