@@ -4,7 +4,7 @@
 
 # DataBits Website
 
-## Run Locally
+## Run Locally (frontend)
 
 **Prerequisites:** Node.js
 
