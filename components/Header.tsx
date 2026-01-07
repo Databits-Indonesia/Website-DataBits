@@ -22,7 +22,7 @@ const pageRoutes: Record<Page, string> = {
 };
 
 const getCurrentPageFromPath = (pathname: string): Page => {
-  // const path = pathname === '/' ? '/' : pathname.split('/')[1];
+  const path = pathname === '/' ? '/' : pathname.split('/')[1];
   const entry = Object.entries(pageRoutes).find(([_, route]) => {
     if (route === '/') return pathname === '/';
     return pathname.startsWith(route);
@@ -49,7 +49,7 @@ const Navbar = () => {
         <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
       </div>
 
-      <nav className="hidden items-center gap-9 md:flex">
+      <nav className="hidden items-center gap-7 md:flex">
         {/* HOME */}
         <motion.button onClick={() => router.push('/')} className={`${navLinkClass('HOME')} relative`}>
           Home
@@ -152,11 +152,11 @@ const Navbar = () => {
           <Moon className="absolute h-5 w-5 opacity-100 rotate-0 transition-all dark:opacity-0 dark:-rotate-90" />
         </button>
 
-        <button className="request-demo-button md:hidden">
+        <button className="request-demo-button" onClick={() => router.push('/contact')}>
           Request a Demo
         </button>
         <button
-          className="md:hidden text-black dark:text-white"
+          className="menu-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <span className="material-symbols-outlined text-3xl">menu</span>
@@ -165,7 +165,7 @@ const Navbar = () => {
 
       {/* Mobile View Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-800 p-4 flex flex-col gap-4 md:hidden shadow-lg">
+        <div className="mobile-menu-nav">
           <button onClick={() => { router.push('/'); setMobileMenuOpen(false); }} className={navLinkClass('HOME')}>Home</button>
           <button onClick={() => { router.push('/services'); setMobileMenuOpen(false); }} className={navLinkClass('SERVICES')}>Services</button>
           <button onClick={() => { router.push('/products'); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>Products</button>
@@ -174,7 +174,7 @@ const Navbar = () => {
           <button onClick={() => { router.push('/porto'); setMobileMenuOpen(false); }} className={navLinkClass('PORTOFOLIO')}>Portofolio</button>
           <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
           <button onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }} className={navLinkClass('CONTACT')}>Contact</button>
-          <button className="btn btn-primary w-full mt-2">
+          <button className="btn btn-primary w-full mt-2" onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }}>
             Request a Demo
           </button>
         </div>

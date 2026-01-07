@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-// import Image from 'next/image';
+import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -111,9 +111,12 @@ const BlogPage = () => {
         <div>
           <h2 className="h2-sm mb-6">Featured Articles</h2>
           <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
-              <img 
+              <Image 
                 src={featuredPost.img} 
                 alt={featuredPost.title} 
+                width={400}
+                height={250}
+                unoptimized
                 loading="lazy"
                 decoding="async"
                 className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" 
@@ -138,9 +141,12 @@ const BlogPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {postsToShow.map((post, i) => (
                   <div key={i} className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow">
-                      <img 
+                      <Image 
                         src={post.img} 
                         alt={post.title} 
+                        width={400}
+                        height={250}
+                        unoptimized
                         loading="lazy"
                         decoding="async"
                         className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
