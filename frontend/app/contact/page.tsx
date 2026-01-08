@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 // import { useRouter } from 'next/navigation';
 
-type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
+// type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
 const ContactPage = () => {
-  const [currentPage] = useState<Page>('CONTACT');
+  // const [currentPage] = useState<Page>('CONTACT');
 //   const router = useRouter();
 
   const [formData, setFormData] = useState({

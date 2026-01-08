@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from '@/components/Header';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Footer from '@/components/Footer';
 // import { useState } from 'react';
 // import { useRouter } from 'next/navigation';

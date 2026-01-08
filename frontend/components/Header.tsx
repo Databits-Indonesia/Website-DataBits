@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
@@ -22,7 +22,7 @@ const pageRoutes: Record<Page, string> = {
 };
 
 const getCurrentPageFromPath = (pathname: string): Page => {
-  const path = pathname === '/' ? '/' : pathname.split('/')[1];
+  // const path = pathname === '/' ? '/' : pathname.split('/')[1];
   const entry = Object.entries(pageRoutes).find(([_, route]) => {
     if (route === '/') return pathname === '/';
     return pathname.startsWith(route);

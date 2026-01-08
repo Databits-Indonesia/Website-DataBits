@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 // import { useState } from 'react';
