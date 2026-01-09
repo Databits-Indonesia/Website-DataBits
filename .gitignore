@@ -23,3 +23,38 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# BACKEND - FASTAPI
+############################
+
+# Virtual environment
+backend/venv/
+backend/.venv/
+backend/env/
+
+# Python cache
+__pycache__/
+backend/*.py[cod]
+
+# Env files
+backend/.env
+backend/.env.*
+
+# Logs
+backend/*.log
+backend/logs/
+
+# Testing & coverage
+backend/.coverage
+backend/htmlcov/
+backend/coverage/
+
+
+############################
+# EDITOR & OS
+############################
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
