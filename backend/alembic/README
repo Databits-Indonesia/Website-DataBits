@@ -1,1 +1,7 @@
-Generic single-database configuration.
+Database Setting:
+1. get .sql file in `app/db/`
+2. import sql file to database server
+3. adjust the database configuration in `backend/.env`
+3. run to update the database automatically
+- `alembic revision --autogenerate -m "message"`
+- `alembic upgrade head` 
