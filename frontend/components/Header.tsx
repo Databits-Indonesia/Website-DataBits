@@ -153,7 +153,7 @@ const Navbar = () => {
         </button>
 
         <button className="request-demo-button" onClick={() => router.push('/contact')}>
-          Request a Demo
+          Contact Us
         </button>
         <button
           className="menu-btn"
