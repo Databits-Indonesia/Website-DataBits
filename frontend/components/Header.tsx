@@ -116,10 +116,10 @@ const Navbar = () => {
             />
           )}
         </motion.button>
-        {/* CONTACT */}
-        <motion.button onClick={() => router.push('/contact')} className={`${navLinkClass('CONTACT')} relative`}>
-          Contact
-          {activePage === 'CONTACT' && (
+        {/* PORTOFOLIO */}
+        <motion.button onClick={() => router.push('/porto')} className={`${navLinkClass('PORTOFOLIO')} relative`}>
+          Portofolio
+          {activePage === 'PORTOFOLIO' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
@@ -127,10 +127,10 @@ const Navbar = () => {
             />
           )}
         </motion.button>
-        {/* PORTOFOLIO */}
-        <motion.button onClick={() => router.push('/porto')} className={`${navLinkClass('PORTOFOLIO')} relative`}>
-          Portofolio
-          {activePage === 'PORTOFOLIO' && (
+        {/* CONTACT */}
+        <motion.button onClick={() => router.push('/contact')} className={`${navLinkClass('CONTACT')} relative`}>
+          Contact
+          {activePage === 'CONTACT' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
