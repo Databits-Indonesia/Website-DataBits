@@ -284,7 +284,7 @@ const HomePage = () => {
       <section className="section" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl flex flex-col items-center gap-6">
           <TypingHeadline />
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400 mb-10">
+          <p className="mx-auto max-w-2xl p mb-10">
             DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -303,7 +303,7 @@ const HomePage = () => {
         <div className="container mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
             <h2 className="h2">The Modern AI Platform</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Everything you need to build, deploy, and scale AI applications.</p>
+            <p className="p max-w-2xl mx-auto">Everything you need to build, deploy, and scale AI applications.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -328,7 +328,7 @@ const HomePage = () => {
         <div className="container mx-auto">
             <div className="cta-box">
                 <h2 className="h2 mb-6">Ready to Innovate?</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
+                <p className="p mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
                 <button onClick={() => router.push('/contact')} className="btn btn-primary">
                     Contact Our Experts
                 </button>

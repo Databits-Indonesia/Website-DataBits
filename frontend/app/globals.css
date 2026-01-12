@@ -537,3 +537,41 @@ background: var(--color-bg);
     display: none !important;
   }
 }
+
+.p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: #4b5563;
+}
+
+.dark .p {
+  color: #9ca3af;
+}
+
+.theme-toggle-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  transition: all 150ms ease;
+}
+
+.theme-toggle-sun {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.dark .theme-toggle-sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.theme-toggle-moon {
+  position: absolute;
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.dark .theme-toggle-moon {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
