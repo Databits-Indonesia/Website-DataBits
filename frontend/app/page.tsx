@@ -6,7 +6,7 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Navigation State
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PORTOFOLIO';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'PORTOFOLIO' | 'RESEARCH';
 
 // SEO helpers
 type PageMeta = {
