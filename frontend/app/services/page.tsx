@@ -2,16 +2,16 @@
 
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
+// type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
 const ServicesPage = () => {
   const router = useRouter();
-  const [currentPage] = useState<Page>('SERVICES');
+  // const [currentPage] = useState<Page>('SERVICES');
   
   return (
     <>
@@ -50,7 +50,7 @@ const ServicesPage = () => {
                 title: "Natural Language Processing",
                 desc: "Unlock the value in text data with state-of-the-art NLP implementations.",
                 icon: "chat",
-                list: ["Sentiment Analysis", "Chatbots & AI Agents", "Document Processing"]
+                list: ["Sentiment Analysis", "Chatbots, RAG, & AI Agents", "Document Processing"]
               },
               {
                 title: "Computer Vision",
