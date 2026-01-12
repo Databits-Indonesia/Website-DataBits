@@ -50,7 +50,7 @@ const ResearchPage = () => {
       desc: 'AudioTransformer to process and analyze audio data using transformer-based architectures. It leverages the power of self-attention mechanisms to capture temporal and spectral features in audio signals.',
       // stars: '2.5k',
       // forks: '402',
-      link: 'https://github.com/Databitss/VideoCaptioning',
+      link: 'https://github.com/Databitss/AudioTransformer',
       kategori: 'AI Architecture'
     }
   ];
