@@ -148,8 +148,8 @@ const Navbar = () => {
           aria-label="Toggle Dark Mode"
           disabled={!mounted}
         >
-          <Sun className="h-5 w-5 opacity-0 rotate-90 transition-all dark:opacity-100 dark:rotate-0" />
-          <Moon className="absolute h-5 w-5 opacity-100 rotate-0 transition-all dark:opacity-0 dark:-rotate-90" />
+          <Sun className="theme-toggle-icon theme-toggle-sun" />
+          <Moon className="theme-toggle-icon theme-toggle-moon" />
         </button>
 
         <button className="request-demo-button" onClick={() => router.push('/contact')}>

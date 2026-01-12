@@ -83,7 +83,7 @@ const ContactPage = () => {
       <div className="container mx-auto px-4 md:px-10 py-16 flex flex-col gap-12" data-animate="reveal">
       <div className="max-w-xl">
         <h1 className="h1">Get in Touch</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">We’d love to hear from you. Reach out for partnerships, inquiries, or support.</p>
+        <p className="p">We’d love to hear from you. Reach out for partnerships, inquiries, or support.</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12">
@@ -96,9 +96,9 @@ const ContactPage = () => {
         >
             <div className="flex flex-col gap-6">
                 {[
-                    { icon: 'mail', text: 'databitsteam@gmail.com', href: 'mailto:databitsteam@gmail.com' },
-                    { icon: 'call', text: '+62 896-3634-4666', href: 'https://wa.me/6289636344666' },
-                    { icon: 'location_on', text: 'Lampung, Indonesia', sub: 'DataBits Headquarters', href: '#' }
+                    { icon: 'mail', text: 'databitsteam@gmail.com', sub: 'Email Us', href: 'mailto:databitsteam@gmail.com' },
+                    { icon: 'call', text: '+62 896-3634-4666', sub: 'Call Us', href: 'https://wa.me/6289636344666' },
+                    { icon: 'location_on', text: 'Lampung, Indonesia', sub: 'DataBits Headquarters', href: 'https://www.google.com/maps/place/Bandar+Lampung+City,+Lampung' }
                 ].map((item, i) => (
                     <motion.div 
                       key={i} 
