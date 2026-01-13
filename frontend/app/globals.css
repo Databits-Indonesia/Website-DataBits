@@ -575,3 +575,12 @@ background: var(--color-bg);
   transform: rotate(-90deg);
 }
 
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d1d5db;
+}
+
+.dark .table {
+  border-color: #374151;
+}

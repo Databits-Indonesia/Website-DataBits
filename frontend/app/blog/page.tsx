@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Navbar from '@/components/Header';
@@ -12,6 +13,7 @@ const BlogPage = () => {
 
   const allPosts = [
     {
+      slug: 'generative-ai-business',
       title: 'The Future of Generative AI in Business',
       category: 'Product Updates',
       readTime: '5 min read',
@@ -21,6 +23,7 @@ const BlogPage = () => {
       featured: true
     },
     {
+      slug: 'big-data-navigation',
       title: 'Navigating the World of Big Data',
       category: 'Data Science',
       readTime: '7 min read',
@@ -30,6 +33,7 @@ const BlogPage = () => {
       featured: false
     },
     {
+      slug: 'tech-stack-scalable-ai',
       title: 'Our Tech Stack for Scalable AI',
       category: 'Engineering',
       readTime: '4 min read',
@@ -39,6 +43,7 @@ const BlogPage = () => {
       featured: false
     },
     {
+      slug: 'ethical-ai',
       title: 'Ethical Considerations in AI',
       category: 'AI Research',
       readTime: '9 min read',
@@ -107,24 +112,26 @@ const BlogPage = () => {
       {isDefaultView && featuredPost && (
         <div>
           <h2 className="h2-sm mb-6">Featured Articles</h2>
-          <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
-              <Image 
-                src={featuredPost.img} 
-                alt={featuredPost.title} 
-                width={400}
-                height={250}
-                unoptimized
-                loading="lazy"
-                decoding="async"
-                className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" 
-              />
-              <div className="flex flex-col justify-center gap-4">
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {featuredPost.readTime}</span>
-                  <h3 className="h3-lg group-hover:text-primary transition-colors">{featuredPost.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">{featuredPost.desc}</p>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{featuredPost.date}</span>
-              </div>
-          </div>
+          <Link href={`/blog/${featuredPost.slug}`}>
+            <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                <Image 
+                  src={featuredPost.img} 
+                  alt={featuredPost.title} 
+                  width={400}
+                  height={250}
+                  unoptimized
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" 
+                />
+                <div className="flex flex-col justify-center gap-4">
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {featuredPost.readTime}</span>
+                    <h3 className="h3-lg group-hover:text-primary transition-colors">{featuredPost.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400">{featuredPost.desc}</p>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{featuredPost.date}</span>
+                </div>
+            </div>
+          </Link>
         </div>
       )}
 
@@ -137,27 +144,29 @@ const BlogPage = () => {
         {postsToShow.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {postsToShow.map((post, i) => (
-                  <div key={i} className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow">
-                      <Image 
-                        src={post.img} 
-                        alt={post.title} 
-                        width={400}
-                        height={250}
-                        unoptimized
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
-                      />
-                      <div className="p-6 flex flex-col gap-3 grow">
-                          <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
-                          <h3 className="h3 group-hover:text-primary transition-colors">{post.title}</h3>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.desc}</p>
-                          <div className="mt-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                            <span>{post.date}</span>
-                            <span>{post.readTime}</span>
-                          </div>
-                      </div>
-                  </div>
+                  <Link key={i} href={`/blog/${post.slug}`}>
+                    <div className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow cursor-pointer">
+                        <Image 
+                          src={post.img} 
+                          alt={post.title} 
+                          width={400}
+                          height={250}
+                          unoptimized
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                        />
+                        <div className="p-6 flex flex-col gap-3 grow">
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
+                            <h3 className="h3 group-hover:text-primary transition-colors">{post.title}</h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.desc}</p>
+                            <div className="mt-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                              <span>{post.date}</span>
+                              <span>{post.readTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                  </Link>
               ))}
           </div>
         ) : (
