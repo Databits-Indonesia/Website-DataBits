@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
 // Page Builder
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PORTOFOLIO';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PROJECT';
 
 // Router
 const pageRoutes: Record<Page, string> = {
@@ -18,7 +18,7 @@ const pageRoutes: Record<Page, string> = {
   BLOG: '/blog',
   CONTACT: '/contact',
   RESEARCH: '/research',
-  PORTOFOLIO: '/porto'
+  PROJECT: '/projects'
 };
 
 const getCurrentPageFromPath = (pathname: string): Page => {
@@ -116,10 +116,10 @@ const Navbar = () => {
             />
           )}
         </motion.button>
-        {/* PORTOFOLIO */}
-        <motion.button onClick={() => router.push('/porto')} className={`${navLinkClass('PORTOFOLIO')} relative`}>
-          Portofolio
-          {activePage === 'PORTOFOLIO' && (
+        {/* PROJECT */}
+        <motion.button onClick={() => router.push('/projects')} className={`${navLinkClass('PROJECT')} relative`}>
+          Projects
+          {activePage === 'PROJECT' && (
             <motion.div
               layoutId="nav-underline"
               className="nav-underline"
@@ -171,7 +171,7 @@ const Navbar = () => {
           <button onClick={() => { router.push('/products'); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>Products</button>
           <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
           <button onClick={() => { router.push('/research'); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>Research </button>
-          <button onClick={() => { router.push('/porto'); setMobileMenuOpen(false); }} className={navLinkClass('PORTOFOLIO')}>Portofolio</button>
+          <button onClick={() => { router.push('/projects'); setMobileMenuOpen(false); }} className={navLinkClass('PROJECT')}>Projects</button>
           <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
           <button onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }} className={navLinkClass('CONTACT')}>Contact</button>
           <button className="btn btn-primary w-full mt-2" onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }}>
