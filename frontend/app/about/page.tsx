@@ -164,11 +164,12 @@ const AboutPage = () => {
                 <h2 className="h2-sm mb-2">Join Us</h2>
                 <p className="text-gray-600 dark:text-gray-300">Help us build the future. We're looking for passionate individuals.</p>
             </div>
-            <motion.button 
+            <motion.a 
+              href="/careers"
               className="btn btn-primary whitespace-nowrap"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            >View Open Positions</motion.button>
+            >View Open Positions</motion.a>
          </motion.div>
       </section>
       </div>

@@ -18,7 +18,7 @@ const ServicesPage = () => {
       <Navbar />
       <div className="flex flex-col">
       {/* Hero */}
-      <section className="section section-muted" data-animate="reveal">
+      <section id="hero" className="section section-muted" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="h1">
             Expert AI Services Tailored to You
@@ -30,7 +30,7 @@ const ServicesPage = () => {
       </section>
 
       {/* Main Grid */}
-      <section className="section" data-animate="reveal">
+      <section id="services" className="section" data-animate="reveal">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -94,7 +94,7 @@ const ServicesPage = () => {
       </section>
 
       {/* Process/How we work */}
-      <section className="section section-muted" data-animate="reveal">
+      <section id="process" className="section section-muted" data-animate="reveal">
          <div className="container mx-auto">
             <div className="text-center mb-16">
                 <h2 className="h2">Our Process</h2>
@@ -118,7 +118,7 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="section" data-animate="reveal">
+      <section id="cta" className="section" data-animate="reveal">
         <div className="container mx-auto max-w-4xl text-center">
             <h2 className="h2">Start Your Transformation</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">Ready to harness the power of AI? Let's talk about your project.</p>

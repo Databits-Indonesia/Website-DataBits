@@ -2,12 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { motion } from "motion/react";
+import Link from "next/link";
+// import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 // Page Builder
-type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PORTOFOLIO';
+type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PROJECT' | 'CAREERS';
 
 // Router
 const pageRoutes: Record<Page, string> = {
@@ -18,7 +28,8 @@ const pageRoutes: Record<Page, string> = {
   BLOG: '/blog',
   CONTACT: '/contact',
   RESEARCH: '/research',
-  PORTOFOLIO: '/porto'
+  PROJECT: '/projects',
+  CAREERS: '/careers'
 };
 
 const getCurrentPageFromPath = (pathname: string): Page => {
@@ -49,95 +60,116 @@ const Navbar = () => {
         <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
       </div>
 
-      <nav className="hidden items-center gap-7 md:flex">
-        {/* HOME */}
-        <motion.button onClick={() => router.push('/')} className={`${navLinkClass('HOME')} relative`}>
-          Home
-          {activePage === 'HOME' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
-        {/* ABOUT US */}
-        <motion.button onClick={() => router.push('/about')} className={`${navLinkClass('ABOUT')} relative`}>
-          About
-          {activePage === 'ABOUT' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
-        {/* SERVICES */}
-        <motion.button onClick={() => router.push('/services')} className={`${navLinkClass('SERVICES')} relative`}>
-            Services
-            {activePage === 'SERVICES' && (
-              <motion.div
-                layoutId="nav-underline"
-                className="nav-underline"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-              />
-            )}
-        </motion.button>
-        {/* PRODUCTS */}
-        <motion.button onClick={() => router.push('/products')} className={`${navLinkClass('PRODUCTS')} relative`}>
-            Products
-            {activePage === 'PRODUCTS' && (
-              <motion.div
-                layoutId="nav-underline"
-                className="nav-underline"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-              />
-            )}
-        </motion.button>
-        {/* RESEARCH */}
-        <motion.button onClick={() => router.push('/research')} className={`${navLinkClass('RESEARCH')} relative`}>
-          Research
-          {activePage === 'RESEARCH' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
-        {/* BLOG */}
-        <motion.button onClick={() => router.push('/blog')} className={`${navLinkClass('BLOG')} relative`}>
-          Blog
-          {activePage === 'BLOG' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
-        {/* PORTOFOLIO */}
-        <motion.button onClick={() => router.push('/porto')} className={`${navLinkClass('PORTOFOLIO')} relative`}>
-          Portofolio
-          {activePage === 'PORTOFOLIO' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
-        {/* CONTACT */}
-        <motion.button onClick={() => router.push('/contact')} className={`${navLinkClass('CONTACT')} relative`}>
-          Contact
-          {activePage === 'CONTACT' && (
-            <motion.div
-              layoutId="nav-underline"
-              className="nav-underline"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </motion.button>
+      <nav className="hidden items-center md:flex">
+        <NavigationMenu>
+          <NavigationMenuList>
+            {/* HOME DROPDOWN */}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="nav-link">Home</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="nav-menu-grid-md">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <Link href="/" className="nav-menu-featured">
+                        <div className="nav-menu-featured-title">Home</div>
+                        <p className="nav-menu-featured-desc">
+                          Welcome to DataBits - Your partner in AI innovation
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <ListItem href="/about" title="About">
+                    Learn about our mission and values
+                  </ListItem>
+                  <ListItem href="/careers" title="Careers">
+                    Join our team and build the future
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            {/* SERVICES DROPDOWN */}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="nav-link">Services</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="nav-menu-multi-column">
+                  <div className="nav-menu-column">
+                    <h3 className="nav-menu-category-label">Services</h3>
+                    <ul className="nav-menu-category-list">
+                      <ListItem href="/services" title="Overview">
+                        AI solutions for your business
+                      </ListItem>
+                      <ListItem href="/services#services" title="Services">
+                        Explore our range of AI services
+                      </ListItem>
+                      <ListItem href="/services#process" title="Process">
+                        Our approach to delivering AI
+                      </ListItem>
+                    </ul>
+                  </div>
+                  <div className="nav-menu-column">
+                    <h3 className="nav-menu-category-label">Products</h3>
+                    <ul className="nav-menu-category-list">
+                      <ListItem href="/products" title="BitsChat">
+                        AI-powered chat assistant
+                      </ListItem>
+                      <ListItem href="/products#convert" title="DataBits Convert">
+                        Intelligent data conversion tools
+                      </ListItem>
+                      <ListItem href="/products#shop" title="Databits Shop">
+                        Marketplace of AI solutions
+                      </ListItem>
+                    </ul>
+                  </div>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            {/* PROJECT DROPDOWN */}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="nav-link">Project</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="nav-menu-multi-column">
+                  <div className="nav-menu-column">
+                    <h3 className="nav-menu-category-label">Projects</h3>
+                    <ul className="nav-menu-category-list">
+                      <ListItem href="/projects" title="Overview">
+                        Explore our project portfolio
+                      </ListItem>
+                      <ListItem href="/projects#case-studies" title="Case Studies">
+                        Real-world success stories
+                      </ListItem>
+                      <ListItem href="/projects#portfolio" title="Portfolio">
+                        Featured work and solutions
+                      </ListItem>
+                    </ul>
+                  </div>
+                  <div className="nav-menu-column">
+                    <h3 className="nav-menu-category-label">Research</h3>
+                    <ul className="nav-menu-category-list">
+                      <ListItem href="/research" title="Overview">
+                        Innovation and exploration
+                      </ListItem>
+                      <ListItem href="/research#publications" title="Publications">
+                        Latest research papers
+                      </ListItem>
+                      <ListItem href="/research#open-source" title="Open Source">
+                        Community contributions
+                      </ListItem>
+                    </ul>
+                  </div>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            {/* BLOG - Single Link */}
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                <Link href="/blog" className="nav-link">Blog</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </nav>
 
       {/* Button Dark Mode */}
@@ -167,20 +199,43 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="mobile-menu-nav">
           <button onClick={() => { router.push('/'); setMobileMenuOpen(false); }} className={navLinkClass('HOME')}>Home</button>
+          <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
+          <button onClick={() => { router.push('/careers'); setMobileMenuOpen(false); }} className={navLinkClass('CAREERS')}>Careers</button>
           <button onClick={() => { router.push('/services'); setMobileMenuOpen(false); }} className={navLinkClass('SERVICES')}>Services</button>
           <button onClick={() => { router.push('/products'); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>Products</button>
-          <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
-          <button onClick={() => { router.push('/research'); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>Research </button>
-          <button onClick={() => { router.push('/porto'); setMobileMenuOpen(false); }} className={navLinkClass('PORTOFOLIO')}>Portofolio</button>
+          <button onClick={() => { router.push('/projects'); setMobileMenuOpen(false); }} className={navLinkClass('PROJECT')}>Projects</button>
+          <button onClick={() => { router.push('/research'); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>Research</button>
           <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
-          <button onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }} className={navLinkClass('CONTACT')}>Contact</button>
           <button className="btn btn-primary w-full mt-2" onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }}>
-            Request a Demo
+            Contact Us
           </button>
         </div>
       )}
     </header>
   );
 };
+
+function ListItem({
+  title,
+  children,
+  href,
+}: {
+  title: string;
+  children: React.ReactNode;
+  href: string;
+}) {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link href={href} className="nav-menu-item">
+          <div className="nav-menu-item-title">{title}</div>
+          <p className="nav-menu-item-desc">
+            {children}
+          </p>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+}
 
 export default Navbar;

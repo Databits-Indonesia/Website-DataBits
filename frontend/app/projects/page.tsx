@@ -73,8 +73,8 @@ const BlogPage = () => {
       <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10" data-animate="reveal">
       <div className="text-center">
-        <h1 className="h1">Databits Portfolio</h1>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">This is a portfolio of what we have worked on.</p>
+        <h1 className="h1">Databits Projects</h1>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">This is a projects portfolio of what we have worked on.</p>
       </div>
 
       {/* Search & Filter */}
@@ -83,7 +83,7 @@ const BlogPage = () => {
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">search</span>
             <input 
               type="text" 
-              placeholder="Search portofolio" 
+              placeholder="Search projects..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-box" 
