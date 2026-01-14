@@ -17,6 +17,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useI18n } from "@/components/i18n-provider";
 import { getCurrentLocale, localizePath, switchLocalePath } from "@/lib/i18n";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Page Builder
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PROJECT' | 'CAREERS';
@@ -187,22 +193,25 @@ const Navbar = () => {
           <Sun className="theme-toggle-icon theme-toggle-sun" />
           <Moon className="theme-toggle-icon theme-toggle-moon" />
         </button>
-
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger className="btn btn-secondary px-3 py-1 text-sm">
+            {locale.toUpperCase()}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem onClick={() => router.push(switchLocalePath(pathname, 'en'))}>
+              English
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push(switchLocalePath(pathname, 'id'))}>
+              Indonesian
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <button className="request-demo-button" onClick={() => router.push(localizePath(locale, '/contact'))}>
           {t('header.contactUs')}
         </button>
-        <div className="flex items-center gap-2">
-          <button
-            className="btn btn-secondary px-3 py-1 text-sm"
-            onClick={() => router.push(switchLocalePath(pathname, 'en'))}
-            aria-label="Switch to English"
-          >EN</button>
-          <button
-            className="btn btn-secondary px-3 py-1 text-sm"
-            onClick={() => router.push(switchLocalePath(pathname, 'id'))}
-            aria-label="Switch to Indonesian"
-          >ID</button>
-        </div>
+
+
         <button
           className="menu-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

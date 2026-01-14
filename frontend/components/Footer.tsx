@@ -1,3 +1,5 @@
+'use client'
+
 import { usePathname } from 'next/navigation'
 import { useI18n } from '@/components/i18n-provider'
 import { getCurrentLocale, localizePath } from '@/lib/i18n'

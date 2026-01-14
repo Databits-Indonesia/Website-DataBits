@@ -21,13 +21,14 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { locale: Locale }
+  params: Promise<{ locale: Locale }>
 }) {
-  const dict = await getDictionary(params.locale)
+  const { locale } = await params
+  const dict = await getDictionary(locale)
   return (
-    <html lang={params.locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className="bg-background-light dark:bg-background-dark text-gray-800 dark:text-white antialiased font-display">
-        <I18nProvider locale={params.locale} messages={dict}>
+        <I18nProvider locale={locale} messages={dict}>
           <ThemeProvider attribute="class" enableSystem>
             {children}
           </ThemeProvider>
