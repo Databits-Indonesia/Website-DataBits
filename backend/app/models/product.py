@@ -7,7 +7,7 @@ class Product(Base):
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False)
     desc = Column(Text, nullable=False)
     link = Column(String(255), nullable=False)
     created_at = Column(
@@ -17,6 +17,6 @@ class Product(Base):
     )
 
     def __repr__(self):
-        return f"<Product {self.title}>"
+        return f"<Product {self.name}>"
 
     

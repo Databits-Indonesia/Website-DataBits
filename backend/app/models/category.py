@@ -4,7 +4,7 @@ from app.core.database import Base
 import enum
 
 class CategoryType(enum.Enum):
-    PORTFOLIO = "portfolio"
+    PROJECT = "project"
     BLOG = "blog"
     RESEARCH = "research"
     CAREERS = "career"

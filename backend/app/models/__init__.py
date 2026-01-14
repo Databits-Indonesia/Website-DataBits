@@ -1,4 +1,5 @@
 from .about import About
+from .activity_log import ActivityLog
 from .blog_view import BlogView
 from .blog import Blog
 from .category import Category
