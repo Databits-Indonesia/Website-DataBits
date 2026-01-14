@@ -12,6 +12,33 @@ const ResearchPage = () => {
 //   const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
   
+  const publications = [
+    {
+      title: 'Deep Learning Approaches for Mangrove Species Classification',
+      authors: 'Databits Research Team',
+      venue: 'International Conference on AI and Environment',
+      year: '2024',
+      link: '#',
+      abstract: 'Novel CNN-based approach for automated mangrove species identification using leaf imagery.'
+    },
+    {
+      title: 'Efficient Video Understanding with Context-Aware ViViT Architecture',
+      authors: 'Databits Research Team',
+      venue: 'IEEE Conference on Computer Vision',
+      year: '2024',
+      link: '#',
+      abstract: 'A new video feature extraction architecture reducing computational complexity by 3.5x.'
+    },
+    {
+      title: 'Transformer-Based Audio Signal Processing for Environmental Monitoring',
+      authors: 'Databits Research Team',
+      venue: 'Journal of Machine Learning Research',
+      year: '2023',
+      link: '#',
+      abstract: 'Self-attention mechanisms for capturing temporal and spectral features in audio signals.'
+    }
+  ];
+
   const openSourceProjects = [
     {
       title: 'Mangrove-Research',
@@ -75,8 +102,73 @@ const ResearchPage = () => {
         </motion.div>
       </section>
 
+      {/* Publications Section */}
+      <section id="publications" className="section">
+        <div className="container mx-auto">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div 
+              className="flex items-center justify-center gap-2 mb-4"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <div className="code-icon">
+                <span className="material-symbols-outlined text-2xl">description</span>
+              </div>
+            </motion.div>
+            <h2 className="h2-sm">Publications</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Our research contributions published in leading conferences and journals.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
+            {publications.map((pub, i) => (
+              <motion.div 
+                key={i} 
+                className="card card-hover group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-3">
+                  <h3 className="h3-sm group-hover:text-primary transition-colors flex-1">{pub.title}</h3>
+                  <span className="text-sm font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 self-start">
+                    {pub.year}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  {pub.authors}
+                </p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  {pub.venue}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  {pub.abstract}
+                </p>
+                <a 
+                  href={pub.link} 
+                  className="inline-flex items-center gap-1 text-sm font-bold icon-color hover:text-primary transition-colors"
+                >
+                  Read Paper <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Open Source Section */}
-      <section className="section section-muted border-t border-gray-200 dark:border-gray-800">
+      <section id="open-source" className="section section-muted border-t border-gray-200 dark:border-gray-800">
         <div className="container mx-auto">
             <motion.div 
               className="text-center mb-12"

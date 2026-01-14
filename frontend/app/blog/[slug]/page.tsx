@@ -1,6 +1,7 @@
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
+import Link from 'next/link';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
@@ -50,6 +51,12 @@ export default async function Page({
 
         {/* Article Content */}
         <article className="container mx-auto px-4 md:px-10 py-12 md:py-20 max-w-4xl">
+          {/* Back to Blog Button */}
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8">
+            <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+            Back to Blog
+          </Link>
+
           {/* Article Header with Metadata */}
           <header className="mb-12">
             <h1 className="h1 mb-4">{frontMatter.title}</h1>
