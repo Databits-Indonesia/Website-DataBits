@@ -3,8 +3,8 @@ from sqlalchemy.orm import relationship
 from app.core.database import Base
 from datetime import datetime, timezone
 
-class Portfolio(Base):
-    __tablename__ = "portfolios"
+class Project(Base):
+    __tablename__ = "projects"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
@@ -21,9 +21,9 @@ class Portfolio(Base):
         ForeignKey("categories.id", ondelete="CASCADE"),
         nullable=False
     )
-    category = relationship("Category", back_populates="portfolios")
+    category = relationship("Category", back_populates="projects")
 
     def __repr__(self):
-        return f"<Portfolio {self.title}>"
+        return f"<Project {self.title}>"
 
     

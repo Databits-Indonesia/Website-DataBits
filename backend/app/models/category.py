@@ -7,6 +7,7 @@ class CategoryType(enum.Enum):
     PORTFOLIO = "portfolio"
     BLOG = "blog"
     RESEARCH = "research"
+    CAREERS = "career"
 
 class Category(Base):
     __tablename__ = "categories"
@@ -26,8 +27,8 @@ class Category(Base):
         passive_deletes=True
     )
 
-    portfolios = relationship(
-        "Portfolio",
+    projects = relationship(
+        "Project",
         back_populates="category",
         cascade="all, delete",
         passive_deletes=True
@@ -35,6 +36,13 @@ class Category(Base):
 
     researches = relationship(
         "Research",
+        back_populates="category",
+        cascade="all, delete",
+        passive_deletes=True
+    )
+
+    careers = relationship(
+        "Career",
         back_populates="category",
         cascade="all, delete",
         passive_deletes=True

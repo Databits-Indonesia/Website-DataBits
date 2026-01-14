@@ -5,8 +5,9 @@ from .category import Category
 from .contact import Contact
 from .list_service import ListService
 from .message import Message
-from .portofolio import Portfolio
+from .project import Project
 from .product import Product
+from .publication import Publication
 from .research import Research
 from .service import Service
 from .user import User
