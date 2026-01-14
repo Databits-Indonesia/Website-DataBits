@@ -3,38 +3,41 @@
 import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 
 const CareersPage = () => {
+  const { t } = useI18n();
+  
   const benefits = [
     {
       icon: 'workspace_premium',
-      title: 'Competitive Salary',
-      desc: 'Industry-leading compensation packages with performance bonuses and equity options.'
+      title: t('careers.benefit1Title'),
+      desc: t('careers.benefit1Desc')
     },
     {
       icon: 'schedule',
-      title: 'Flexible Hours',
-      desc: 'Work-life balance with flexible working hours and remote work options.'
+      title: t('careers.benefit2Title'),
+      desc: t('careers.benefit2Desc')
     },
     {
       icon: 'health_and_safety',
-      title: 'Health Coverage',
-      desc: 'Comprehensive health, dental, and vision insurance for you and your family.'
+      title: t('careers.benefit3Title'),
+      desc: t('careers.benefit3Desc')
     },
     {
       icon: 'school',
-      title: 'Learning & Development',
-      desc: 'Continuous learning opportunities with courses, conferences, and certifications.'
+      title: t('careers.benefit4Title'),
+      desc: t('careers.benefit4Desc')
     },
     {
       icon: 'diversity_3',
-      title: 'Diverse Team',
-      desc: 'Work with talented professionals from diverse backgrounds and cultures.'
+      title: t('careers.benefit5Title'),
+      desc: t('careers.benefit5Desc')
     },
     {
       icon: 'rocket_launch',
-      title: 'Innovation Culture',
-      desc: 'Freedom to experiment, innovate, and contribute to cutting-edge AI projects.'
+      title: t('careers.benefit6Title'),
+      desc: t('careers.benefit6Desc')
     }
   ];
 
@@ -96,10 +99,10 @@ const CareersPage = () => {
             transition={{ duration: 0.5 }}
           >
             <h1 className="h1">
-              Build the Future with Us
+              {t('careers.heroTitle')}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Join our team of innovators and help shape the future of AI technology.
+              {t('careers.heroDescription')}
             </p>
           </motion.div>
         </section>
@@ -125,9 +128,9 @@ const CareersPage = () => {
                   <span className="material-symbols-outlined text-2xl">favorite</span>
                 </div>
               </motion.div>
-              <h2 className="h2-sm">Why Join Databits?</h2>
+              <h2 className="h2-sm">{t('careers.whyJoinTitle')}</h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                We offer more than just a job. Join a team that values innovation, growth, and work-life balance.
+                {t('careers.whyJoinDescription')}
               </p>
             </motion.div>
 
@@ -173,9 +176,9 @@ const CareersPage = () => {
                   <span className="material-symbols-outlined text-2xl">work</span>
                 </div>
               </motion.div>
-              <h2 className="h2-sm">Open Positions</h2>
+              <h2 className="h2-sm">{t('careers.openPositionsTitle')}</h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Explore our current job openings and find your perfect role.
+                {t('careers.openPositionsDescription')}
               </p>
             </motion.div>
 
@@ -194,14 +197,14 @@ const CareersPage = () => {
                     <div className="flex-1">
                       <h3 className="h3-sm group-hover:text-primary transition-colors mb-2">{position.title}</h3>
                       <div className="flex flex-wrap gap-2 mb-3">
-                        <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
                           {position.department}
                         </span>
                         <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
                           <span className="material-symbols-outlined text-[14px]">location_on</span>
                           {position.location}
                         </span>
-                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
+                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
                           {position.type}
                         </span>
                       </div>
@@ -214,7 +217,7 @@ const CareersPage = () => {
                     href="#" 
                     className="inline-flex items-center gap-1 text-sm font-bold icon-color hover:text-primary transition-colors"
                   >
-                    Apply Now <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    {t('careers.applyNow')} <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                   </a>
                 </motion.div>
               ))}
@@ -228,7 +231,7 @@ const CareersPage = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Don&apos;t see a position that fits? We&apos;re always looking for talented individuals.
+                {t('careers.noPositionText')}
               </p>
               <motion.a 
                 href="#" 
@@ -236,7 +239,7 @@ const CareersPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Send Us Your Resume <span className="material-symbols-outlined">mail</span>
+                {t('careers.sendResumeButton')} <span className="material-symbols-outlined">mail</span>
               </motion.a>
             </motion.div>
           </div>
@@ -252,9 +255,9 @@ const CareersPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="h2-sm mb-4">Ready to Make an Impact?</h2>
+              <h2 className="h2-sm mb-4">{t('careers.ctaTitle')}</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-                Join us in building innovative AI solutions that make a difference. Your next career move starts here.
+                {t('careers.ctaDescription')}
               </p>
               <motion.a 
                 href="#" 
@@ -262,7 +265,7 @@ const CareersPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                View All Positions <span className="material-symbols-outlined">arrow_forward</span>
+                {t('careers.viewAllPositions')} <span className="material-symbols-outlined">arrow_forward</span>
               </motion.a>
             </motion.div>
           </div>

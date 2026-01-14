@@ -3,14 +3,14 @@
 import Navbar from '@/components/Header';
 import { motion } from 'motion/react';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 // import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
 // type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'RESEARCH' | 'CONTACT' | 'ABOUT';
 
 const AboutPage = () => {
-  // const [currentPage] = useState<Page>('ABOUT');
-  // const router = useRouter();
+  const { t } = useI18n();
   return (
     <>
       <Navbar />
@@ -22,9 +22,9 @@ const AboutPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="h1">Pioneering the Future of AI</h1>
+        <h1 className="h1">{t('about.heroTitle')}</h1>
         <h2 className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          DataBits is dedicated to building intelligent systems that solve complex real-world problems and drive human progress forward.
+          {t('about.heroDescription')}
         </h2>
       </motion.div>
 
@@ -37,14 +37,14 @@ const AboutPage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-            <h2 className="h2">Our Philosophy</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Our work is guided by a core set of principles that define our identity and drive every decision we make.</p>
+            <h2 className="h2">{t('about.philosophyTitle')}</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{t('about.philosophyDescription')}</p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-                { icon: 'rocket_launch', title: 'Our Mission', text: 'To democratize access to powerful AI tools, enabling businesses of all sizes to innovate and thrive.' },
-                { icon: 'visibility', title: 'Our Vision', text: 'To create a future where intelligent technology seamlessly integrates with human life to solve the world\'s biggest challenges.' },
-                { icon: 'group', title: 'Our Values', text: 'Innovation, Integrity, and Collaboration are the pillars that support our work and our culture.' }
+                { icon: 'rocket_launch', title: t('about.mission'), text: t('about.missionDesc') },
+                { icon: 'visibility', title: t('about.vision'), text: t('about.visionDesc') },
+                { icon: 'group', title: t('about.values'), text: t('about.valuesDesc') }
             ].map((item, i) => (
                 <motion.div 
                   key={i} 
@@ -73,13 +73,13 @@ const AboutPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-        >Our Story</motion.h2>
+        >{t('about.storyTitle')}</motion.h2>
         <div className="max-w-xl mx-auto">
             {[
-                { icon: 'flag', title: 'Foundation', date: 'March 2024' },
-                { icon: 'auto_awesome', title: 'First Product Launch', date: 'January 2025' },
-                { icon: 'monetization_on', title: 'Series A Funding', date: 'September 2025' },
-                { icon: 'public', title: 'Global Expansion', date: 'June 2026' }
+                { icon: 'flag', title: t('about.foundationTitle'), date: t('about.foundationDate') },
+                { icon: 'auto_awesome', title: t('about.launchTitle'), date: t('about.launchDate') },
+                { icon: 'monetization_on', title: t('about.fundingTitle'), date: t('about.fundingDate') },
+                { icon: 'public', title: t('about.expansionTitle'), date: t('about.expansionDate') }
             ].map((event, i, arr) => (
                 <motion.div 
                   key={i} 
@@ -161,15 +161,15 @@ const AboutPage = () => {
            whileHover={{ y: -4, transition: { duration: 0.2 } }}
          >
             <div>
-                <h2 className="h2-sm mb-2">Join Us</h2>
-                <p className="text-gray-600 dark:text-gray-300">Help us build the future. We're looking for passionate individuals.</p>
+                <h2 className="h2-sm mb-2">{t('about.joinTitle')}</h2>
+                <p className="text-gray-600 dark:text-gray-300">{t('about.joinDescription')}</p>
             </div>
             <motion.a 
               href="/careers"
               className="btn btn-primary whitespace-nowrap"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            >View Open Positions</motion.a>
+            >{t('about.joinButton')}</motion.a>
          </motion.div>
       </section>
       </div>

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getCurrentLocale, localizePath } from '@/lib/i18n';
+import { useI18n } from '@/components/i18n-provider';
 
 // Navigation State
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'PORTOFOLIO' | 'RESEARCH';
@@ -222,11 +223,11 @@ const SEO = ({ meta }: { meta: PageMeta }) => {
 };
 
 
-const TypingHeadline = () => {
+const TypingHeadline = ({ t }: { t: (key: string) => string }) => {
   const lines = [
-    { text: 'Unlock Insights.', className: '' },
+    { text: t('home.headline1'), className: '' },
     {
-      text: 'Automate Intelligence.',
+      text: t('home.headline2'),
       className: 'typing-line-2',
     },
   ];
@@ -280,22 +281,23 @@ const HomePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = getCurrentLocale(pathname);
+  const { t } = useI18n();
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="section" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl flex flex-col items-center gap-6">
-          <TypingHeadline />
+          <TypingHeadline t={t} />
           <p className="mx-auto max-w-2xl p mb-10">
-            DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
+            {t('home.heroDescription')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button className="btn btn-primary w-full sm:w-auto shadow-lg" onClick={() => router.push(localizePath(locale, '/services'))}>
-              Get Started Free
+              {t('home.getStartedButton')}
             </button>
             <button onClick={() => router.push(localizePath(locale, '/contact'))} className="btn btn-secondary w-full sm:w-auto">
-                Contact Sales
+                {t('home.contactSalesButton')}
             </button>
           </div>
         </div>
@@ -305,14 +307,14 @@ const HomePage = () => {
       <section className="section section-muted" data-animate="reveal">
         <div className="container mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
-            <h2 className="h2">The Modern AI Platform</h2>
-            <p className="p max-w-2xl mx-auto">Everything you need to build, deploy, and scale AI applications.</p>
+            <h2 className="h2">{t('home.platformTitle')}</h2>
+            <p className="p max-w-2xl mx-auto">{t('home.platformDescription')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: 'analytics', title: 'Predictive Analytics', desc: 'Forecast trends and outcomes with high accuracy using our advanced machine learning models.' },
-              { icon: 'hub', title: 'Natural Language Processing', desc: 'Extract insights from unstructured text data, from sentiment analysis to document summarization.' },
-              { icon: 'brush', title: 'Computer Vision', desc: 'Analyze images and videos to identify objects, faces, and patterns at scale for your applications.' },
+              { icon: 'analytics', title: t('home.predictiveAnalyticsTitle'), desc: t('home.predictiveAnalyticsDesc') },
+              { icon: 'hub', title: t('home.nlpTitle'), desc: t('home.nlpDesc') },
+              { icon: 'brush', title: t('home.cvTitle'), desc: t('home.cvDesc') },
             ].map((service, idx) => (
               <div key={idx} data-animate="reveal-stagger" className="card card-hover group">
                 <div className="icon-box icon-box-hover">
@@ -330,10 +332,10 @@ const HomePage = () => {
       <section className="section" data-animate="reveal">
         <div className="container mx-auto">
             <div className="cta-box">
-                <h2 className="h2 mb-6">Ready to Innovate?</h2>
-                <p className="p mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
+                <h2 className="h2 mb-6">{t('home.ctaTitle')}</h2>
+                <p className="p mb-8 max-w-2xl mx-auto">{t('home.ctaDescription')}</p>
                 <button onClick={() => router.push(localizePath(locale, '/contact'))} className="btn btn-primary">
-                    Contact Our Experts
+                    {t('home.contactExpertsButton')}
                 </button>
             </div>
         </div>

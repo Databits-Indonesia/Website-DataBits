@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const BlogPage = () => {
+const ProjectPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -167,4 +167,4 @@ const BlogPage = () => {
   );
 };
 
-export default BlogPage;
+export default ProjectPage;
