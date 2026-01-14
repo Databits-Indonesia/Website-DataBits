@@ -37,8 +37,8 @@ __pycache__/
 backend/*.py[cod]
 
 # Env files
-backend/.env
-backend/.env.*
+# backend/.env
+# backend/.env.*
 
 # Logs
 backend/*.log

@@ -4,7 +4,7 @@ from app.core.database import Base
 import enum
 
 class CategoryType(enum.Enum):
-    PRODUCT = "product"
+    PORTFOLIO = "portfolio"
     BLOG = "blog"
     RESEARCH = "research"
 
@@ -26,12 +26,19 @@ class Category(Base):
         passive_deletes=True
     )
 
-    # products = relationship(
-    #     "Product",
-    #     back_populates="category",
-    #     cascade="all, delete",
-    #     passive_deletes=True
-    # )
+    portfolios = relationship(
+        "Portfolio",
+        back_populates="category",
+        cascade="all, delete",
+        passive_deletes=True
+    )
+
+    researches = relationship(
+        "Research",
+        back_populates="category",
+        cascade="all, delete",
+        passive_deletes=True
+    )
 
     def __repr__(self):
         return f"<Category {self.name} ({self.type})>"
