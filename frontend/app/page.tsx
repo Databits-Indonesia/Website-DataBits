@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { getCurrentLocale, localizePath } from '@/lib/i18n';
 
 // Navigation State
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'PORTOFOLIO' | 'RESEARCH';
@@ -277,6 +278,8 @@ const TypingHeadline = () => {
 // --- Pages ---
 const HomePage = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = getCurrentLocale(pathname);
 
   return (
     <div className="flex flex-col">
@@ -288,10 +291,10 @@ const HomePage = () => {
             DataBits provides state-of-the-art AI solutions to transform your data into actionable intelligence, driving growth and efficiency for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="btn btn-primary w-full sm:w-auto shadow-lg" onClick={() => router.push('/services')}>
+            <button className="btn btn-primary w-full sm:w-auto shadow-lg" onClick={() => router.push(localizePath(locale, '/services'))}>
               Get Started Free
             </button>
-            <button onClick={() => router.push('/contact')} className="btn btn-secondary w-full sm:w-auto">
+            <button onClick={() => router.push(localizePath(locale, '/contact'))} className="btn btn-secondary w-full sm:w-auto">
                 Contact Sales
             </button>
           </div>
@@ -329,7 +332,7 @@ const HomePage = () => {
             <div className="cta-box">
                 <h2 className="h2 mb-6">Ready to Innovate?</h2>
                 <p className="p mb-8 max-w-2xl mx-auto">Let's discuss how DataBits can tailor an AI solution for your specific needs.</p>
-                <button onClick={() => router.push('/contact')} className="btn btn-primary">
+                <button onClick={() => router.push(localizePath(locale, '/contact'))} className="btn btn-primary">
                     Contact Our Experts
                 </button>
             </div>

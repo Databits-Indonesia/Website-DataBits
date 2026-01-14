@@ -1,0 +1,26 @@
+{
+  "header.home": "Home",
+  "header.about": "About",
+  "header.careers": "Careers",
+  "header.services": "Services",
+  "header.products": "Products",
+  "header.project": "Project",
+  "header.projects": "Projects",
+  "header.research": "Research",
+  "header.blog": "Blog",
+  "header.contactUs": "Contact Us",
+  "header.overview": "Overview",
+  "header.servicesLabel": "Services",
+  "header.process": "Process",
+  "header.bitsChat": "BitsChat",
+  "header.convert": "DataBits Convert",
+  "header.shop": "Databits Shop",
+  "header.caseStudies": "Case Studies",
+  "header.portfolio": "Portfolio",
+  "header.publications": "Publications",
+  "header.openSource": "Open Source",
+
+  "footer.privacyPolicy": "Privacy Policy",
+  "footer.termsOfService": "Terms of Service",
+  "footer.copyright": "© {year} DataBits, Inc."
+}

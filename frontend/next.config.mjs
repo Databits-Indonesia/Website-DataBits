@@ -7,6 +7,11 @@ const nextConfig = {
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
   output: 'standalone',
+  i18n: {
+    locales: ['en', 'id'],
+    defaultLocale: 'en',
+    localeDetection: true,
+  },
 }
  
 const withMDX = createMDX({

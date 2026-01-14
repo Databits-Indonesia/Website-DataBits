@@ -1,0 +1,26 @@
+{
+  "header.home": "Beranda",
+  "header.about": "Tentang",
+  "header.careers": "Karier",
+  "header.services": "Layanan",
+  "header.products": "Produk",
+  "header.project": "Proyek",
+  "header.projects": "Proyek",
+  "header.research": "Riset",
+  "header.blog": "Blog",
+  "header.contactUs": "Hubungi Kami",
+  "header.overview": "Ringkasan",
+  "header.servicesLabel": "Layanan",
+  "header.process": "Proses",
+  "header.bitsChat": "BitsChat",
+  "header.convert": "DataBits Convert",
+  "header.shop": "Toko DataBits",
+  "header.caseStudies": "Studi Kasus",
+  "header.portfolio": "Portofolio",
+  "header.publications": "Publikasi",
+  "header.openSource": "Sumber Terbuka",
+
+  "footer.privacyPolicy": "Kebijakan Privasi",
+  "footer.termsOfService": "Syarat & Ketentuan",
+  "footer.copyright": "© {year} DataBits, Inc."
+}

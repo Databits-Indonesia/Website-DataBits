@@ -15,6 +15,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useI18n } from "@/components/i18n-provider";
+import { getCurrentLocale, localizePath, switchLocalePath } from "@/lib/i18n";
 
 // Page Builder
 type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'RESEARCH' | 'PROJECT' | 'CAREERS';
@@ -48,6 +50,8 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const activePage = getCurrentPageFromPath(pathname);
+  const { t } = useI18n();
+  const locale = getCurrentLocale(pathname);
 
   useEffect(() => setMounted(true), []);
 
@@ -56,7 +60,7 @@ const Navbar = () => {
 
   return (
     <header className="header ">
-      <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push('/')}>
+      <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push(localizePath(locale, '/'))}>
         <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
       </div>
 
@@ -65,23 +69,23 @@ const Navbar = () => {
           <NavigationMenuList>
             {/* HOME DROPDOWN */}
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="nav-link">Home</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="nav-link">{t('header.home')}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="nav-menu-grid-md">
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
-                      <Link href="/" className="nav-menu-featured">
-                        <div className="nav-menu-featured-title">Home</div>
+                      <Link href={localizePath(locale, '/')} className="nav-menu-featured">
+                        <div className="nav-menu-featured-title">{t('header.home')}</div>
                         <p className="nav-menu-featured-desc">
                           Welcome to DataBits - Your partner in AI innovation
                         </p>
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/about" title="About">
+                  <ListItem href={localizePath(locale, '/about')} title={t('header.about')}>
                     Learn about our mission and values
                   </ListItem>
-                  <ListItem href="/careers" title="Careers">
+                  <ListItem href={localizePath(locale, '/careers')} title={t('header.careers')}>
                     Join our team and build the future
                   </ListItem>
                 </ul>
@@ -90,33 +94,33 @@ const Navbar = () => {
 
             {/* SERVICES DROPDOWN */}
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="nav-link">Services</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="nav-link">{t('header.services')}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="nav-menu-multi-column">
                   <div className="nav-menu-column">
-                    <h3 className="nav-menu-category-label">Services</h3>
+                    <h3 className="nav-menu-category-label">{t('header.servicesLabel')}</h3>
                     <ul className="nav-menu-category-list">
-                      <ListItem href="/services" title="Overview">
+                      <ListItem href={localizePath(locale, '/services')} title={t('header.overview')}>
                         AI solutions for your business
                       </ListItem>
-                      <ListItem href="/services#services" title="Services">
+                      <ListItem href={localizePath(locale, '/services#services')} title={t('header.servicesLabel')}>
                         Explore our range of AI services
                       </ListItem>
-                      <ListItem href="/services#process" title="Process">
+                      <ListItem href={localizePath(locale, '/services#process')} title={t('header.process')}>
                         Our approach to delivering AI
                       </ListItem>
                     </ul>
                   </div>
                   <div className="nav-menu-column">
-                    <h3 className="nav-menu-category-label">Products</h3>
+                    <h3 className="nav-menu-category-label">{t('header.products')}</h3>
                     <ul className="nav-menu-category-list">
-                      <ListItem href="/products" title="BitsChat">
+                      <ListItem href={localizePath(locale, '/products')} title={t('header.bitsChat')}>
                         AI-powered chat assistant
                       </ListItem>
-                      <ListItem href="/products#convert" title="DataBits Convert">
+                      <ListItem href={localizePath(locale, '/products#convert')} title={t('header.convert')}>
                         Intelligent data conversion tools
                       </ListItem>
-                      <ListItem href="/products#shop" title="Databits Shop">
+                      <ListItem href={localizePath(locale, '/products#shop')} title={t('header.shop')}>
                         Marketplace of AI solutions
                       </ListItem>
                     </ul>
@@ -127,33 +131,33 @@ const Navbar = () => {
 
             {/* PROJECT DROPDOWN */}
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="nav-link">Project</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="nav-link">{t('header.project')}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="nav-menu-multi-column">
                   <div className="nav-menu-column">
-                    <h3 className="nav-menu-category-label">Projects</h3>
+                    <h3 className="nav-menu-category-label">{t('header.projects')}</h3>
                     <ul className="nav-menu-category-list">
-                      <ListItem href="/projects" title="Overview">
+                      <ListItem href={localizePath(locale, '/projects')} title={t('header.overview')}>
                         Explore our project portfolio
                       </ListItem>
-                      <ListItem href="/projects#case-studies" title="Case Studies">
+                      <ListItem href={localizePath(locale, '/projects#case-studies')} title={t('header.caseStudies')}>
                         Real-world success stories
                       </ListItem>
-                      <ListItem href="/projects#portfolio" title="Portfolio">
+                      <ListItem href={localizePath(locale, '/projects#portfolio')} title={t('header.portfolio')}>
                         Featured work and solutions
                       </ListItem>
                     </ul>
                   </div>
                   <div className="nav-menu-column">
-                    <h3 className="nav-menu-category-label">Research</h3>
+                    <h3 className="nav-menu-category-label">{t('header.research')}</h3>
                     <ul className="nav-menu-category-list">
-                      <ListItem href="/research" title="Overview">
+                      <ListItem href={localizePath(locale, '/research')} title={t('header.overview')}>
                         Innovation and exploration
                       </ListItem>
-                      <ListItem href="/research#publications" title="Publications">
+                      <ListItem href={localizePath(locale, '/research#publications')} title={t('header.publications')}>
                         Latest research papers
                       </ListItem>
-                      <ListItem href="/research#open-source" title="Open Source">
+                      <ListItem href={localizePath(locale, '/research#open-source')} title={t('header.openSource')}>
                         Community contributions
                       </ListItem>
                     </ul>
@@ -165,7 +169,7 @@ const Navbar = () => {
             {/* BLOG - Single Link */}
             <NavigationMenuItem>
               <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link href="/blog" className="nav-link">Blog</Link>
+                <Link href={localizePath(locale, '/blog')} className="nav-link">{t('header.blog')}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -184,9 +188,21 @@ const Navbar = () => {
           <Moon className="theme-toggle-icon theme-toggle-moon" />
         </button>
 
-        <button className="request-demo-button" onClick={() => router.push('/contact')}>
-          Contact Us
+        <button className="request-demo-button" onClick={() => router.push(localizePath(locale, '/contact'))}>
+          {t('header.contactUs')}
         </button>
+        <div className="flex items-center gap-2">
+          <button
+            className="btn btn-secondary px-3 py-1 text-sm"
+            onClick={() => router.push(switchLocalePath(pathname, 'en'))}
+            aria-label="Switch to English"
+          >EN</button>
+          <button
+            className="btn btn-secondary px-3 py-1 text-sm"
+            onClick={() => router.push(switchLocalePath(pathname, 'id'))}
+            aria-label="Switch to Indonesian"
+          >ID</button>
+        </div>
         <button
           className="menu-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -198,16 +214,16 @@ const Navbar = () => {
       {/* Mobile View Menu */}
       {mobileMenuOpen && (
         <div className="mobile-menu-nav">
-          <button onClick={() => { router.push('/'); setMobileMenuOpen(false); }} className={navLinkClass('HOME')}>Home</button>
-          <button onClick={() => { router.push('/about'); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>About</button>
-          <button onClick={() => { router.push('/careers'); setMobileMenuOpen(false); }} className={navLinkClass('CAREERS')}>Careers</button>
-          <button onClick={() => { router.push('/services'); setMobileMenuOpen(false); }} className={navLinkClass('SERVICES')}>Services</button>
-          <button onClick={() => { router.push('/products'); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>Products</button>
-          <button onClick={() => { router.push('/projects'); setMobileMenuOpen(false); }} className={navLinkClass('PROJECT')}>Projects</button>
-          <button onClick={() => { router.push('/research'); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>Research</button>
-          <button onClick={() => { router.push('/blog'); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>Blog</button>
-          <button className="btn btn-primary w-full mt-2" onClick={() => { router.push('/contact'); setMobileMenuOpen(false); }}>
-            Contact Us
+          <button onClick={() => { router.push(localizePath(locale, '/')); setMobileMenuOpen(false); }} className={navLinkClass('HOME')}>{t('header.home')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/about')); setMobileMenuOpen(false); }} className={navLinkClass('ABOUT')}>{t('header.about')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/careers')); setMobileMenuOpen(false); }} className={navLinkClass('CAREERS')}>{t('header.careers')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/services')); setMobileMenuOpen(false); }} className={navLinkClass('SERVICES')}>{t('header.services')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/products')); setMobileMenuOpen(false); }} className={navLinkClass('PRODUCTS')}>{t('header.products')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/projects')); setMobileMenuOpen(false); }} className={navLinkClass('PROJECT')}>{t('header.projects')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/research')); setMobileMenuOpen(false); }} className={navLinkClass('RESEARCH')}>{t('header.research')}</button>
+          <button onClick={() => { router.push(localizePath(locale, '/blog')); setMobileMenuOpen(false); }} className={navLinkClass('BLOG')}>{t('header.blog')}</button>
+          <button className="btn btn-primary w-full mt-2" onClick={() => { router.push(localizePath(locale, '/contact')); setMobileMenuOpen(false); }}>
+            {t('header.contactUs')}
           </button>
         </div>
       )}
