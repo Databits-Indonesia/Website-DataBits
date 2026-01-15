@@ -1,16 +1,16 @@
-
-
 'use client';
 
 // import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 
 // type Page = 'HOME' | 'ABOUT' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT';
 
 const ServicesPage = () => {
   const router = useRouter();
+  const { t } = useI18n();
   // const [currentPage] = useState<Page>('SERVICES');
   
   return (
@@ -21,10 +21,10 @@ const ServicesPage = () => {
       <section id="hero" className="section section-muted" data-animate="reveal">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="h1">
-            Expert AI Services Tailored to You
+            {t('services.heroTitle')}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            We combine cutting-edge technology with deep industry expertise to deliver solutions that drive real business value.
+            {t('services.heroDescription')}
           </p>
         </div>
       </section>
@@ -35,40 +35,40 @@ const ServicesPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: "Data Analytics & Insights",
-                desc: "Transform raw data into strategic assets with our advanced analytics pipelines.",
+                title: t('services.dataAnalyticsTitle'),
+                desc: t('services.dataAnalyticsDesc'),
                 icon: "bar_chart",
-                list: ["Data Warehousing", "Real-time Dashboards", "Business Intelligence"]
+                list: [t('services.dataAnalyticsItem1'), t('services.dataAnalyticsItem2'), t('services.dataAnalyticsItem3')]
               },
               {
-                title: "Machine Learning Solutions",
-                desc: "Predict trends and automate decisions with custom ML models built for your data.",
+                title: t('services.mlTitle'),
+                desc: t('services.mlDesc'),
                 icon: "memory",
-                list: ["Predictive Maintenance", "Demand Forecasting", "Anomaly Detection"]
+                list: [t('services.mlItem1'), t('services.mlItem2'), t('services.mlItem3')]
               },
               {
-                title: "Natural Language Processing",
-                desc: "Unlock the value in text data with state-of-the-art NLP implementations.",
+                title: t('services.nlpTitle'),
+                desc: t('services.nlpDesc'),
                 icon: "chat",
-                list: ["Sentiment Analysis", "Chatbots, RAG, & AI Agents", "Document Processing"]
+                list: [t('services.nlpItem1'), t('services.nlpItem2'), t('services.nlpItem3')]
               },
               {
-                title: "Computer Vision",
-                desc: "Automate visual inspection and recognition tasks with high-accuracy models.",
+                title: t('services.cvTitle'),
+                desc: t('services.cvDesc'),
                 icon: "visibility",
-                list: ["Quality Control", "Facial Recognition", "Object Tracking"]
+                list: [t('services.cvItem1'), t('services.cvItem2'), t('services.cvItem3')]
               },
               {
-                title: "AI Strategy Consulting",
-                desc: "Navigate the AI landscape with confidence through our expert advisory services.",
+                title: t('services.strategyTitle'),
+                desc: t('services.strategyDesc'),
                 icon: "lightbulb",
-                list: ["Feasibility Assessments", "Tech Stack Selection", "Roadmap Development"]
+                list: [t('services.strategyItem1'), t('services.strategyItem2'), t('services.strategyItem3')]
               },
               {
-                title: "Custom AI Development",
-                desc: "Solve unique challenges with bespoke AI solutions designed from the ground up.",
+                title: t('services.customTitle'),
+                desc: t('services.customDesc'),
                 icon: "code",
-                list: ["End-to-End Development", "Model Fine-tuning", "System Integration"]
+                list: [t('services.customItem1'), t('services.customItem2'), t('services.customItem3')]
               }
             ].map((s, i) => (
                 <div key={i} data-animate="reveal-stagger" className="card card-hover flex flex-col">
@@ -97,15 +97,15 @@ const ServicesPage = () => {
       <section id="process" className="section section-muted" data-animate="reveal">
          <div className="container mx-auto">
             <div className="text-center mb-16">
-                <h2 className="h2">Our Process</h2>
-                <p className="text-gray-600 dark:text-gray-400">From concept to deployment, we're with you every step of the way.</p>
+                <h2 className="h2">{t('services.processTitle')}</h2>
+                <p className="text-gray-600 dark:text-gray-400">{t('services.processDescription')}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { num: "01", title: "Discovery", text: "We analyze your business needs and data readiness." },
-                    { num: "02", title: "Strategy", text: "We define the technical approach and project roadmap." },
-                    { num: "03", title: "Development", text: "Our team builds and trains your custom AI solution." },
-                    { num: "04", title: "Deployment", text: "We integrate, test, and launch the solution into production." }
+                    { num: "01", title: t('services.process1Title'), text: t('services.process1Desc') },
+                    { num: "02", title: t('services.process2Title'), text: t('services.process2Desc') },
+                    { num: "03", title: t('services.process3Title'), text: t('services.process3Desc') },
+                    { num: "04", title: t('services.process4Title'), text: t('services.process4Desc') }
                 ].map((step, i) => (
                     <div key={i} className="card card-hover relative">
                         <div className="text-4xl font-black text-gray-100 dark:text-gray-800 absolute top-4 right-4">{step.num}</div>
@@ -120,10 +120,10 @@ const ServicesPage = () => {
       {/* CTA */}
       <section id="cta" className="section" data-animate="reveal">
         <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="h2">Start Your Transformation</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">Ready to harness the power of AI? Let's talk about your project.</p>
+            <h2 className="h2">{t('services.ctaTitle')}</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">{t('services.ctaDescription')}</p>
             <button onClick={() => router.push('/contact')} className="btn btn-primary">
-                Contact Sales
+                {t('services.ctaButton')}
             </button>
         </div>
       </section>

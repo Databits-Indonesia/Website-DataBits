@@ -6,65 +6,67 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 
 const BlogPage = () => {
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const allPosts = [
     {
       slug: 'generative-ai-business',
-      title: 'The Future of Generative AI in Business',
-      category: 'Product Updates',
-      readTime: '5 min read',
-      date: 'October 26, 2023',
+      title: t('blog.post1Title'),
+      category: t('blog.post1Category'),
+      readTime: t('blog.post1ReadTime'),
+      date: t('blog.post1Date'),
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC6kpsvjziu-XR9FIWnr7c43CzORHO95BI-LaRSQ4_23pN6MepScVJDJLmPiuJW7DhZq9XSxPf6HJ-l8BQ96HwW9eawS42WdxywC4bJSr8uYkENWflotg5PYk5NXJVXKUsHZJGDT6vKz4WEPjuia7_aOv11d7tIhA4q8t1vFnKIXxF3qzaKh0YPYFALq1CiZEpI2z0JlUI-q382nZyzS8fZA6fMQa9GQiqt0-TsJvoBp94ImBza9f0zwXBhU0Bd9Dlu2Rz9ll29u2eh',
-      desc: 'Explore how our latest advancements in generative AI are reshaping industries and what it means for your business operations.',
+      desc: t('blog.post1Desc'),
       featured: true
     },
     {
       slug: 'big-data-navigation',
-      title: 'Navigating the World of Big Data',
-      category: 'Data Science',
-      readTime: '7 min read',
-      date: 'October 15, 2023',
+      title: t('blog.post2Title'),
+      category: t('blog.post2Category'),
+      readTime: t('blog.post2ReadTime'),
+      date: t('blog.post2Date'),
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCcZxJi1e6Gvtiin7A43Qutox0k__o8vWhk1H85U_OYCAYGT5vFlwsshm0S1pFDQBVNKWOIz1Sjjio3Mjrrr4iVvXRer655_Ln2165_vXztlCiXFBgKEDuk2pC8djUQtq4fMVjZVKgdk5EkwWFVovS3w8C_JobZVbpZVQ_98juXYaFlzQT-iVUNIA6P-wD4t7lES2uPyqCr9u1g4o7cO0kdEx0rtUB626_b61XFHOYzBqisIFvGGxWva-_jpPcaehA0bNHT-tFa9fN_',
-      desc: 'A deep dive into the methodologies we use to process and analyze petabytes of data efficiently.',
+      desc: t('blog.post2Desc'),
       featured: false
     },
     {
       slug: 'tech-stack-scalable-ai',
-      title: 'Our Tech Stack for Scalable AI',
-      category: 'Engineering',
-      readTime: '4 min read',
-      date: 'October 02, 2023',
+      title: t('blog.post3Title'),
+      category: t('blog.post3Category'),
+      readTime: t('blog.post3ReadTime'),
+      date: t('blog.post3Date'),
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDl1iVukPHABk2Vb_EAJLAKUJQ3qIQlTFwSEWW6rsHbKh-PM2bP08SisBT4IS-nEojWI1Tsz6LPwm0vJTkh4L3doc8O3lHNIGHsROUtMNtWzmk_CNQRkiAJ2lrJ0O6JB1R3sF9OAcuq7KTQDsnd-gacIT7WF7xoKHpXql7cB4J2DAXcFe0_tC-D2hulAKOAal6iaCXEw1kgMZLAVX4CaMg7bgjr5aNIuUewn6E0UwiksGlMeyfOHKMRU6Uw_kihhHPbTBVXLW401zgp',
-      desc: 'Discover the technologies that power DataBits and why we chose them for performance and reliability.',
+      desc: t('blog.post3Desc'),
       featured: false
     },
     {
       slug: 'ethical-ai',
-      title: 'Ethical Considerations in AI',
-      category: 'AI Research',
-      readTime: '9 min read',
-      date: 'September 21, 2023',
+      title: t('blog.post4Title'),
+      category: t('blog.post4Category'),
+      readTime: t('blog.post4ReadTime'),
+      date: t('blog.post4Date'),
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIesjcL8TKqg13LVGjHhaUv0bxvMkvdMjZyAaDWG3Ty_RqEVvPs5uy25cuiC7NsYQCNgB-_gNrf1jgqH2QYdOCNW6LyK2gxPafBeJpT9-AggpiVreiUaLOmY9P5cI_Zv9AsVK1nRpJwo0ohtywFzvt3xuQFjakaUMqpL3Bq-6etJ7aPGnDbf29YNQl9qxaNURGRlT5AdHLWj_R_UbONmcF0fereGwpO3sPwOy51HcHBaOntpYk928vn8olZg4llcfekrgt57PeDRWX',
-      desc: 'How we approach building responsible AI systems that are fair, transparent, and accountable.',
+      desc: t('blog.post4Desc'),
       featured: false
     }
   ];
 
-  const categories = ['All', 'Product Updates', 'Data Science', 'Engineering', 'AI Research', 'Industry Trends'];
+  const categories = [t('blog.categoryAll'), t('blog.categoryProductUpdates'), t('blog.categoryDataScience'), t('blog.categoryEngineering'), t('blog.categoryAIResearch'), t('blog.categoryIndustryTrends')];
 
   const filteredPosts = allPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           post.desc.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+    const matchesCategory = selectedCategory === t('blog.categoryAll') || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   const featuredPost = allPosts.find(p => p.featured);
-  const isDefaultView = searchQuery === '' && selectedCategory === 'All';
+  const isDefaultView = searchQuery === '' && selectedCategory === t('blog.categoryAll');
   const postsToShow = isDefaultView ? allPosts.filter(p => !p.featured) : filteredPosts;
 
   return (
@@ -72,8 +74,8 @@ const BlogPage = () => {
       <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-12 flex flex-col gap-10" data-animate="reveal">
       <div className="text-center">
-        <h1 className="h1">The DataBits Blog</h1>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">Insights on AI Research, Product Updates, and Industry Trends</p>
+        <h1 className="h1">{t('blog.heroTitle')}</h1>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">{t('blog.heroDescription')}</p>
       </div>
 
       {/* Search & Filter */}
@@ -82,7 +84,7 @@ const BlogPage = () => {
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">search</span>
             <input 
               type="text" 
-              placeholder="Search articles" 
+              placeholder={t('blog.searchPlaceholder')} 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-box" 
@@ -111,7 +113,7 @@ const BlogPage = () => {
       {/* Featured Article - Only shown in default view */}
       {isDefaultView && featuredPost && (
         <div>
-          <h2 className="h2-sm mb-6">Featured Articles</h2>
+          <h2 className="h2-sm mb-6">{t('blog.featuredArticles')}</h2>
           <Link href={`/blog/${featuredPost.slug}`}>
             <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 <Image 
@@ -138,7 +140,7 @@ const BlogPage = () => {
       {/* Article Grid */}
       <div>
         <h2 className="h2-sm mb-6">
-          {isDefaultView ? 'All Articles' : `Search Results (${postsToShow.length})`}
+          {isDefaultView ? t('blog.allArticles') : `${t('blog.searchResults')}(${postsToShow.length})`}
         </h2>
         
         {postsToShow.length > 0 ? (
@@ -172,12 +174,12 @@ const BlogPage = () => {
         ) : (
           <div className="text-center py-20 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
             <span className="material-symbols-outlined text-4xl text-gray-400 mb-4">search_off</span>
-            <p className="text-gray-500 dark:text-gray-400">No articles found matching your criteria.</p>
+            <p className="text-gray-500 dark:text-gray-400">{t('blog.noResults')}</p>
             <button 
-              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+              onClick={() => { setSearchQuery(''); setSelectedCategory(t('blog.categoryAll')); }}
               className="mt-4 text-primary font-bold hover:underline"
             >
-              Clear filters
+              {t('blog.clearFilters')}
             </button>
           </div>
         )}

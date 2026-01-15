@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 // import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
@@ -11,27 +12,28 @@ import Footer from '@/components/Footer';
 const ProductsPage = () => {
   // const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
+  const { t } = useI18n();
 
   const products = [
     {
-      title: 'BitsChat',
-      desc: 'Advanced AI conversational assistant tailored for enterprise needs.',
+      title: t('products.bitsChatTitle'),
+      desc: t('products.bitsChatDesc'),
       link: '#',
       icon: 'forum',
-      badge: 'Coming Soon',
+      badge: t('products.comingSoon'),
       external: false
     },
     {
-      title: 'DataBits Convert',
-      desc: 'Seamlessly convert data between various formats with our powerful online tool.',
+      title: t('products.convertTitle'),
+      desc: t('products.convertDesc'),
       link: 'https://databits.co-id.id/convert',
       icon: 'transform',
       badge: null,
       external: true
     },
     {
-      title: 'DataBits Shop',
-      desc: 'Get exclusive DataBits merchandise, digital assets, and resources.',
+      title: t('products.shopTitle'),
+      desc: t('products.shopDesc'),
       link: 'https://sociabuzz.com/databits/shop',
       icon: 'shopping_bag',
       badge: null,
@@ -51,10 +53,10 @@ const ProductsPage = () => {
           transition={{ duration: 0.5 }}
         >
           <h1 className="h1">
-            Our Products
+            {t('products.heroTitle')}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Tools and platforms built to empower your data journey.
+            {t('products.heroDescription')}
           </p>
         </motion.div>
       </section>
@@ -99,11 +101,11 @@ const ProductsPage = () => {
 
                   {product.link !== '#' ? (
                     <div className="font-bold text-primary text-sm flex items-center gap-2">
-                      Open Product <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                      {t('products.openProduct')} <span className="material-symbols-outlined text-sm">arrow_forward</span>
                     </div>
                   ) : (
                     <div className="font-bold text-gray-400 text-sm flex items-center gap-2">
-                      Stay Tuned
+                      {t('products.stayTuned')}
                     </div>
                   )}
                 </motion.a>

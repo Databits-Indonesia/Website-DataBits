@@ -3,82 +3,74 @@
 import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/components/i18n-provider';
 // import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
 // type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT' | 'RESEARCH' | 'PORTOFOLIO';
 
 const ResearchPage = () => {
+  const { t } = useI18n();
 //   const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
   
   const publications = [
     {
-      title: 'Deep Learning Approaches for Mangrove Species Classification',
-      authors: 'Databits Research Team',
-      venue: 'International Conference on AI and Environment',
-      year: '2024',
+      title: t('research.pub1Title'),
+      authors: t('research.pub1Authors'),
+      venue: t('research.pub1Venue'),
+      year: t('research.pub1Year'),
       link: '#',
-      abstract: 'Novel CNN-based approach for automated mangrove species identification using leaf imagery.'
+      abstract: t('research.pub1Abstract')
     },
     {
-      title: 'Efficient Video Understanding with Context-Aware ViViT Architecture',
-      authors: 'Databits Research Team',
-      venue: 'IEEE Conference on Computer Vision',
-      year: '2024',
+      title: t('research.pub2Title'),
+      authors: t('research.pub2Authors'),
+      venue: t('research.pub2Venue'),
+      year: t('research.pub2Year'),
       link: '#',
-      abstract: 'A new video feature extraction architecture reducing computational complexity by 3.5x.'
+      abstract: t('research.pub2Abstract')
     },
     {
-      title: 'Transformer-Based Audio Signal Processing for Environmental Monitoring',
-      authors: 'Databits Research Team',
-      venue: 'Journal of Machine Learning Research',
-      year: '2023',
+      title: t('research.pub3Title'),
+      authors: t('research.pub3Authors'),
+      venue: t('research.pub3Venue'),
+      year: t('research.pub3Year'),
       link: '#',
-      abstract: 'Self-attention mechanisms for capturing temporal and spectral features in audio signals.'
+      abstract: t('research.pub3Abstract')
     }
   ];
 
   const openSourceProjects = [
     {
-      title: 'Mangrove-Research',
-      desc: 'CNN model to predict mangrove species based on their leaves.',
-      // stars: '1.2k',
-      // forks: '234',
+      title: t('research.project1Title'),
+      desc: t('research.project1Desc'),
       link: 'https://github.com/Databitss/Mangrove-Research',
-      kategori: 'CNN Model'
+      kategori: t('research.project1Category')
     },
     {
-      title: 'Flask CNN Mangrove',
-      desc: 'Web application with flask to predict mangrove types based on leaves with CNN.',
-      // stars: '1.2k',
-      // forks: '234',
+      title: t('research.project2Title'),
+      desc: t('research.project2Desc'),
       link: 'https://github.com/Databits-Indonesia/Flask-CNN-Mangrove',
-      kategori: 'Website'
+      kategori: t('research.project2Category')
     },
     {
-      title: 'databits',
-      desc: 'Python library for Text Classifier using LSTM, GRU, and Transformer BERT.',
-      // stars: '890',
-      // forks: '156',
+      title: t('research.project3Title'),
+      desc: t('research.project3Desc'),
       link: 'https://github.com/Databitss/databits',
-      kategori: 'Python Library'
+      kategori: t('research.project3Category')
     },
     {
-      title: 'C-A ViViT',
-      desc: 'Creates a new ViViT-based video feature extraction architecture that has 3.5x lower GFLOPs by reducing the quadratic complexity of self-attention.',
-      // stars: '2.5k',
-      // forks: '402',
+      title: t('research.project4Title'),
+      desc: t('research.project4Desc'),
       link: 'https://github.com/Databitss/VideoCaptioning',
-      kategori: 'AI Architecture'
+      kategori: t('research.project4Category')
     },
     {
-      title: 'AudioTransformer',
-      desc: 'AudioTransformer to process and analyze audio data using transformer-based architectures. It leverages the power of self-attention mechanisms to capture temporal and spectral features in audio signals.',
-      // stars: '2.5k',
-      // forks: '402',
+      title: t('research.project5Title'),
+      desc: t('research.project5Desc'),
       link: 'https://github.com/Databitss/AudioTransformer',
-      kategori: 'AI Architecture'
+      kategori: t('research.project5Category')
     }
   ];
 
@@ -94,10 +86,10 @@ const ResearchPage = () => {
           transition={{ duration: 0.5 }}
         >
           <h1 className="h1">
-            Our Research
+            {t('research.heroTitle')}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Frontier of knowledge and innovation.
+            {t('research.heroDescription')}
           </p>
         </motion.div>
       </section>
@@ -123,9 +115,9 @@ const ResearchPage = () => {
                 <span className="material-symbols-outlined text-2xl">description</span>
               </div>
             </motion.div>
-            <h2 className="h2-sm">Publications</h2>
+            <h2 className="h2-sm">{t('research.publicationsTitle')}</h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Our research contributions published in leading conferences and journals.
+              {t('research.publicationsDescription')}
             </p>
           </motion.div>
 
@@ -159,7 +151,7 @@ const ResearchPage = () => {
                   href={pub.link} 
                   className="inline-flex items-center gap-1 text-sm font-bold icon-color hover:text-primary transition-colors"
                 >
-                  Read Paper <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                  {t('research.readPaper')} <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
                 </a>
               </motion.div>
             ))}
@@ -188,9 +180,9 @@ const ResearchPage = () => {
                         <span className="material-symbols-outlined text-2xl">code</span>
                     </div>
                 </motion.div>
-                <h2 className="h2-sm">Open Source</h2>
+                <h2 className="h2-sm">{t('research.openSourceTitle')}</h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                    We believe in giving back to the community. Check out our open source contributions that are powering the next generation of AI tools.
+                    {t('research.openSourceDescription')}
                 </p>
             </motion.div>
 
@@ -240,7 +232,7 @@ const ResearchPage = () => {
                    whileHover={{ scale: 1.05 }}
                    whileTap={{ scale: 0.95 }}
                  >
-                    View all repositories <span className="material-symbols-outlined">arrow_forward</span>
+                    {t('research.viewAllRepositories')} <span className="material-symbols-outlined">arrow_forward</span>
                  </motion.a>
             </motion.div>
         </div>
