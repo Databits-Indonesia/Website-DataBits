@@ -1,52 +1,52 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 
-class ProductBase(BaseModel):
+class ServiceBase(BaseModel):
     name: str = Field(
         ...,
-        description="Nama Produk"
+        description="Nama Service"
     )
     desc: str = Field(
         ...,
-        description="Deskripsi Produk"
+        description="Deskripsi Service"
     )
     link: str = Field(
         ...,
-        description="Link Produk"
+        description="Link Service"
     )
     icon: str = Field(
         ...,
-        description="Icon Produk"
+        description="Icon Service"
     )
     # image_url: str
 
-class ProductCreate(ProductBase):
+class ServiceCreate(ServiceBase):
     pass
 
-class ProductUpdate(BaseModel):
+class ServiceUpdate(BaseModel):
     name: Optional[str] = Field(
         None,
-        description="Nama Produk (jika kosong Nama tidak di ubah)"
+        description="Nama Service (jika kosong Nama tidak di ubah)"
     )
     desc: Optional[str] = Field(
         None,
-        description="Deskripsi Produk (jika kosong Deskripsi tidak di ubah)"
+        description="Deskripsi Service (jika kosong Deskripsi tidak di ubah)"
     )
     # image_url: Optional[str] = None
 
     link: Optional[str] = Field(
         None,
-        description="Link Produk (jika kosong Link tidak di ubah)"
+        description="Link Service (jika kosong Link tidak di ubah)"
     )
     icon: Optional[str] = Field(
         ...,
-        description="Icon Produk (jika kosong Icon tidak di ubah)"
+        description="Icon Service (jika kosong Icon tidak di ubah)"
     )
 
-class ProductRead(ProductBase):
+class ServiceRead(ServiceBase):
     id: int = Field(
         ...,
-        description="ID Produk"
+        description="ID Service"
     )
     # class Config:
     #     orm_mode = True
@@ -54,5 +54,5 @@ class ProductRead(ProductBase):
         "from_attributes": True
     }
 
-class ProductCount(BaseModel):
-    total_product: int
+class ServiceCount(BaseModel):
+    total_Service: int

@@ -36,6 +36,3 @@ class ContactResponse(ContactBase):
     model_config = {
         "from_attributes": True
     }
-
-class UserCount(BaseModel):
-    total_users: int
