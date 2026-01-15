@@ -4,11 +4,13 @@ import { useState } from 'react';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { motion } from 'motion/react';
+import { useI18n } from '@/components/i18n-provider';
 // import { useRouter } from 'next/navigation';
 
 // type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
 
 const ContactPage = () => {
+  const { t } = useI18n();
   // const [currentPage] = useState<Page>('CONTACT');
 //   const router = useRouter();
 
@@ -27,17 +29,17 @@ const ContactPage = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
+    if (!formData.fullName.trim()) newErrors.fullName = t('contact.errorFullNameRequired');
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Work Email is required';
+      newErrors.email = t('contact.errorEmailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('contact.errorEmailInvalid');
     }
 
-    if (!formData.companyName.trim()) newErrors.companyName = 'Company Name is required';
-    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.companyName.trim()) newErrors.companyName = t('contact.errorCompanyRequired');
+    if (!formData.subject.trim()) newErrors.subject = t('contact.errorSubjectRequired');
+    if (!formData.message.trim()) newErrors.message = t('contact.errorMessageRequired');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -51,7 +53,7 @@ const ContactPage = () => {
       setIsSubmitting(true);
       // Simulate API call
       setTimeout(() => {
-        setSuccessMessage("Thank you for reaching out! We'll get back to you shortly.");
+        setSuccessMessage(t('contact.successMessage'));
         setFormData({
           fullName: '',
           email: '',
@@ -82,8 +84,8 @@ const ContactPage = () => {
       <Navbar />
       <div className="container mx-auto px-4 md:px-10 py-16 flex flex-col gap-12" data-animate="reveal">
       <div className="max-w-xl">
-        <h1 className="h1">Get in Touch</h1>
-        <p className="p">We’d love to hear from you. Reach out for partnerships, inquiries, or support.</p>
+        <h1 className="h1">{t('contact.heroTitle')}</h1>
+        <p className="p">{t('contact.heroDescription')}</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12">
@@ -96,9 +98,9 @@ const ContactPage = () => {
         >
             <div className="flex flex-col gap-6">
                 {[
-                    { icon: 'mail', text: 'databitsteam@gmail.com', sub: 'Email Us', href: 'mailto:databitsteam@gmail.com' },
-                    { icon: 'call', text: '+62 896-3634-4666', sub: 'Call Us', href: 'https://wa.me/6289636344666' },
-                    { icon: 'location_on', text: 'Lampung, Indonesia', sub: 'DataBits Headquarters', href: 'https://www.google.com/maps/place/Bandar+Lampung+City,+Lampung' }
+                    { icon: 'mail', text: t('contact.emailValue'), sub: t('contact.emailLabel'), href: 'mailto:databitsteam@gmail.com' },
+                    { icon: 'call', text: t('contact.phoneValue'), sub: t('contact.phoneLabel'), href: 'https://wa.me/6289636344666' },
+                    { icon: 'location_on', text: t('contact.locationValue'), sub: t('contact.locationLabel'), href: 'https://www.google.com/maps/place/Bandar+Lampung+City,+Lampung' }
                 ].map((item, i) => (
                     <motion.div 
                       key={i} 
@@ -143,7 +145,7 @@ const ContactPage = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
             <div className="contact-form bg-white dark:bg-[#14202e] p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <h3 className="h3 mb-8">Send us a message</h3>
+                <h3 className="h3 mb-8">{t('contact.formTitle')}</h3>
                 
                 {successMessage && (
                   <motion.div 
@@ -164,7 +166,7 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.1 }}
                     >
-                        <label htmlFor="fullName" className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
+                        <label htmlFor="fullName" className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('contact.fullNameLabel')}</label>
                         <input 
                           type="text" 
                           id="fullName"
@@ -172,7 +174,7 @@ const ContactPage = () => {
                           autoComplete="name"
                           value={formData.fullName}
                           onChange={handleChange}
-                          placeholder="John Doe" 
+                          placeholder={t('contact.fullNamePlaceholder')} 
                           className={`input ${errors.fullName ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.fullName && (
@@ -190,7 +192,7 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.15 }}
                     >
-                        <label htmlFor="email" className="text-sm font-medium text-gray-500 dark:text-gray-400">Work Email</label>
+                        <label htmlFor="email" className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('contact.emailLabel2')}</label>
                         <input 
                           type="email" 
                           id="email"
@@ -198,7 +200,7 @@ const ContactPage = () => {
                           autoComplete="email"
                           value={formData.email}
                           onChange={handleChange}
-                          placeholder="john@company.com" 
+                          placeholder={t('contact.emailPlaceholder')} 
                           className={`input ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.email && (
@@ -216,7 +218,7 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.2 }}
                     >
-                        <label htmlFor="companyName" className="text-sm font-medium text-gray-500 dark:text-gray-400">Company Name</label>
+                        <label htmlFor="companyName" className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('contact.companyLabel')}</label>
                         <input 
                           type="text" 
                           id="companyName"
@@ -224,7 +226,7 @@ const ContactPage = () => {
                           autoComplete="organization"
                           value={formData.companyName}
                           onChange={handleChange}
-                          placeholder="Innovate Inc." 
+                          placeholder={t('contact.companyPlaceholder')} 
                           className={`input ${errors.companyName ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.companyName && (
@@ -242,14 +244,14 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.25 }}
                     >
-                        <label htmlFor="subject" className="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</label>
+                        <label htmlFor="subject" className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('contact.subjectLabel')}</label>
                         <input 
                           type="text" 
                           id="subject"
                           name="subject"
                           value={formData.subject}
                           onChange={handleChange}
-                          placeholder="Partnership Inquiry" 
+                          placeholder={t('contact.subjectPlaceholder')} 
                           className={`input ${errors.subject ? 'border-red-500 focus:ring-red-500' : ''}`} 
                         />
                         {errors.subject && (
@@ -267,14 +269,14 @@ const ContactPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.3 }}
                     >
-                        <label htmlFor="message" className="text-sm font-medium text-gray-500 dark:text-gray-400">Message</label>
+                        <label htmlFor="message" className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('contact.messageLabel')}</label>
                         <textarea 
                           rows={5} 
                           id="message"
                           name="message"
                           value={formData.message}
                           onChange={handleChange}
-                          placeholder="Your message..." 
+                          placeholder={t('contact.messagePlaceholder')} 
                           className={`input ${errors.message ? 'border-red-500 focus:ring-red-500' : ''} resize-none`}
                         ></textarea>
                         {errors.message && (
@@ -310,10 +312,10 @@ const ContactPage = () => {
                                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                                 className="material-symbols-outlined"
                               >progress_activity</motion.span>
-                              Sending...
+                              {t('contact.buttonSending')}
                             </motion.span>
                           ) : (
-                            "Send Message"
+                            t('contact.buttonSend')
                           )}
                         </motion.button>
                     </motion.div>
