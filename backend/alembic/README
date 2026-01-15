@@ -1,5 +1,6 @@
 Database Setting:
 1. get .sql file in `app/db/`
+2. Create a database with the name as in the `backend/.env` file, fill in the variable `DB_NAME`.
 2. import sql file to database server
 3. adjust the database configuration in `backend/.env`
 3. run to update the database automatically
