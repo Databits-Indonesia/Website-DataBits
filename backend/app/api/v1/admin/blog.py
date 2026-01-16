@@ -46,7 +46,7 @@ def blog_detail(blog_id: int, db: Session = Depends(get_db)):
 @router.get("/stats/count", response_model=BlogCount, dependencies=[Depends(admin_or_owner)])
 def user_count(db: Session = Depends(get_db)):
     total = count_blogs(db)
-    return {"total_user": total}
+    return {"total_blogs": total}
 
 @router.put("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
 def update(blog_id: int, 

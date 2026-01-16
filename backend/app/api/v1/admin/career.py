@@ -35,7 +35,7 @@ def list_career(db: Session = Depends(get_db)):
 @router.get("/stats/count", response_model=CareerCount, dependencies=[Depends(admin_or_owner)])
 def user_count(db: Session = Depends(get_db)):
     total = count_careers(db)
-    return {"total_user": total}
+    return {"total_careers": total}
 
 @router.put("/{career_id}", response_model=CareerRead, dependencies=[Depends(admin_or_owner)])
 def update(career_id: int, data: CareerUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

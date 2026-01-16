@@ -31,4 +31,4 @@ def delete(message_id: int, db: Session = Depends(get_db), current_user = Depend
 @router.get("/count", response_model=MessageCount, dependencies=[Depends(admin_or_owner)])
 def messages_count(db: Session = Depends(get_db)):
     total = count_messages(db)
-    return {"message_total": total}
+    return {"total_messages": total}
