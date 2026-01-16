@@ -83,7 +83,7 @@ def update_about(db: Session, about_id: int, data: AboutUpdate, user_act: int):
     log_activity(
         db=db,
         user_id=user_act,
-        module="user",
+        module="about",
         action="update",
         object_id=about.id,
         description=f"Edit data about: {about.title}"

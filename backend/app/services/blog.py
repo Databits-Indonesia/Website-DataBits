@@ -168,3 +168,6 @@ def register_blog_view(db: Session, blog_id: int, request: Request):
     db.commit()
 
     return True
+
+def count_blogs(db: Session):
+    return db.query(Blog).count()

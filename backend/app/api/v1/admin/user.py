@@ -43,7 +43,6 @@ def update(user_id: int, data: UserUpdate, db: Session = Depends(get_db), curren
     user_act= int(current_user["sub"])
     return update_user(db, user_id, data, user_act)
 
-
 @router.delete("/{user_id}", dependencies=[Depends(owner_only)])
 def delete(user_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_act = int(current_user["sub"])

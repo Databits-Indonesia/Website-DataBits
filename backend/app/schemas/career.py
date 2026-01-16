@@ -52,7 +52,7 @@ class CareerUpdate(BaseModel):
         None,
         description="Link apply (jika kosong tidak diubah)"
     )
-    category_id: int = Field(
+    category_id: Optional[int] = Field(
         None,
         description="ID Kategori untuk karir (jika kosong tidak diubah)"
     )

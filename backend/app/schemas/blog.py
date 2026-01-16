@@ -53,3 +53,6 @@ class BlogRead(BlogBase):
     model_config = {
         "from_attributes": True
     }
+
+class BlogCount(BaseModel):
+    total_blogs: int

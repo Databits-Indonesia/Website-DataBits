@@ -1,14 +1,15 @@
 from fastapi import APIRouter, Depends, UploadFile, Form
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from app.schemas.blog import BlogCreate, BlogRead, BlogUpdate
+from app.schemas.blog import BlogCreate, BlogRead, BlogUpdate, BlogCount
 from app.services.blog import (
     create_blog,
     get_blogs,
     get_blog_by_id,
     update_blog,
     delete_blog,
-    upload_cover
+    upload_cover,
+    count_blogs
 )
 from app.core.database import get_db
 from app.core.dependencies import (
@@ -41,6 +42,11 @@ def list_blogs(db: Session = Depends(get_db)):
 @router.get("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
 def blog_detail(blog_id: int, db: Session = Depends(get_db)):
     return get_blog_by_id(db, blog_id)
+
+@router.get("/stats/count", response_model=BlogCount, dependencies=[Depends(admin_or_owner)])
+def user_count(db: Session = Depends(get_db)):
+    total = count_blogs(db)
+    return {"total_user": total}
 
 @router.put("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
 def update(blog_id: int, 
