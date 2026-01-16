@@ -1,8 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
-from datetime import datetime
 
-class AboutBase(BaseModel):
+class HomeBase(BaseModel):
     title: str = Field(
         ...,
         description="Judul utama (beranda)"
@@ -12,10 +11,10 @@ class AboutBase(BaseModel):
         description="Deskripsi ringkas (beranda)"
     )
 
-class AboutCreate(AboutBase):
+class HomeCreate(HomeBase):
     pass
 
-class AboutUpdate(BaseModel):
+class HomeUpdate(BaseModel):
     title: Optional[str] = Field(
         None,
         description="Judul utama (beranda) (jika kosong tidak di ubah)"
@@ -25,7 +24,7 @@ class AboutUpdate(BaseModel):
         description="Deskripsi ringkas (beranda) (jika kosong tidak di ubah)"
     )
 
-class AboutRead(AboutBase):
+class HomeRead(HomeBase):
     id: int = Field(
         ...,
         description="ID Home"

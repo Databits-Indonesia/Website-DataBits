@@ -25,7 +25,7 @@ class ContactUpdate(BaseModel):
     )
 
 
-class ContactResponse(ContactBase):
+class ContactRead(ContactBase):
     id: int = Field(
         ...,
         description="ID contact"
