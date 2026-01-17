@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
+from fastapi import UploadFile
 
 class BlogBase(BaseModel):
     title: str = Field(
@@ -13,7 +14,16 @@ class BlogBase(BaseModel):
     )
 
 class BlogCreate(BlogBase):
-    pass
+    image: UploadFile = Field(
+        ...,
+        description="File Image Cover Blog"
+    )
+
+class BlogCreate2(BlogBase):
+    cover_url: str = Field(
+        ...,
+        description="Url Cover Blog"
+    )
 
 class BlogUpdate(BaseModel):
     title: Optional[str] = Field(
@@ -24,7 +34,24 @@ class BlogUpdate(BaseModel):
         None,
         description="Content Blog (jika kosong content blog tidak di ubah)"
     )
-    # cover_url: Optional[str] = None
+    image: Optional[UploadFile] = Field(
+        None,
+        description="File Image Cover Blog (jika kosong tidak di ubah)"
+    )
+
+class BlogUpdate2(BaseModel):
+    title: Optional[str] = Field(
+        None,
+        description="Judul Blog (jika kosong judul blog tidak di ubah)"
+    )
+    content: Optional[str] = Field(
+        None,
+        description="Content Blog (jika kosong content blog tidak di ubah)"
+    )
+    cover_url: Optional[str] = Field(
+        None,
+        description="Url Cover Blog (jika kosong tidak di ubah)"
+    )
 
 class BlogRead(BlogBase):
     id: int = Field(

@@ -4,10 +4,10 @@ from app.models.contact import Contact
 from app.schemas.contact import ContactCreate, ContactUpdate
 from app.services.activity import log_activity
 
-def create_contact(db: Session, data: ContactCreate, telephone: str, user_id: int):
+def create_contact(db: Session, data: ContactCreate, user_id: int):
     contact = Contact(
         email=data.email,
-        telephone=telephone,
+        telephone=data.telephone,
         headquarters=data.headquarters
     )
 
@@ -34,7 +34,7 @@ def get_contact_by_id(db: Session, contact_id: int):
     return db.query(Contact).filter(Contact.id == contact_id).first()
 
 
-def update_contact(db: Session, contact_id: int, data: ContactUpdate, telephone: str, user_id: int):
+def update_contact(db: Session, contact_id: int, data: ContactUpdate, user_id: int):
     contact = get_contact_by_id(db, contact_id)
 
     if not contact:
@@ -46,8 +46,8 @@ def update_contact(db: Session, contact_id: int, data: ContactUpdate, telephone:
     if data.headquarters:
         contact.headquarters = data.headquarters
 
-    if telephone:
-        contact.telephone = telephone
+    if data.telephone:
+        contact.telephone = data.telephone
 
     db.commit()
     db.refresh(contact)

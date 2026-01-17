@@ -2,7 +2,11 @@ from sqlalchemy.orm import Session
 from app.models.blog import Blog
 from app.models.blog_view import BlogView
 from sqlalchemy.orm import joinedload
-from app.schemas.blog import BlogCreate, BlogUpdate, BlogRead
+from app.schemas.blog import (
+    BlogCreate2,
+    BlogUpdate2, 
+    BlogRead
+)
 from fastapi import HTTPException, UploadFile, Request
 from app.services.activity import log_activity
 import uuid, os
@@ -10,11 +14,11 @@ from datetime import datetime, timedelta, timezone
 
 UPLOAD_DIR = "app/uploads/blog"
 
-def create_blog(db: Session, data: BlogCreate, cover_url: str, user_id: int):
+def create_blog(db: Session, data: BlogCreate2, user_id: int):
     blog = Blog(
         title=data.title,
         content=data.content,
-        cover_url=cover_url,
+        cover_url=data.cover_url,
         user_id=user_id
     )
     db.add(blog)
@@ -61,7 +65,7 @@ def get_blogs(db: Session):
 def get_blog_by_id(db: Session, blog_id: int):
     return db.query(Blog).filter(Blog.id == blog_id).first()
 
-def update_blog(db: Session, blog_id: int, data: BlogUpdate, cover_url: str, user_id: int):
+def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
     blog = get_blog_by_id(db, blog_id)
 
     if not blog:
@@ -73,12 +77,12 @@ def update_blog(db: Session, blog_id: int, data: BlogUpdate, cover_url: str, use
     if data.content:
         blog.content = data.content
 
-    if cover_url:
+    if data.cover_url:
         try:
             delete_cover_image(blog.cover_url)
         except:
             pass
-        blog.cover_url = cover_url
+        blog.cover_url = data.cover_url
 
     db.commit()
     db.refresh(blog)

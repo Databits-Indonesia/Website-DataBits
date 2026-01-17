@@ -33,7 +33,7 @@ def list_career(db: Session = Depends(get_db)):
     return get_careers(db)
 
 @router.get("/stats/count", response_model=CareerCount, dependencies=[Depends(admin_or_owner)])
-def user_count(db: Session = Depends(get_db)):
+def careers_count(db: Session = Depends(get_db)):
     total = count_careers(db)
     return {"total_careers": total}
 

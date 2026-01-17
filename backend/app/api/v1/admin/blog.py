@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends, UploadFile, Form
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from app.schemas.blog import BlogCreate, BlogRead, BlogUpdate, BlogCount
+from app.schemas.blog import (
+    BlogCreate, BlogCreate2, 
+    BlogRead, BlogUpdate, 
+    BlogUpdate2, BlogCount
+)
 from app.services.blog import (
     create_blog,
     get_blogs,
@@ -25,15 +29,12 @@ router = APIRouter(
 )
 
 @router.post("", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-def create(title: str = Form(...), 
-           content: str = Form(...),
-           image: UploadFile = Depends(validate_image_file), 
-           db: Session = Depends(get_db),
-           current_user = Depends(get_current_user)):
-    data = BlogCreate(title=title, content=content)
+def create(data: BlogCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
+    image = validate_image_file(data.image)
     cover_url = upload_cover(image)
-    return create_blog(db, data, cover_url, user_id)
+    data = BlogCreate2(title=data.title, content=data.content, cover_url=cover_url)
+    return create_blog(db, data, user_id)
 
 @router.get("", response_model=List[BlogRead], dependencies=[Depends(admin_or_owner)])
 def list_blogs(db: Session = Depends(get_db)):
@@ -44,21 +45,17 @@ def blog_detail(blog_id: int, db: Session = Depends(get_db)):
     return get_blog_by_id(db, blog_id)
 
 @router.get("/stats/count", response_model=BlogCount, dependencies=[Depends(admin_or_owner)])
-def user_count(db: Session = Depends(get_db)):
+def blogs_count(db: Session = Depends(get_db)):
     total = count_blogs(db)
     return {"total_blogs": total}
 
 @router.put("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-def update(blog_id: int, 
-           title: Optional[str] = Form(None), 
-           content: Optional[str] = Form(None),
-           image: Optional[UploadFile] = Depends(validate_image_file_optional), 
-           db: Session = Depends(get_db),
-           current_user = Depends(get_current_user)):
-    data = BlogUpdate(title=title, content=content)
+def update(blog_id: int, data: BlogUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
+    image = validate_image_file_optional(data.image)
     cover_url = upload_cover(image) if image else None
-    return update_blog(db, blog_id, data, cover_url, user_id)
+    data = BlogUpdate2(title=data.title, content=data.content, cover_url=cover_url)
+    return update_blog(db, blog_id, data, user_id)
 
 
 @router.delete("/{blog_id}", dependencies=[Depends(admin_or_owner)])
