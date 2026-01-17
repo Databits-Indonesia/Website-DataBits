@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 class Career(Base):
@@ -15,3 +16,4 @@ class Career(Base):
     job_type = Column(String(255), nullable=False)
     desc = Column(Text, nullable=False)
     apply_link = Column(String(255), nullable=False)
+    category = relationship("Category", back_populates="careers")

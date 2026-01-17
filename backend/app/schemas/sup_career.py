@@ -8,7 +8,7 @@ class SupCareerBase(BaseModel):
     )
     desc: str = Field(
         ...,
-        description="Deskripsi ringkas tentang databits"
+        description="Deskripsi ringkas"
     )
     icon: str = Field(
         ...,
@@ -25,7 +25,7 @@ class SupCareerUpdate(BaseModel):
     )
     desc: Optional[str] = Field(
         ...,
-        description="Deskripsi ringkas tentang databits (jika kosong tidak diubah)"
+        description="Deskripsi ringkas (jika kosong tidak diubah)"
     )
     icon: Optional[str] = Field(
         ...,

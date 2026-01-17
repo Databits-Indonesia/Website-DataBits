@@ -16,12 +16,5 @@ router = APIRouter(
 )
 
 @router.post("", response_model=MessageRead)
-def create(name: str = Form(...),
-           email: str = Form(...),
-           subject: str = Form(...),
-           company: str = Form(...),
-           message_content: str = Form(...),
-           db: Session = Depends(get_db)):
-    data = MessageCreate(name=name, email=email, subject=subject, 
-                         company=company, message_content=message_content)
+def create(data: MessageCreate, db: Session = Depends(get_db)):
     return create_message_public(db, data)

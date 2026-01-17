@@ -4,7 +4,7 @@ from app.models.career import Career
 from app.schemas.career import CareerCreate, CareerUpdate
 from app.services.activity import log_activity
 
-def create_career(db: Session, data: CareerCreate, user_act: int):
+def create_career(db: Session, data: CareerCreate, user_id: int):
     career = Career(
         position=data.position,
         work_mode=data.work_mode,
@@ -20,7 +20,7 @@ def create_career(db: Session, data: CareerCreate, user_act: int):
 
     log_activity(
         db=db,
-        user_id=user_act,
+        user_id=user_id,
         module="career",
         action="create",
         object_id=career.id,
@@ -37,7 +37,7 @@ def get_career_by_id(db: Session, career_id: int):
     return db.query(Career).filter(Career.id == career_id).first()
 
 
-def update_career(db: Session, career_id: int, data: CareerUpdate, user_act: int):
+def update_career(db: Session, career_id: int, data: CareerUpdate, user_id: int):
     career = get_career_by_id(db, career_id)
 
     if not career:
@@ -66,7 +66,7 @@ def update_career(db: Session, career_id: int, data: CareerUpdate, user_act: int
 
     log_activity(
         db=db,
-        user_id=user_act,
+        user_id=user_id,
         module="career",
         action="update",
         object_id=career.id,

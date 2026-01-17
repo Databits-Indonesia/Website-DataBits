@@ -68,4 +68,4 @@ class CareerRead(CareerBase):
     }
 
 class CareerCount(BaseModel):
-    total_career: int
+    total_careers: int

@@ -39,4 +39,4 @@ class MessageRead(MessageBase):
     }
 
 class MessageCount(BaseModel):
-    total_message: int
+    total_messages: int

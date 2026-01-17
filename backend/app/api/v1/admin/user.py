@@ -36,7 +36,7 @@ def list_users(db: Session = Depends(get_db)):
 @router.get("/stats/count", response_model=UserCount, dependencies=[Depends(admin_or_owner)])
 def user_count(db: Session = Depends(get_db)):
     total = count_users(db)
-    return {"total_user": total}
+    return {"total_users": total}
 
 @router.put("/{user_id}", response_model=UserResponse, dependencies=[Depends(owner_only)])
 def update(user_id: int, data: UserUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

@@ -4,7 +4,7 @@ from app.models.about import About
 from app.schemas.about import AboutCreate, AboutUpdate
 from app.services.activity import log_activity
 
-def create_about(db: Session, data: AboutCreate, user_act: int):
+def create_about(db: Session, data: AboutCreate, user_id: int):
     about = About(
         title=data.title,
         desc=data.desc,
@@ -24,7 +24,7 @@ def create_about(db: Session, data: AboutCreate, user_act: int):
 
     log_activity(
         db=db,
-        user_id=user_act,
+        user_id=user_id,
         module="about",
         action="create",
         object_id=about.id,
@@ -41,7 +41,7 @@ def get_about_by_id(db: Session, about_id: int):
     return db.query(About).filter(About.id == about_id).first()
 
 
-def update_about(db: Session, about_id: int, data: AboutUpdate, user_act: int):
+def update_about(db: Session, about_id: int, data: AboutUpdate, user_id: int):
     about = get_about_by_id(db, about_id)
 
     if not about:
@@ -82,7 +82,7 @@ def update_about(db: Session, about_id: int, data: AboutUpdate, user_act: int):
 
     log_activity(
         db=db,
-        user_id=user_act,
+        user_id=user_id,
         module="about",
         action="update",
         object_id=about.id,

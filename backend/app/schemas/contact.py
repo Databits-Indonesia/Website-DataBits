@@ -10,6 +10,10 @@ class ContactBase(BaseModel):
         ...,
         description="Markas databits"
     )
+    telephone: str = Field(
+        ...,
+        description="No telp databits"
+    )
 
 class ContactCreate(ContactBase):
     pass
@@ -23,9 +27,13 @@ class ContactUpdate(BaseModel):
         None,
         description="Markas databits (jika kosong tidak diubah)"
     )
+    telephone: Optional[str] = Field(
+        None,
+        description="No telp databits (jika kosong tidak diubah)"
+    )
 
 
-class ContactResponse(ContactBase):
+class ContactRead(ContactBase):
     id: int = Field(
         ...,
         description="ID contact"
