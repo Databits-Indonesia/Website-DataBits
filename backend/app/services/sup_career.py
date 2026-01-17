@@ -6,7 +6,7 @@ from app.services.activity import log_activity
 
 def create_sup_career(db: Session, data: SupCareerCreate, user_id: int):
     sup_career = SupCareer(
-        periority=data.superiority,
+        superiority=data.superiority,
         desc=data.desc,
         icon=data.icon,
     )
@@ -38,7 +38,7 @@ def update_sup_career(db: Session, sup_career_id: int, data: SupCareerUpdate, us
     sup_career = get_sup_career_by_id(db, sup_career_id)
 
     if not sup_career:
-        raise HTTPException(status_code=404, detail="sup_Career not found")
+        raise HTTPException(status_code=404, detail="Superiority Career not found")
 
     if data.superiority:
         sup_career.superiority = data.superiority

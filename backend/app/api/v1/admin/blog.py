@@ -33,7 +33,7 @@ def create(data: BlogCreate, db: Session = Depends(get_db), current_user = Depen
     user_id = int(current_user["sub"])
     image = validate_image_file(data.image)
     cover_url = upload_cover(image)
-    data = BlogCreate2(title=data.title, content=data.content, cover_url=cover_url)
+    data = BlogCreate2(title=data.title, content=data.content, cover_url=cover_url, category_id=data.category_id)
     return create_blog(db, data, user_id)
 
 @router.get("", response_model=List[BlogRead], dependencies=[Depends(admin_or_owner)])
@@ -54,7 +54,7 @@ def update(blog_id: int, data: BlogUpdate, db: Session = Depends(get_db), curren
     user_id = int(current_user["sub"])
     image = validate_image_file_optional(data.image)
     cover_url = upload_cover(image) if image else None
-    data = BlogUpdate2(title=data.title, content=data.content, cover_url=cover_url)
+    data = BlogUpdate2(title=data.title, content=data.content, cover_url=cover_url, category_id=data.category_id)
     return update_blog(db, blog_id, data, user_id)
 
 

@@ -19,7 +19,8 @@ def create_blog(db: Session, data: BlogCreate2, user_id: int):
         title=data.title,
         content=data.content,
         cover_url=data.cover_url,
-        user_id=user_id
+        user_id=user_id,
+        category_id=data.category_id,
     )
     db.add(blog)
     db.commit()
@@ -39,14 +40,20 @@ def create_blog(db: Session, data: BlogCreate2, user_id: int):
             cover_url=blog.cover_url,
             views=blog.views,
             created_at=blog.created_at,
-            user=blog.user.username
+            user=blog.user.username,
+            category=blog.category.name
         )
 
 def get_blogs(db: Session):
-    return db.query(Blog).all()
-
-def get_blogs(db: Session):
-    blogs = db.query(Blog).options(joinedload(Blog.user)).order_by(Blog.created_at.desc()).all()
+    blogs = (
+            db.query(Blog)
+            .options(
+                joinedload(Blog.user), 
+                joinedload(Blog.category)
+            )
+            .order_by(Blog.created_at.desc())
+            .all()
+        )
 
     return [
         BlogRead(
@@ -56,7 +63,8 @@ def get_blogs(db: Session):
             cover_url=blog.cover_url,
             views=blog.views,
             created_at=blog.created_at,
-            user=blog.user.username
+            user=blog.user.username,
+            category=blog.category.name
         )
         for blog in blogs
     ]
@@ -84,6 +92,9 @@ def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
             pass
         blog.cover_url = data.cover_url
 
+    if data.category_id:
+        blog.category_id = data.category_id
+
     db.commit()
     db.refresh(blog)
 
@@ -102,7 +113,8 @@ def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
             cover_url=blog.cover_url,
             views=blog.views,
             created_at=blog.created_at,
-            user=blog.user.username
+            user=blog.user.username,
+            category=blog.category.name
         )
 
 def delete_blog(db: Session, blog_id: int, user_id: int):
