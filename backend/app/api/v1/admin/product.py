@@ -29,11 +29,11 @@ def create(data: ProductCreate, db: Session = Depends(get_db), current_user = De
     return create_product(db, data, user_id)
 
 @router.get("", response_model=List[ProductRead], dependencies=[Depends(admin_or_owner)])
-def list_product(db: Session = Depends(get_db)):
+def list_products(db: Session = Depends(get_db)):
     return get_products(db)
 
 @router.get("/stats/count", response_model=ProductCount, dependencies=[Depends(admin_or_owner)])
-def blogs_count(db: Session = Depends(get_db)):
+def products_count(db: Session = Depends(get_db)):
     total = count_products(db)
     return {"total_products": total}
 
