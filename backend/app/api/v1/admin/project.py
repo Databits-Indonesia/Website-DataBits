@@ -1,0 +1,60 @@
+from fastapi import APIRouter, Depends, UploadFile, Form
+from sqlalchemy.orm import Session
+from typing import List, Optional
+from app.schemas.project import (
+    ProjectCreate, ProjectCreate2, 
+    ProjectRead, ProjectUpdate, 
+    ProjectUpdate2, ProjectCount
+)
+from app.services.project import (
+    create_project,
+    get_projects,
+    update_project,
+    delete_project,
+    upload_cover,
+    count_projects
+)
+from app.core.database import get_db
+from app.core.dependencies import (
+    admin_or_owner, 
+    validate_image_file,
+    validate_image_file_optional,
+    get_current_user
+)
+
+router = APIRouter(
+    prefix="/projects",
+    tags=["Projects"]
+)
+
+@router.post("", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
+def create(data: ProjectCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    user_id = int(current_user["sub"])
+    image = validate_image_file(data.image)
+    cover_url = upload_cover(image)
+    data = ProjectCreate2(title=data.title, desc=data.desc, cover_url=cover_url, category_id=data.category_id)
+    return create_project(db, data, user_id)
+
+@router.get("", response_model=List[ProjectRead], dependencies=[Depends(admin_or_owner)])
+def list_projects(db: Session = Depends(get_db)):
+    return get_projects(db)
+
+@router.get("/stats/count", response_model=ProjectCount, dependencies=[Depends(admin_or_owner)])
+def projects_count(db: Session = Depends(get_db)):
+    total = count_projects(db)
+    return {"total_projects": total}
+
+@router.put("/{project_id}", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
+def update(project_id: int, data: ProjectUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    user_id = int(current_user["sub"])
+    image = validate_image_file_optional(data.image)
+    cover_url = upload_cover(image) if image else None
+    data = ProjectUpdate2(title=data.title, desc=data.desc, cover_url=cover_url, category_id=data.category_id)
+    return update_project(db, project_id, data, user_id)
+
+
+@router.delete("/{project_id}", dependencies=[Depends(admin_or_owner)])
+def delete(project_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    user_id = int(current_user["sub"])
+    delete_project(db, project_id, user_id)
+    return {"message": "Project deleted"}

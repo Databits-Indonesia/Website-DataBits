@@ -4,14 +4,17 @@ from app.api.v1.admin import (
     auth, blog,
     career, category,
     contact, home,
-    message, sup_career,
-    user
+    message, product,
+    project, publication, 
+    sup_career, user
 )
 from app.api.v1.public import (
     about_public, blog_public, 
     career_public, category_public, 
     contact_public, home_public, 
-    message_public, sup_career_public
+    message_public, product_public,
+    project_public, publication_public,
+    sup_career_public
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -26,27 +29,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# app.mount(
-#     "/static",
-#     StaticFiles(directory=os.path.join(BASE_DIR, "app", "uploads")),
-#     name="static"
-# )
+try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    app.mount(
+        "/static",
+        StaticFiles(directory=os.path.join(BASE_DIR, "app", "uploads")),
+        name="static"
+    )
+except:
+    pass
 
 routers_admin = [
     about, activity,
     auth, blog,
     career, category,
     contact, home,
-    message, sup_career,
-    user
+    message, product,
+    project, publication,
+    sup_career, user
 ]
 
 routers_public = [
     about_public, blog_public, 
     career_public, category_public, 
     contact_public, home_public, 
-    message_public, sup_career_public
+    message_public, product_public,
+    project_public, publication_public,
+    sup_career_public
 ]
 
 for rtr in routers_admin + routers_public:
