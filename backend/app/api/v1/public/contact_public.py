@@ -11,8 +11,8 @@ from app.services.contact import (
 from app.core.database import get_db
 
 router = APIRouter(
-    prefix="/contact",
-    tags=["Contact"]
+    prefix="/public/contact",
+    tags=["Contact Public"]
 )
 
 @router.get("", response_model=List[ContactRead])
