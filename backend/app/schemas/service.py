@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from app.schemas.list_service import ListServiceRead
 
 class ServiceBase(BaseModel):
     name: str = Field(
@@ -48,8 +49,10 @@ class ServiceRead(ServiceBase):
         ...,
         description="ID Service"
     )
-    # class Config:
-    #     orm_mode = True
+    list_service: ListServiceRead = Field(
+        ...,
+        description="List service yang bisa dilakukan"
+    )
     model_config = {
         "from_attributes": True
     }
