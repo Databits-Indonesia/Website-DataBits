@@ -5,7 +5,8 @@ from app.api.v1.admin import (
     career, category,
     contact, home,
     message, product,
-    project, publication, 
+    project, publication,
+    research, 
     sup_career, user
 )
 from app.api.v1.public import (
@@ -14,7 +15,7 @@ from app.api.v1.public import (
     contact_public, home_public, 
     message_public, product_public,
     project_public, publication_public,
-    sup_career_public
+    research_public, sup_career_public
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -46,6 +47,7 @@ routers_admin = [
     contact, home,
     message, product,
     project, publication,
+    research,
     sup_career, user
 ]
 
@@ -55,7 +57,7 @@ routers_public = [
     contact_public, home_public, 
     message_public, product_public,
     project_public, publication_public,
-    sup_career_public
+    research_public, sup_career_public
 ]
 
 for rtr in routers_admin + routers_public:

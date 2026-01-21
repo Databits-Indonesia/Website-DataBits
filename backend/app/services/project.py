@@ -6,7 +6,7 @@ from app.schemas.project import (
     ProjectRead
 )
 from sqlalchemy.orm import joinedload
-from fastapi import HTTPException, UploadFile, Request
+from fastapi import HTTPException, UploadFile
 from app.services.activity import log_activity
 import uuid, os
 
@@ -36,6 +36,7 @@ def create_project(db: Session, data: ProjectCreate2, user_id: int):
             title=project.title,
             desc=project.desc,
             cover_url=project.cover_url,
+            link=project.link,
             category=project.category.name
         )
 
@@ -55,6 +56,7 @@ def get_projects(db: Session):
             title=project.title,
             desc=project.desc,
             cover_url=project.cover_url,
+            link=project.link,
             category=project.category.name
         )
         for project in projects
@@ -83,6 +85,9 @@ def update_project(db: Session, project_id: int, data: ProjectUpdate2, user_id: 
             pass
         project.cover_url = data.cover_url
 
+    if data.link:
+        project.link = data.link
+
     if data.category_id:
         project.category_id = data.category_id
 
@@ -102,6 +107,7 @@ def update_project(db: Session, project_id: int, data: ProjectUpdate2, user_id: 
             title=project.title,
             desc=project.desc,
             cover_url=project.cover_url,
+            link=project.link,
             category=project.category.name
         )
 
