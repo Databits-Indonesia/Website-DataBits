@@ -22,14 +22,13 @@ class CareerBase(BaseModel):
         ...,
         description="Link apply"
     )
+    # image_url: str
+
+class CareerCreate(CareerBase):
     category_id: int = Field(
         ...,
         description="ID Kategori untuk karir"
     )
-    # image_url: str
-
-class CareerCreate(CareerBase):
-    pass
 
 class CareerUpdate(BaseModel):
     position: Optional[str] = Field(
@@ -66,6 +65,10 @@ class CareerRead(CareerBase):
     model_config = {
         "from_attributes": True
     }
+    category: int = Field(
+        ...,
+        description="Kategori karir"
+    )
 
 class CareerCount(BaseModel):
     total_careers: int

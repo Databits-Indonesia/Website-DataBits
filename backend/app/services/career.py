@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.models.career import Career
-from app.schemas.career import CareerCreate, CareerUpdate
+from app.schemas.career import CareerCreate, CareerUpdate, CareerRead
 from app.services.activity import log_activity
+from sqlalchemy.orm import joinedload
 
 def create_career(db: Session, data: CareerCreate, user_id: int):
     career = Career(
@@ -26,11 +27,38 @@ def create_career(db: Session, data: CareerCreate, user_id: int):
         object_id=career.id,
         description=f"Career baru ditambahkan: {career.position}"
     )
-    return career
+    return CareerRead(
+            id=career.id,
+            position=career.position,
+            work_mode=career.work_mode,
+            job_type=career.job_type,
+            desc=career.desc,
+            apply_link=career.apply_link,
+            category=career.category.name
+        )
 
 
 def get_careers(db: Session):
-    return db.query(Career).all()
+    careers = (
+            db.query(Career)
+            .options(
+                joinedload(Career.category)
+            )
+            .all()
+        )
+
+    return [
+        CareerRead(
+            id=career.id,
+            position=career.position,
+            work_mode=career.work_mode,
+            job_type=career.job_type,
+            desc=career.desc,
+            apply_link=career.apply_link,
+            category=career.category.name
+        )
+        for career in careers
+    ]
 
 
 def get_career_by_id(db: Session, career_id: int):

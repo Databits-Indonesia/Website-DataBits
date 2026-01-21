@@ -43,7 +43,6 @@ def get_projects(db: Session):
     projects = (
             db.query(Project)
             .options(
-                joinedload(Project.user), 
                 joinedload(Project.category)
             )
             .order_by(Project.created_at.desc())
