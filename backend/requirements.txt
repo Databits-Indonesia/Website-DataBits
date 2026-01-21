@@ -1,3 +1,12 @@
 sqlalchemy
 fastapi
 uvicorn
+python-dotenv
+pymysql
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+alembic
+pytz
+Pillow
+pydantic[email]
