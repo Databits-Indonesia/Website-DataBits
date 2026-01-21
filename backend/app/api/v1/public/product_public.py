@@ -16,5 +16,5 @@ router = APIRouter(
 )
 
 @router.get("", response_model=List[ProductRead])
-def list_superiority(db: Session = Depends(get_db)):
+def list_products(db: Session = Depends(get_db)):
     return get_products(db)

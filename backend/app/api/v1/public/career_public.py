@@ -16,5 +16,5 @@ router = APIRouter(
 )
 
 @router.get("", response_model=List[CareerRead])
-def list_career(db: Session = Depends(get_db)):
+def list_careers(db: Session = Depends(get_db)):
     return get_careers(db)
