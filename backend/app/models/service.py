@@ -22,6 +22,6 @@ class Service(Base):
     )
 
     def __repr__(self):
-        return f"<Service {self.title}>"
+        return f"<Service {self.name}>"
 
     
