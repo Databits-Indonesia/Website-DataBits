@@ -6,6 +6,7 @@ from app.schemas.blog import (
     BlogRead, BlogUpdate, 
     BlogUpdate2, BlogCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.blog import (
     create_blog,
     get_blogs,
@@ -57,8 +58,7 @@ def update(blog_id: int, data: BlogUpdate, db: Session = Depends(get_db), curren
     data = BlogUpdate2(title=data.title, content=data.content, cover_url=cover_url, category_id=data.category_id)
     return update_blog(db, blog_id, data, user_id)
 
-
-@router.delete("/{blog_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{blog_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(blog_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_blog(db, blog_id, user_id)

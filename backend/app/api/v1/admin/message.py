@@ -5,6 +5,7 @@ from app.schemas.message import (
     MessageRead, 
     MessageCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.message import (
     get_messages,
     delete_message,
@@ -22,13 +23,13 @@ router = APIRouter(
 def list_messages(db: Session = Depends(get_db)):
     return get_messages(db)
 
-@router.delete("/{message_id}", dependencies=[Depends(admin_or_owner)])
-def delete(message_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    user_id = int(current_user["sub"])
-    delete_message(db, message_id, user_id)
-    return {"message": "message deleted"}
-
 @router.get("/count", response_model=MessageCount, dependencies=[Depends(admin_or_owner)])
 def messages_count(db: Session = Depends(get_db)):
     total = count_messages(db)
     return {"total_messages": total}
+
+@router.delete("/{message_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
+def delete(message_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    user_id = int(current_user["sub"])
+    delete_message(db, message_id, user_id)
+    return {"message": "message deleted"}

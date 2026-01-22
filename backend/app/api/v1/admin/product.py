@@ -8,6 +8,7 @@ from app.schemas.product import (
     ProductRead,
     ProductCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.product import (
     create_product,
     get_products,
@@ -42,7 +43,7 @@ def update(product_id: int, data: ProductUpdate, db: Session = Depends(get_db), 
     user_id= int(current_user["sub"])
     return update_product(db, product_id, data, user_id)
 
-@router.delete("/{product_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{product_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(product_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_product(db, product_id, user_id)

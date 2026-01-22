@@ -8,6 +8,7 @@ from app.schemas.user import (
     UserResponse, 
     UserCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.user import (
     create_user,
     get_users,
@@ -43,7 +44,7 @@ def update(user_id: int, data: UserUpdate, db: Session = Depends(get_db), curren
     user_act= int(current_user["sub"])
     return update_user(db, user_id, data, user_act)
 
-@router.delete("/{user_id}", dependencies=[Depends(owner_only)])
+@router.delete("/{user_id}", response_model=DeleteMSG, dependencies=[Depends(owner_only)])
 def delete(user_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_act = int(current_user["sub"])
     delete_user(db, user_id, user_act)

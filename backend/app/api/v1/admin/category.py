@@ -7,6 +7,7 @@ from app.schemas.category import (
     CategoryUpdate, 
     CategoryType
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.category import (
     create_category,
     get_categories,
@@ -44,7 +45,7 @@ def update(category_id: int, data: CategoryUpdate, db: Session = Depends(get_db)
     return update_category(db, category_id, data, user_id)
 
 
-@router.delete("/{category_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{category_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(category_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_category(db, category_id, user_id)

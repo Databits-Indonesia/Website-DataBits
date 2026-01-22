@@ -8,6 +8,7 @@ from app.schemas.career import (
     CareerRead, 
     CareerCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.career import (
     create_career,
     get_careers,
@@ -42,7 +43,7 @@ def update(career_id: int, data: CareerUpdate, db: Session = Depends(get_db), cu
     user_id= int(current_user["sub"])
     return update_career(db, career_id, data, user_id)
 
-@router.delete("/{career_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{career_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(career_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_career(db, career_id, user_id)

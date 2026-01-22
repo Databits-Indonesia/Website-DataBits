@@ -6,6 +6,7 @@ from app.schemas.project import (
     ProjectRead, ProjectUpdate, 
     ProjectUpdate2, ProjectCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.project import (
     create_project,
     get_projects,
@@ -52,8 +53,7 @@ def update(project_id: int, data: ProjectUpdate, db: Session = Depends(get_db), 
     data = ProjectUpdate2(title=data.title, desc=data.desc, cover_url=cover_url, category_id=data.category_id)
     return update_project(db, project_id, data, user_id)
 
-
-@router.delete("/{project_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{project_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(project_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_project(db, project_id, user_id)

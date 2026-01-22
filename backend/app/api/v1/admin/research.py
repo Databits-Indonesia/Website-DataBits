@@ -5,6 +5,7 @@ from app.schemas.research import (
     ResearchCreate, ResearchRead, 
     ResearchUpdate, ResearchCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.research import (
     create_research,
     get_researchs,
@@ -44,7 +45,7 @@ def update(research_id: int, data: ResearchUpdate, db: Session = Depends(get_db)
     data = ResearchUpdate(title=data.title, desc=data.desc, link=data.link, category_id=data.category_id)
     return update_research(db, research_id, data, user_id)
 
-@router.delete("/{research_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{research_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(research_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_research(db, research_id, user_id)

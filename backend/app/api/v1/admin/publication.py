@@ -8,6 +8,7 @@ from app.schemas.publication import (
     PublicationRead,
     PublicationCount
 )
+from app.schemas.delete_msg import DeleteMSG
 from app.services.publication import (
     create_publication,
     get_publications,
@@ -42,7 +43,7 @@ def update(publication_id: int, data: PublicationUpdate, db: Session = Depends(g
     user_id= int(current_user["sub"])
     return update_publication(db, publication_id, data, user_id)
 
-@router.delete("/{publication_id}", dependencies=[Depends(admin_or_owner)])
+@router.delete("/{publication_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(publication_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     delete_publication(db, publication_id, user_id)
