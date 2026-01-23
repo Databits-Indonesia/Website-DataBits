@@ -29,11 +29,9 @@ def create(data: CategoryCreate, db: Session = Depends(get_db), current_user = D
     user_id = int(current_user["sub"])
     return create_category(db, data, user_id)
 
-
 @router.get("", response_model=List[CategoryRead], dependencies=[Depends(admin_or_owner)])
 def list_categories(db: Session = Depends(get_db)):
     return get_categories(db)
-
 
 @router.get("/{type}", response_model=List[CategoryRead], dependencies=[Depends(admin_or_owner)])
 def list_categories_per_type(type: CategoryType, db: Session = Depends(get_db)):
@@ -43,7 +41,6 @@ def list_categories_per_type(type: CategoryType, db: Session = Depends(get_db)):
 def update(category_id: int, data: CategoryUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     return update_category(db, category_id, data, user_id)
-
 
 @router.delete("/{category_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
 def delete(category_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

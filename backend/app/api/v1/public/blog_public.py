@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Query
 from sqlalchemy.orm import Session
 from typing import List
 from app.schemas.blog import BlogRead
+from app.schemas.target_lang import Language
 from app.services.blog import get_blogs, get_blog_by_id, register_blog_view
+from app.services.translate import translate
 from app.core.database import get_db
 
 router = APIRouter(
@@ -15,8 +17,9 @@ def list_blogs(db: Session = Depends(get_db)):
     return get_blogs(db)
 
 @router.get("/{blog_id}", response_model=BlogRead)
-def blog_detail(blog_id: int, db: Session = Depends(get_db)):
+async def blog_detail(blog_id: int, target_lang: Language = Query("id"), db: Session = Depends(get_db)):
     blog = get_blog_by_id(db, blog_id)
+    blog.title, blog.content = await translate([blog.title, blog.content], target_lang)
     return BlogRead(
             id=blog.id,
             title=blog.title,
@@ -24,7 +27,8 @@ def blog_detail(blog_id: int, db: Session = Depends(get_db)):
             cover_url=blog.cover_url,
             views=blog.views,
             created_at=blog.created_at,
-            user=blog.user.username
+            user=blog.user.username,
+            category=blog.category.name
         )
 
 @router.post("/{blog_id}/view")

@@ -15,7 +15,7 @@ def login(data: LoginRequest, response: Response, db: Session = Depends(get_db))
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email/Username atau password salah"
+            detail="Email/Username atau password salah (wrong)"
         )
     
     response.set_cookie(

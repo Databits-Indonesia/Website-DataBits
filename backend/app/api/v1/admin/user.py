@@ -29,7 +29,6 @@ def create(data: UserCreate, db: Session = Depends(get_db), current_user = Depen
     user_act = int(current_user["sub"])
     return create_user(db, data, user_act)
 
-
 @router.get("", response_model=List[UserResponse], dependencies=[Depends(owner_only)])
 def list_users(db: Session = Depends(get_db)):
     return get_users(db)
