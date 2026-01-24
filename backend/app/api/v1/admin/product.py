@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -8,6 +8,7 @@ from app.schemas.product import (
     ProductRead,
     ProductCount
 )
+from app.schemas.target_lang import Language
 from app.schemas.delete_msg import DeleteMSG
 from app.services.product import (
     create_product,
@@ -16,6 +17,7 @@ from app.services.product import (
     delete_product,
     count_products
 )
+from app.services.translate import translate
 from app.core.database import get_db
 from app.core.dependencies import admin_or_owner, get_current_user
 
@@ -30,8 +32,22 @@ def create(data: ProductCreate, db: Session = Depends(get_db), current_user = De
     return create_product(db, data, user_id)
 
 @router.get("", response_model=List[ProductRead], dependencies=[Depends(admin_or_owner)])
-def list_products(db: Session = Depends(get_db)):
-    return get_products(db)
+async def list_products(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    products = get_products(db)
+    FIELDS = [
+        "name",
+        "desc"
+    ]
+    if not products:
+        return []
+    
+    for obj in products:
+        data = [getattr(obj, f) for f in FIELDS]
+        translated = await translate(data, target_lang)
+        
+        for f, value in zip(FIELDS, translated):
+            setattr(obj, f, value)
+    return products
 
 @router.get("/stats/count", response_model=ProductCount, dependencies=[Depends(admin_or_owner)])
 def products_count(db: Session = Depends(get_db)):
