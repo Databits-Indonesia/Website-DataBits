@@ -13,8 +13,23 @@ router = APIRouter(
 )
 
 @router.get("", response_model=List[BlogRead])
-def list_blogs(db: Session = Depends(get_db)):
-    return get_blogs(db)
+async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    blogs = get_blogs(db)
+    FIELDS = [
+        "title",
+        "content",
+    ]
+    blogs = get_blogs(db)
+    if not blogs:
+        return []
+    
+    for obj in blogs:
+        data = [getattr(obj, f) for f in FIELDS]
+        translated = await translate(data, target_lang)
+        
+        for f, value in zip(FIELDS, translated):
+            setattr(obj, f, value)
+    return blogs
 
 @router.get("/{blog_id}", response_model=BlogRead)
 async def blog_detail(blog_id: int, target_lang: Language = Query("id"), db: Session = Depends(get_db)):

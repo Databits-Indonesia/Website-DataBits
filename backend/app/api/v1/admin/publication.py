@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -8,6 +8,7 @@ from app.schemas.publication import (
     PublicationRead,
     PublicationCount
 )
+from app.schemas.target_lang import Language
 from app.schemas.delete_msg import DeleteMSG
 from app.services.publication import (
     create_publication,
@@ -16,6 +17,7 @@ from app.services.publication import (
     delete_publication,
     count_publications
 )
+from app.services.translate import translate
 from app.core.database import get_db
 from app.core.dependencies import admin_or_owner, get_current_user
 
@@ -30,8 +32,23 @@ def create(data: PublicationCreate, db: Session = Depends(get_db), current_user 
     return create_publication(db, data, user_id)
 
 @router.get("", response_model=List[PublicationRead], dependencies=[Depends(admin_or_owner)])
-def list_publications(db: Session = Depends(get_db)):
-    return get_publications(db)
+async def list_publications(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    publications = get_publications(db)
+    FIELDS = [
+        "title",
+        "journal",
+        "desc"
+    ]
+    if not publications:
+        return []
+    
+    for obj in publications:
+        data = [getattr(obj, f) for f in FIELDS]
+        translated = await translate(data, target_lang)
+        
+        for f, value in zip(FIELDS, translated):
+            setattr(obj, f, value)
+    return publications
 
 @router.get("/stats/count", response_model=PublicationCount, dependencies=[Depends(admin_or_owner)])
 def publications_count(db: Session = Depends(get_db)):

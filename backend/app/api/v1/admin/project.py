@@ -1,12 +1,13 @@
-from fastapi import APIRouter, Depends, UploadFile, Form
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List
 from app.schemas.project import (
     ProjectCreate, ProjectCreate2, 
     ProjectRead, ProjectUpdate, 
     ProjectUpdate2, ProjectCount
 )
 from app.schemas.delete_msg import DeleteMSG
+from app.schemas.target_lang import Language
 from app.services.project import (
     create_project,
     get_projects,
@@ -15,6 +16,7 @@ from app.services.project import (
     upload_cover,
     count_projects
 )
+from app.services.translate import translate
 from app.core.database import get_db
 from app.core.dependencies import (
     admin_or_owner, 
@@ -37,8 +39,22 @@ def create(data: ProjectCreate, db: Session = Depends(get_db), current_user = De
     return create_project(db, data, user_id)
 
 @router.get("", response_model=List[ProjectRead], dependencies=[Depends(admin_or_owner)])
-def list_projects(db: Session = Depends(get_db)):
-    return get_projects(db)
+async def list_projects(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    projects = get_projects(db)
+    FIELDS = [
+        "title",
+        "desc"
+    ]
+    if not projects:
+        return []
+    
+    for obj in projects:
+        data = [getattr(obj, f) for f in FIELDS]
+        translated = await translate(data, target_lang)
+        
+        for f, value in zip(FIELDS, translated):
+            setattr(obj, f, value)
+    return projects
 
 @router.get("/stats/count", response_model=ProjectCount, dependencies=[Depends(admin_or_owner)])
 def projects_count(db: Session = Depends(get_db)):
