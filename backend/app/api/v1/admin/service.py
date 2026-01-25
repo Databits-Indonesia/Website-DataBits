@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -8,6 +8,7 @@ from app.schemas.service import (
     ServiceRead,
     ServiceCount
 )
+from app.schemas.target_lang import Language
 from app.schemas.delete_msg import DeleteMSG
 from app.services.service import (
     create_service,
@@ -16,6 +17,7 @@ from app.services.service import (
     delete_service,
     count_services
 )
+from app.services.translate import translate
 from app.core.database import get_db
 from app.core.dependencies import admin_or_owner, get_current_user
 
@@ -30,8 +32,22 @@ def create(data: ServiceCreate, db: Session = Depends(get_db), current_user = De
     return create_service(db, data, user_id)
 
 @router.get("", response_model=List[ServiceRead], dependencies=[Depends(admin_or_owner)])
-def list_services(db: Session = Depends(get_db)):
-    return get_services(db)
+async def list_services(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    services = get_services(db)
+    FIELDS = [
+        "title",
+        "desc"
+    ]
+    if not services:
+        return []
+    
+    for obj in services:
+        data = [getattr(obj, f) for f in FIELDS]
+        translated = await translate(data, target_lang)
+        
+        for f, value in zip(FIELDS, translated):
+            setattr(obj, f, value)
+    return services
 
 @router.get("/stats/count", response_model=ServiceCount, dependencies=[Depends(admin_or_owner)])
 def services_count(db: Session = Depends(get_db)):
