@@ -1,18 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { APIClient } from '@/lib/api-client';
-import { Card } from '@/components/ui/card';
+import StatCard from '@/components/admin/StatCard';
 import {
     Users,
     FileText,
     Package,
-    FolderKanban,
-    Briefcase,
-    Mail,
-    GraduationCap,
-    TrendingUp
+    FolderKanban
 } from 'lucide-react';
+
+const ChartOne = dynamic(() => import('@/components/admin/Charts/ChartOne'), {
+    ssr: false,
+});
 
 interface Stats {
     users: number;
@@ -88,7 +89,7 @@ export default function AdminDashboard() {
                 research: researchCount.total_research,
             });
 
-            setActivities(activityData.slice(0, 10)); // Show latest 10 activities
+            setActivities(activityData.slice(0, 10));
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
         } finally {
@@ -97,14 +98,10 @@ export default function AdminDashboard() {
     };
 
     const statCards = [
-        { label: 'Total Users', value: stats.users, icon: Users, color: 'from-blue-500 to-blue-600' },
-        { label: 'Blog Posts', value: stats.blogs, icon: FileText, color: 'from-purple-500 to-purple-600' },
-        { label: 'Products', value: stats.products, icon: Package, color: 'from-green-500 to-green-600' },
-        { label: 'Projects', value: stats.projects, icon: FolderKanban, color: 'from-orange-500 to-orange-600' },
-        { label: 'Open Positions', value: stats.careers, icon: Briefcase, color: 'from-pink-500 to-pink-600' },
-        { label: 'Messages', value: stats.messages, icon: Mail, color: 'from-red-500 to-red-600' },
-        { label: 'Publications', value: stats.publications, icon: GraduationCap, color: 'from-indigo-500 to-indigo-600' },
-        { label: 'Research', value: stats.research, icon: TrendingUp, color: 'from-teal-500 to-teal-600' },
+        { label: 'Total Users', value: stats.users, icon: Users, trend: { value: 0.43, isPositive: true } },
+        { label: 'Blog Posts', value: stats.blogs, icon: FileText, trend: { value: 4.35, isPositive: true } },
+        { label: 'Products', value: stats.products, icon: Package, trend: { value: 2.59, isPositive: true } },
+        { label: 'Projects', value: stats.projects, icon: FolderKanban, trend: { value: 0.95, isPositive: false } },
     ];
 
     if (loading) {
@@ -117,69 +114,52 @@ export default function AdminDashboard() {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-                <p className="text-slate-600 dark:text-slate-400 mt-1">Welcome back! Here's what's happening.</p>
-            </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {statCards.map((stat) => (
-                    <Card key={stat.label} className="p-6 hover:shadow-lg transition-shadow">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{stat.label}</p>
-                                <p className="text-3xl font-bold text-slate-900 dark:text-white mt-2">{stat.value}</p>
-                            </div>
-                            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                                <stat.icon className="w-6 h-6 text-white" />
-                            </div>
-                        </div>
-                    </Card>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:gap-8">
+                {statCards.map((stat, index) => (
+                    <StatCard
+                        key={index}
+                        title={stat.label}
+                        value={stat.value.toString()}
+                        icon={stat.icon}
+                        trend={stat.trend}
+                    />
                 ))}
             </div>
 
-            {/* Activity Log */}
-            <Card className="p-6">
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Recent Activity</h2>
-                <div className="space-y-4">
-                    {activities.length === 0 ? (
-                        <p className="text-slate-500 dark:text-slate-400 text-center py-8">No recent activity</p>
-                    ) : (
-                        activities.map((activity) => (
-                            <div
-                                key={activity.id}
-                                className="flex items-start space-x-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <div className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-blue-600"></div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-slate-900 dark:text-white">
-                                        {activity.description}
-                                    </p>
-                                    <div className="flex items-center space-x-2 mt-1">
-                                        <span className="text-xs text-slate-500 dark:text-slate-400">
-                                            {activity.user || 'System'}
-                                        </span>
-                                        <span className="text-xs text-slate-400 dark:text-slate-500">•</span>
-                                        <span className="text-xs text-slate-500 dark:text-slate-400">
-                                            {new Date(activity.created_at).toLocaleString()}
+            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+                <ChartOne />
+
+                {/* Activity Feed reusing the space efficiently */}
+                <div className="col-span-12 xl:col-span-4 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
+                        Recent Activity
+                    </h4>
+
+                    <div className="flex flex-col gap-5">
+                        {activities.length === 0 ? (
+                            <p className="text-gray-500 text-center py-4">No recent activity</p>
+                        ) : (
+                            activities.slice(0, 6).map((activity) => (
+                                <div key={activity.id} className="flex items-center gap-3 px-7.5">
+                                    <div className="relative h-10 w-10 rounded-full bg-meta-2 dark:bg-meta-4">
+                                        <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-blue-600">
+                                            {activity.user ? activity.user.charAt(0).toUpperCase() : 'S'}
+                                        </div>
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium text-black dark:text-white">
+                                            {activity.description}
+                                        </p>
+                                        <span className="text-xs text-gray-500">
+                                            {new Date(activity.created_at).toLocaleTimeString()}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex-shrink-0">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${activity.action === 'create' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-                                            activity.action === 'update' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' :
-                                                'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                                        }`}>
-                                        {activity.action}
-                                    </span>
-                                </div>
-                            </div>
-                        ))
-                    )}
+                            ))
+                        )}
+                    </div>
                 </div>
-            </Card>
+            </div>
         </div>
     );
 }

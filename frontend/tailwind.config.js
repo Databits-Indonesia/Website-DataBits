@@ -14,6 +14,14 @@ export default {
         primary: "#135bec",
         "background-light": "#ffffff", // Changed from "#f6f6f8"
         "background-dark": "#101622",
+        // TailAdmin colors
+        stroke: '#E2E8F0',
+        strokedark: '#2E3A47',
+        boxdark: '#24303F',
+        'boxdark-2': '#1A222C',
+        'meta-2': '#EFF2F7',
+        'meta-4': '#313D4A',
+        secondary: '#80CAEE',
       },
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
