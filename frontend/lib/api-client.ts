@@ -10,6 +10,13 @@ export class APIClient {
         return null;
     }
 
+    private static isUsingCookieAuth(): boolean {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('auth_method') === 'cookie';
+        }
+        return false;
+    }
+
     private static async request<T>(
         endpoint: string,
         options: RequestInit = {}
@@ -27,6 +34,7 @@ export class APIClient {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
             headers,
+            credentials: 'include', // Always include cookies
         });
 
         if (!response.ok) {
@@ -38,11 +46,60 @@ export class APIClient {
 
     // Auth endpoints
     static async login(email_username: string, password: string) {
-        const response = await this.request<{ message: string }>('/auth/login', {
+        console.log('Login attempt for:', email_username);
+
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({ email_username, password }),
+            credentials: 'include', // Important: include cookies in requests
         });
-        return response;
+
+        if (!response.ok) {
+            console.error('Login failed:', response.statusText);
+            throw new Error(`API Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Login response:', data);
+
+        // Check if token is in response headers
+        const authHeader = response.headers.get('Authorization');
+        const setCookieHeader = response.headers.get('Set-Cookie');
+
+        console.log('Authorization header:', authHeader);
+        console.log('Set-Cookie header:', setCookieHeader);
+
+        // Try to extract token from Authorization header
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const token = authHeader.substring(7);
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('auth_token', token);
+                console.log('Token saved from Authorization header');
+            }
+        }
+        // Check if token is in response body
+        else if (data.access_token) {
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('auth_token', data.access_token);
+                console.log('Token saved from response body');
+            }
+        }
+        // If using HTTP-only cookies, we don't need to store anything
+        else if (setCookieHeader || response.headers.has('set-cookie')) {
+            console.log('Using cookie-based authentication');
+            // Set a flag to indicate we're using cookie auth
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('auth_method', 'cookie');
+            }
+        } else {
+            console.warn('No token found in response. Response data:', data);
+            console.warn('All headers:', Array.from(response.headers.entries()));
+        }
+
+        return data;
     }
 
     static async logout() {

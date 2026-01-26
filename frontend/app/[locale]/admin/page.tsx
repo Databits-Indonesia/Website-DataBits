@@ -18,12 +18,21 @@ export default function AdminLoginPage() {
         setLoading(true);
 
         try {
+            console.log('Starting login process...');
             await APIClient.login(emailUsername, password);
 
-            // Store auth token (you'll need to extract this from response headers or body)
-            // For now, we'll just redirect to dashboard
-            router.push('/admin/dashboard');
+            // Small delay to ensure token is saved to localStorage
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Verify token was saved
+            const token = localStorage.getItem('auth_token');
+            console.log('After login - token in localStorage:', token ? 'exists' : 'missing');
+
+            // Use replace instead of push to prevent back navigation to login
+            console.log('Navigating to dashboard...');
+            router.replace('/admin/dashboard');
         } catch (err) {
+            console.error('Login error:', err);
             setError('Invalid credentials. Please try again.');
         } finally {
             setLoading(false);
