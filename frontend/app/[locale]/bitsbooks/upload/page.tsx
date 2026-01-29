@@ -5,8 +5,6 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { ArrowLeft, Upload, Eye, FileText } from 'lucide-react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'katex/dist/katex.min.css';
 
 export default function UploadBook() {
   const { user, addBook } = useAuth();

@@ -126,7 +126,7 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
                                                             : 'text-gray-700 dark:text-gray-300'
                                                             } ${isCollapsed ? 'justify-center px-2' : ''}`}
                                                     >
-                                                        <Icon className="h-5 w-5 flex-shrink-0" />
+                                                        <Icon className="h-5 w-5 shrink-0" />
                                                         {!isCollapsed && (
                                                             <>
                                                                 <span className="flex-1 text-left">{item.name}</span>
@@ -162,7 +162,7 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
                                                         : 'text-gray-700 dark:text-gray-300'
                                                         } ${isCollapsed ? 'justify-center px-2' : ''}`}
                                                 >
-                                                    <Icon className="h-5 w-5 flex-shrink-0" />
+                                                    <Icon className="h-5 w-5 shrink-0" />
                                                     {!isCollapsed && <span>{item.name}</span>}
                                                 </Link>
                                             )}
@@ -189,7 +189,7 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
                         className={`flex w-full items-center gap-2.5 rounded-lg px-4 py-2.5 font-medium text-red-600 duration-300 ease-in-out hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 ${isCollapsed ? 'justify-center px-2' : ''}`}
                     >
                         <svg
-                            className="h-5 w-5 flex-shrink-0"
+                            className="h-5 w-5 shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"

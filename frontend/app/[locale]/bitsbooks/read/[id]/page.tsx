@@ -4,8 +4,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { ArrowLeft, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import "react-quill/dist/quill.snow.css";
-import "katex/dist/katex.min.css";
 
 export default function ReadBook() {
   const { id } = useParams();
@@ -71,7 +69,7 @@ export default function ReadBook() {
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <div className="bg-white p-8 md:p-12 shadow-sm">
           <h1 className="text-3xl font-bold mb-2 text-black">{book.title}</h1>
-          <p className="text-gray-600 mb-8 text-black">oleh {book.author}</p>
+          <p className="text-gray-600 mb-8">oleh {book.author}</p>
 
           <div className="book-content ql-editor text-black prose max-w-none">
             <div dangerouslySetInnerHTML={{ __html: book.content }} />
