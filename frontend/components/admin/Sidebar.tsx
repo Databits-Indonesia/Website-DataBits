@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale, localizePath } from '@/lib/i18n';
 import {
     LayoutDashboard,
     FileText,
@@ -42,7 +43,9 @@ const navigation: NavItem[] = [
 ];
 
 export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSidebarProps) {
+    const router = useRouter();
     const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
 
     const toggleExpanded = (name: string) => {
@@ -68,16 +71,12 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
             >
                 {/* Sidebar Header */}
                 <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                    <Link href="/admin/dashboard" className={`flex items-center gap-2 ${isCollapsed ? 'justify-center w-full' : ''}`}>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex-shrink-0">
-                            <span className="text-sm font-bold text-white">DB</span>
-                        </div>
-                        {!isCollapsed && (
-                            <span className="text-xl font-bold text-gray-900 dark:text-white duration-300 ease-in-out">
-                                DataBits
-                            </span>
-                        )}
-                    </Link>
+                    <div
+                        className={`flex items-center gap-4 cursor-pointer ${isCollapsed ? 'justify-center w-full' : ''}`}
+                        onClick={() => router.push(localizePath(locale, '/'))}
+                    >
+                        <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
+                    </div>
 
                     <button
                         onClick={onClose}
