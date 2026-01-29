@@ -31,7 +31,7 @@ router = APIRouter(
 )
 
 @router.post("", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
-def create(data: ProjectCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def create(data: ProjectCreate = Depends(), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     image = validate_image_file(data.image)
     cover_url = upload_cover(image)
@@ -62,7 +62,7 @@ def projects_count(db: Session = Depends(get_db)):
     return {"total_projects": total}
 
 @router.put("/{project_id}", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
-def update(project_id: int, data: ProjectUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def update(project_id: int, data: ProjectUpdate = Depends(), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     image = validate_image_file_optional(data.image)
     cover_url = upload_cover(image) if image else None

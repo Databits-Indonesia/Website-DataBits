@@ -32,7 +32,7 @@ router = APIRouter(
 )
 
 @router.post("", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-def create(data: BlogCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def create(data: BlogCreate = Depends(), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     image = validate_image_file(data.image)
     cover_url = upload_cover(image)
@@ -78,7 +78,7 @@ def blogs_count(db: Session = Depends(get_db)):
     return {"total_blogs": total}
 
 @router.put("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-def update(blog_id: int, data: BlogUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def update(blog_id: int, data: BlogUpdate = Depends(), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
     image = validate_image_file_optional(data.image)
     cover_url = upload_cover(image) if image else None
