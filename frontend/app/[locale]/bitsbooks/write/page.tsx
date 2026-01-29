@@ -5,14 +5,11 @@ import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import { ArrowLeft, Eye, FileText } from "lucide-react";
 import dynamic from "next/dynamic";
-import "katex/dist/katex.min.css";
-// 1. Ganti import CSS ke react-quill-new
-import "react-quill-new/dist/quill.snow.css";
 
 // 2. Ganti dynamic import ke react-quill-new
 const ReactQuill = dynamic(() => import("react-quill-new"), { 
   ssr: false,
-  loading: () => <div className="h-[500px] bg-gray-50 animate-pulse flex items-center justify-center border">Loading Editor...</div>
+  loading: () => <div className="h-125 bg-gray-50 animate-pulse flex items-center justify-center border">Loading Editor...</div>
 });
 
 export default function WriteBook() {
@@ -134,7 +131,7 @@ export default function WriteBook() {
                                     <textarea
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:border-black min-h-[100px] bg-white"
+                                        className="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:border-black min-h-25 bg-white"
                                         required
                                     />
                                 </div>
@@ -188,11 +185,11 @@ export default function WriteBook() {
                                         modules={modules}
                                         formats={formats}
                                         placeholder="Mulai tulis buku Anda..."
-                                        className="min-h-[500px]"
+                                        className="min-h-125"
                                     />
                                 </div>
                             ) : (
-                                <div className="border border-gray-300 bg-white p-8 min-h-[500px] prose max-w-none">
+                                <div className="border border-gray-300 bg-white p-8 min-h-125 prose max-w-none">
                                     <h2 className="text-2xl font-bold mb-4 text-black">Preview</h2>
                                     <div
                                         className="ql-editor"

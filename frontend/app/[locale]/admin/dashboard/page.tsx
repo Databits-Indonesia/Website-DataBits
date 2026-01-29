@@ -130,7 +130,7 @@ export default function AdminDashboard() {
                 {/* <ChartOne /> */}
 
                 {/* Activity Feed */}
-                <div className="col-span-12 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+                <div className="col-span-12 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-gray-800 dark:bg-gray-900">
                     <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
                         Recent Activity
                     </h4>

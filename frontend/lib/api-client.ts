@@ -234,6 +234,30 @@ export class APIClient {
         }>>(`/blogs?target_lang=${target_lang}`);
     }
 
+    static async createBlog(data: {
+        title: string;
+        content: string;
+        cover_url: string;
+        category_id: number;
+    }) {
+        return this.request('/blogs', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updateBlog(blogId: number, data: Partial<{
+        title: string;
+        content: string;
+        cover_url: string;
+        category_id: number;
+    }>) {
+        return this.request(`/blogs/${blogId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
+    }
+
     static async deleteBlog(blogId: number) {
         return this.request(`/blogs/${blogId}`, {
             method: 'DELETE',
