@@ -2,8 +2,10 @@ from .about import About
 from .activity_log import ActivityLog
 from .blog_view import BlogView
 from .blog import Blog
+from .career import Career
 from .category import Category
 from .contact import Contact
+from .home import Home
 from .list_service import ListService
 from .message import Message
 from .project import Project
@@ -11,4 +13,5 @@ from .product import Product
 from .publication import Publication
 from .research import Research
 from .service import Service
+from .sup_career import SupCareer
 from .user import User

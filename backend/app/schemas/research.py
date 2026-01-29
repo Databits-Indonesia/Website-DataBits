@@ -53,4 +53,4 @@ class ResearchRead(ResearchBase):
     }
 
 class ResearchCount(BaseModel):
-    total_research: int
+    total_researchs: int
