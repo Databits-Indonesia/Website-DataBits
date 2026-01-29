@@ -89,7 +89,7 @@ class ProjectRead(ProjectBase):
         ...,
         description="Url cover project"
     )
-    category: int = Field(
+    category: str = Field(
         ...,
         description="Kategori project"
     )

@@ -234,6 +234,31 @@ export class APIClient {
         }>>(`/blogs?target_lang=${target_lang}`);
     }
 
+    static async uploadBlogImage(file: File): Promise<{ cover_url: string }> {
+        const token = this.getAuthToken();
+        const isUsingCookieAuth = this.isUsingCookieAuth();
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const headers: Record<string, string> = {};
+        if (token && !isUsingCookieAuth) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/blogs/upload`, {
+            method: 'POST',
+            headers,
+            body: formData,
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`Upload failed: ${response.statusText}`);
+        }
+
+        return response.json();
+    }
+
     static async createBlog(data: {
         title: string;
         content: string;
@@ -273,8 +298,39 @@ export class APIClient {
             job_type: string;
             desc: string;
             apply_link: string;
-            category: number;
+            category: string;
         }>>(`/career?target_lang=${target_lang}`);
+    }
+
+    static async createCareer(data: {
+        position: string;
+        work_mode: string;
+        job_type: string;
+        desc: string;
+        apply_link: string;
+        category_id: number;
+    }) {
+        return this.request('/career', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updateCareer(
+        careerId: number,
+        data: Partial<{
+            position: string;
+            work_mode: string;
+            job_type: string;
+            desc: string;
+            apply_link: string;
+            category_id: number;
+        }>
+    ) {
+        return this.request(`/career/${careerId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
     }
 
     static async deleteCareer(careerId: number) {
@@ -292,6 +348,33 @@ export class APIClient {
             link: string;
             icon: string;
         }>>(`/product?target_lang=${target_lang}`);
+    }
+
+    static async createProduct(data: {
+        name: string;
+        desc: string;
+        link: string;
+        icon: string;
+    }) {
+        return this.request('/product', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updateProduct(
+        productId: number,
+        data: Partial<{
+            name: string;
+            desc: string;
+            link: string;
+            icon: string;
+        }>
+    ) {
+        return this.request(`/product/${productId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
     }
 
     static async deleteProduct(productId: number) {
@@ -316,6 +399,83 @@ export class APIClient {
         return this.request(`/projects/${projectId}`, {
             method: 'DELETE',
         });
+    }
+
+    static async createProject(data: {
+        title: string;
+        desc: string;
+        link: string;
+        category_id: number;
+        image: File;
+    }) {
+        const token = this.getAuthToken();
+        const isUsingCookieAuth = this.isUsingCookieAuth();
+
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('desc', data.desc);
+        formData.append('link', data.link);
+        formData.append('category_id', data.category_id.toString());
+        formData.append('image', data.image);
+
+        const headers: Record<string, string> = {};
+        if (token && !isUsingCookieAuth) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/projects`, {
+            method: 'POST',
+            headers,
+            body: formData,
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.statusText}`);
+        }
+
+        return response.json();
+    }
+
+    static async updateProject(
+        projectId: number,
+        data: Partial<{
+            title: string;
+            desc: string;
+            link: string;
+            category_id: number;
+            image: File;
+        }>
+    ) {
+        const token = this.getAuthToken();
+        const isUsingCookieAuth = this.isUsingCookieAuth();
+
+        const formData = new FormData();
+        if (data.title !== undefined) formData.append('title', data.title);
+        if (data.desc !== undefined) formData.append('desc', data.desc);
+        if (data.link !== undefined) formData.append('link', data.link);
+        if (data.category_id !== undefined) {
+            formData.append('category_id', data.category_id.toString());
+        }
+        if (data.image) formData.append('image', data.image);
+
+        const headers: Record<string, string> = {};
+        if (token && !isUsingCookieAuth) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/projects/${projectId}`, {
+            method: 'PUT',
+            headers,
+            body: formData,
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.statusText}`);
+        }
+
+        return response.json();
     }
 
     // Publications
@@ -387,6 +547,29 @@ export class APIClient {
             name: string;
             type: 'project' | 'blog' | 'research' | 'career';
         }>>(`/categories/${type}`);
+    }
+
+    static async createCategory(data: {
+        name: string;
+        type: 'project' | 'blog' | 'research' | 'career';
+    }) {
+        return this.request('/categories', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updateCategory(
+        categoryId: number,
+        data: Partial<{
+            name: string;
+            type: 'project' | 'blog' | 'research' | 'career';
+        }>
+    ) {
+        return this.request(`/categories/${categoryId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
     }
 
     static async deleteCategory(categoryId: number) {

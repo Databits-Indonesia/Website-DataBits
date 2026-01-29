@@ -65,7 +65,7 @@ class CareerRead(CareerBase):
     model_config = {
         "from_attributes": True
     }
-    category: int = Field(
+    category: str = Field(
         ...,
         description="Kategori karir"
     )

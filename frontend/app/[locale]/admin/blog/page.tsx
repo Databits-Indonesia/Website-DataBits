@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { APIClient } from '@/lib/api-client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -72,6 +72,8 @@ export default function BlogManagementPage() {
         category_id: 0,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         loadData();
@@ -145,6 +147,42 @@ export default function BlogManagementPage() {
             cover_url: '',
             category_id: 0,
         });
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file');
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size must be less than 5MB');
+            return;
+        }
+
+        setIsUploading(true);
+        try {
+            const response = await APIClient.uploadBlogImage(file);
+            setFormData({ ...formData, cover_url: response.cover_url });
+        } catch (error) {
+            console.error('Failed to upload image:', error);
+            alert('Failed to upload image');
+        } finally {
+            setIsUploading(false);
+            // Reset file input
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+        }
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -264,7 +302,11 @@ export default function BlogManagementPage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex items-center justify-end space-x-2">
-                                                    <Button variant="ghost" size="sm">
+                                                    <Button 
+                                                        variant="ghost" 
+                                                        size="sm"
+                                                        onClick={() => handleOpenModal(blog)}
+                                                    >
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                     <Button
@@ -406,7 +448,7 @@ export default function BlogManagementPage() {
                                 <div className="flex gap-2">
                                     <Input
                                         id="cover_url"
-                                        type="url"
+                                        type="text"
                                         placeholder="https://example.com/image.jpg"
                                         value={formData.cover_url}
                                         onChange={(e) =>
@@ -415,9 +457,22 @@ export default function BlogManagementPage() {
                                         required
                                         className="flex-1"
                                     />
-                                    <Button type="button" variant="outline" size="icon">
+                                    <Button 
+                                        type="button" 
+                                        variant="outline" 
+                                        size="icon"
+                                        onClick={handleUploadClick}
+                                        disabled={isUploading}
+                                    >
                                         <Upload className="w-4 h-4" />
                                     </Button>
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="hidden"
+                                    />
                                 </div>
                                 {formData.cover_url && (
                                     <div className="mt-2 relative w-full h-40 rounded border overflow-hidden">

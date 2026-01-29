@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, UploadFile, File
 from sqlalchemy.orm import Session
 from typing import List
 from app.schemas.blog import (
@@ -32,12 +32,15 @@ router = APIRouter(
 )
 
 @router.post("", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-def create(data: BlogCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def create(data: BlogCreate2, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_id = int(current_user["sub"])
-    image = validate_image_file(data.image)
-    cover_url = upload_cover(image)
-    data = BlogCreate2(title=data.title, content=data.content, cover_url=cover_url, category_id=data.category_id)
     return create_blog(db, data, user_id)
+
+@router.post("/upload", dependencies=[Depends(admin_or_owner)])
+def upload_image(file: UploadFile = File(...), current_user = Depends(get_current_user)):
+    image = validate_image_file(file)
+    cover_url = upload_cover(image)
+    return {"cover_url": cover_url}
 
 @router.get("", response_model=List[BlogRead], dependencies=[Depends(admin_or_owner)])
 async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
@@ -56,21 +59,6 @@ async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(
         for f, value in zip(FIELDS, translated):
             setattr(obj, f, value)
     return blogs
-
-@router.get("/{blog_id}", response_model=BlogRead, dependencies=[Depends(admin_or_owner)])
-async def blog_detail(blog_id: int, target_lang: Language = Query("id"), db: Session = Depends(get_db)):
-    blog = get_blog_by_id(db, blog_id)
-    blog.title, blog.content = await translate([blog.title, blog.content], target_lang)
-    return BlogRead(
-            id=blog.id,
-            title=blog.title,
-            content=blog.content,
-            cover_url=blog.cover_url,
-            views=blog.views,
-            created_at=blog.created_at,
-            user=blog.user.username,
-            category=blog.category.name
-        )
 
 @router.get("/stats/count", response_model=BlogCount, dependencies=[Depends(admin_or_owner)])
 def blogs_count(db: Session = Depends(get_db)):

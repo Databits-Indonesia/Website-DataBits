@@ -5,6 +5,15 @@ import { APIClient } from '@/lib/api-client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import {
     Table,
     TableBody,
@@ -23,10 +32,26 @@ interface Product {
     icon: string;
 }
 
+interface ProductFormData {
+    name: string;
+    desc: string;
+    link: string;
+    icon: string;
+}
+
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+    const [formData, setFormData] = useState<ProductFormData>({
+        name: '',
+        desc: '',
+        link: '',
+        icon: '',
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -55,6 +80,58 @@ export default function ProductManagementPage() {
         }
     };
 
+    const handleOpenModal = (product?: Product) => {
+        if (product) {
+            setEditingProduct(product);
+            setFormData({
+                name: product.name,
+                desc: product.desc,
+                link: product.link,
+                icon: product.icon,
+            });
+        } else {
+            setEditingProduct(null);
+            setFormData({
+                name: '',
+                desc: '',
+                link: '',
+                icon: '',
+            });
+        }
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEditingProduct(null);
+        setFormData({
+            name: '',
+            desc: '',
+            link: '',
+            icon: '',
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            if (editingProduct) {
+                await APIClient.updateProduct(editingProduct.id, formData);
+            } else {
+                await APIClient.createProduct(formData);
+            }
+            await loadData();
+            handleCloseModal();
+        } catch (error) {
+            console.error('Failed to save product:', error);
+            alert('Failed to save product');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -74,7 +151,10 @@ export default function ProductManagementPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Product Management</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your products</p>
                 </div>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    onClick={() => handleOpenModal()}
+                >
                     <Plus className="w-4 h-4 mr-2" />
                     New Product
                 </Button>
@@ -115,7 +195,9 @@ export default function ProductManagementPage() {
                                 <TableRow key={product.id}>
                                     <TableCell className="font-medium">
                                         <div className="flex items-center space-x-2">
-                                            <span className="text-2xl">{product.icon}</span>
+                                            <span className="material-symbols-outlined text-2xl leading-none">
+                                                {product.icon}
+                                            </span>
                                             <span>{product.name}</span>
                                         </div>
                                     </TableCell>
@@ -133,7 +215,11 @@ export default function ProductManagementPage() {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end space-x-2">
-                                            <Button variant="ghost" size="sm">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleOpenModal(product)}
+                                            >
                                                 <Edit className="w-4 h-4" />
                                             </Button>
                                             <Button
@@ -152,6 +238,121 @@ export default function ProductManagementPage() {
                     </TableBody>
                 </Table>
             </Card>
+
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold">
+                            {editingProduct ? 'Edit Product' : 'Create New Product'}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {editingProduct
+                                ? 'Update product details'
+                                : 'Add a new product to your catalog'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="name" className="text-sm font-medium">
+                                    Product Name
+                                </Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    placeholder="Enter product name"
+                                    value={formData.name}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, name: e.target.value })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="link" className="text-sm font-medium">
+                                    Product Link
+                                </Label>
+                                <Input
+                                    id="link"
+                                    type="url"
+                                    placeholder="https://example.com"
+                                    value={formData.link}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, link: e.target.value })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="icon" className="text-sm font-medium">
+                                    Icon (emoji)
+                                </Label>
+                                <div className="flex items-center gap-3">
+                                    <Input
+                                        id="icon"
+                                        type="text"
+                                        placeholder="🚀"
+                                        value={formData.icon}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, icon: e.target.value })
+                                        }
+                                        required
+                                        className="flex-1"
+                                    />
+                                    <div className="w-10 h-10 rounded border flex items-center justify-center text-2xl">
+                                        <span className="material-symbols-outlined leading-none">
+                                            {formData.icon || 'help'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="desc" className="text-sm font-medium">
+                                    Description
+                                </Label>
+                                <textarea
+                                    id="desc"
+                                    placeholder="Describe your product"
+                                    value={formData.desc}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, desc: e.target.value })
+                                    }
+                                    required
+                                    rows={5}
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
+                                />
+                            </div>
+                        </div>
+
+                        <DialogFooter className="gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleCloseModal}
+                                disabled={isSubmitting}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                            >
+                                {isSubmitting
+                                    ? 'Saving...'
+                                    : editingProduct
+                                    ? 'Update Product'
+                                    : 'Create Product'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

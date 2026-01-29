@@ -47,6 +47,16 @@ export default function AdminDashboard() {
         publications: 0,
         research: 0,
     });
+    const [prevStats, setPrevStats] = useState<Stats>({
+        users: 0,
+        blogs: 0,
+        products: 0,
+        projects: 0,
+        careers: 0,
+        messages: 0,
+        publications: 0,
+        research: 0,
+    });
     const [activities, setActivities] = useState<Activity[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -78,7 +88,7 @@ export default function AdminDashboard() {
                 APIClient.getActivities(),
             ]);
 
-            setStats({
+            const nextStats = {
                 users: userCount.total_users,
                 blogs: blogCount.total_blogs,
                 products: productCount.total_product,
@@ -87,7 +97,10 @@ export default function AdminDashboard() {
                 messages: messageCount.total_messages,
                 publications: publicationCount.total_publications,
                 research: researchCount.total_research,
-            });
+            };
+
+            setPrevStats(stats);
+            setStats(nextStats);
 
             setActivities(activityData.slice(0, 10));
         } catch (error) {
@@ -97,11 +110,26 @@ export default function AdminDashboard() {
         }
     };
 
+    const calculateTrend = (current: number, previous: number) => {
+        if (previous === 0) {
+            return {
+                value: current === 0 ? 0 : 100,
+                isPositive: current >= previous,
+            };
+        }
+
+        const change = ((current - previous) / previous) * 100;
+        return {
+            value: Number(Math.abs(change).toFixed(2)),
+            isPositive: change >= 0,
+        };
+    };
+
     const statCards = [
-        { label: 'Total Users', value: stats.users, icon: Users, trend: { value: 0.43, isPositive: true } },
-        { label: 'Blog Posts', value: stats.blogs, icon: FileText, trend: { value: 4.35, isPositive: true } },
-        { label: 'Products', value: stats.products, icon: Package, trend: { value: 2.59, isPositive: true } },
-        { label: 'Projects', value: stats.projects, icon: FolderKanban, trend: { value: 0.95, isPositive: false } },
+        { label: 'Total Users', value: stats.users, icon: Users, trend: calculateTrend(stats.users, prevStats.users) },
+        { label: 'Blog Posts', value: stats.blogs, icon: FileText, trend: calculateTrend(stats.blogs, prevStats.blogs) },
+        { label: 'Products', value: stats.products, icon: Package, trend: calculateTrend(stats.products, prevStats.products) },
+        { label: 'Projects', value: stats.projects, icon: FolderKanban, trend: calculateTrend(stats.projects, prevStats.projects) },
     ];
 
     if (loading) {

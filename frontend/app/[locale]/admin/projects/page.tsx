@@ -1,12 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { APIClient } from '@/lib/api-client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import {
     Table,
     TableBody,
@@ -15,7 +31,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Search, Plus, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, ExternalLink, Upload } from 'lucide-react';
 
 interface Project {
     id: number;
@@ -32,11 +48,31 @@ interface Category {
     type: 'project' | 'blog' | 'research' | 'career';
 }
 
+interface ProjectFormData {
+    title: string;
+    desc: string;
+    link: string;
+    category_id: number;
+    image: File | null;
+}
+
 export default function ProjectManagementPage() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingProject, setEditingProject] = useState<Project | null>(null);
+    const [formData, setFormData] = useState<ProjectFormData>({
+        title: '',
+        desc: '',
+        link: '',
+        category_id: 0,
+        image: null,
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [imagePreview, setImagePreview] = useState<string>('');
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         loadData();
@@ -81,6 +117,105 @@ export default function ProjectManagementPage() {
         }
     };
 
+    const handleOpenModal = (project?: Project) => {
+        if (project) {
+            setEditingProject(project);
+            setFormData({
+                title: project.title,
+                desc: project.desc,
+                link: project.link,
+                category_id: project.category,
+                image: null,
+            });
+            setImagePreview(project.cover_url);
+        } else {
+            setEditingProject(null);
+            setFormData({
+                title: '',
+                desc: '',
+                link: '',
+                category_id: categories[0]?.id || 0,
+                image: null,
+            });
+            setImagePreview('');
+        }
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEditingProject(null);
+        setFormData({
+            title: '',
+            desc: '',
+            link: '',
+            category_id: 0,
+            image: null,
+        });
+        setImagePreview('');
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size must be less than 5MB');
+            return;
+        }
+
+        setFormData({ ...formData, image: file });
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            if (!editingProject && !formData.image) {
+                alert('Please select a cover image');
+                setIsSubmitting(false);
+                return;
+            }
+
+            if (editingProject) {
+                await APIClient.updateProject(editingProject.id, {
+                    title: formData.title,
+                    desc: formData.desc,
+                    link: formData.link,
+                    category_id: formData.category_id,
+                    image: formData.image || undefined,
+                });
+            } else if (formData.image) {
+                await APIClient.createProject({
+                    title: formData.title,
+                    desc: formData.desc,
+                    link: formData.link,
+                    category_id: formData.category_id,
+                    image: formData.image,
+                });
+            }
+
+            await loadData();
+            handleCloseModal();
+        } catch (error) {
+            console.error('Failed to save project:', error);
+            alert('Failed to save project');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     const filteredProjects = projects.filter((project) =>
         project.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -100,7 +235,10 @@ export default function ProjectManagementPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Project Management</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your projects and categories</p>
                 </div>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    onClick={() => handleOpenModal()}
+                >
                     <Plus className="w-4 h-4 mr-2" />
                     New Project
                 </Button>
@@ -170,7 +308,11 @@ export default function ProjectManagementPage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex items-center justify-end space-x-2">
-                                                    <Button variant="ghost" size="sm">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleOpenModal(project)}
+                                                    >
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                     <Button
@@ -245,6 +387,166 @@ export default function ProjectManagementPage() {
                     </Card>
                 </TabsContent>
             </Tabs>
+
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold">
+                            {editingProject ? 'Edit Project' : 'Create New Project'}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {editingProject
+                                ? 'Update project details and cover image'
+                                : 'Add a new project to showcase your work'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="title" className="text-sm font-medium">
+                                    Project Title
+                                </Label>
+                                <Input
+                                    id="title"
+                                    type="text"
+                                    placeholder="Enter project title"
+                                    value={formData.title}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, title: e.target.value })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="link" className="text-sm font-medium">
+                                    Project Link
+                                </Label>
+                                <Input
+                                    id="link"
+                                    type="url"
+                                    placeholder="https://example.com"
+                                    value={formData.link}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, link: e.target.value })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="category" className="text-sm font-medium">
+                                    Category
+                                </Label>
+                                <Select
+                                    value={formData.category_id.toString()}
+                                    onValueChange={(value) =>
+                                        setFormData({ ...formData, category_id: parseInt(value) })
+                                    }
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {categories.map((category) => (
+                                            <SelectItem key={category.id} value={category.id.toString()}>
+                                                {category.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="desc" className="text-sm font-medium">
+                                    Description
+                                </Label>
+                                <textarea
+                                    id="desc"
+                                    placeholder="Describe your project"
+                                    value={formData.desc}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, desc: e.target.value })
+                                    }
+                                    required
+                                    rows={5}
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="image" className="text-sm font-medium">
+                                    Cover Image
+                                </Label>
+                                <div className="flex gap-2">
+                                    <Input
+                                        id="image"
+                                        type="text"
+                                        readOnly
+                                        placeholder={
+                                            formData.image ? formData.image.name : 'Select an image file'
+                                        }
+                                        className="flex-1"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={handleUploadClick}
+                                    >
+                                        <Upload className="w-4 h-4" />
+                                    </Button>
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="hidden"
+                                    />
+                                </div>
+                                {imagePreview && (
+                                    <div className="mt-2 relative w-full h-40 rounded border overflow-hidden">
+                                        <img
+                                            src={imagePreview}
+                                            alt="Project cover preview"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                )}
+                                {!editingProject && (
+                                    <p className="text-xs text-slate-500">
+                                        Required for new projects. Max size 5MB.
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <DialogFooter className="gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleCloseModal}
+                                disabled={isSubmitting}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                            >
+                                {isSubmitting
+                                    ? 'Saving...'
+                                    : editingProject
+                                    ? 'Update Project'
+                                    : 'Create Project'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Form, File, UploadFile
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from app.schemas.project import (
-    ProjectCreate, ProjectCreate2, 
-    ProjectRead, ProjectUpdate, 
-    ProjectUpdate2, ProjectCount
+    ProjectCreate2,
+    ProjectRead,
+    ProjectUpdate2,
+    ProjectCount
 )
 from app.schemas.delete_msg import DeleteMSG
 from app.schemas.target_lang import Language
@@ -31,11 +32,25 @@ router = APIRouter(
 )
 
 @router.post("", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
-def create(data: ProjectCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def create(
+    title: str = Form(...),
+    desc: str = Form(...),
+    link: str = Form(...),
+    category_id: int = Form(...),
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     user_id = int(current_user["sub"])
-    image = validate_image_file(data.image)
+    image = validate_image_file(image)
     cover_url = upload_cover(image)
-    data = ProjectCreate2(title=data.title, desc=data.desc, cover_url=cover_url, category_id=data.category_id)
+    data = ProjectCreate2(
+        title=title,
+        desc=desc,
+        cover_url=cover_url,
+        link=link,
+        category_id=category_id
+    )
     return create_project(db, data, user_id)
 
 @router.get("", response_model=List[ProjectRead], dependencies=[Depends(admin_or_owner)])
@@ -62,11 +77,26 @@ def projects_count(db: Session = Depends(get_db)):
     return {"total_projects": total}
 
 @router.put("/{project_id}", response_model=ProjectRead, dependencies=[Depends(admin_or_owner)])
-def update(project_id: int, data: ProjectUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def update(
+    project_id: int,
+    title: Optional[str] = Form(None),
+    desc: Optional[str] = Form(None),
+    link: Optional[str] = Form(None),
+    category_id: Optional[int] = Form(None),
+    image: Optional[UploadFile] = File(None),
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     user_id = int(current_user["sub"])
-    image = validate_image_file_optional(data.image)
+    image = validate_image_file_optional(image)
     cover_url = upload_cover(image) if image else None
-    data = ProjectUpdate2(title=data.title, desc=data.desc, cover_url=cover_url, category_id=data.category_id)
+    data = ProjectUpdate2(
+        title=title,
+        desc=desc,
+        cover_url=cover_url,
+        link=link,
+        category_id=category_id
+    )
     return update_project(db, project_id, data, user_id)
 
 @router.delete("/{project_id}", response_model=DeleteMSG, dependencies=[Depends(admin_or_owner)])
