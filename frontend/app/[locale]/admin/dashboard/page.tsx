@@ -127,36 +127,73 @@ export default function AdminDashboard() {
             </div>
 
             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-                <ChartOne />
+                {/* <ChartOne /> */}
 
-                {/* Activity Feed reusing the space efficiently */}
-                <div className="col-span-12 xl:col-span-4 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
-                    <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
+                {/* Activity Feed */}
+                <div className="col-span-12 rounded-sm border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
                         Recent Activity
                     </h4>
 
-                    <div className="flex flex-col gap-5">
-                        {activities.length === 0 ? (
-                            <p className="text-gray-500 text-center py-4">No recent activity</p>
-                        ) : (
-                            activities.slice(0, 6).map((activity) => (
-                                <div key={activity.id} className="flex items-center gap-3 px-7.5">
-                                    <div className="relative h-10 w-10 rounded-full bg-meta-2 dark:bg-meta-4">
-                                        <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-blue-600">
-                                            {activity.user ? activity.user.charAt(0).toUpperCase() : 'S'}
-                                        </div>
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-black dark:text-white">
-                                            {activity.description}
-                                        </p>
-                                        <span className="text-xs text-gray-500">
-                                            {new Date(activity.created_at).toLocaleTimeString()}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b border-gray-200 dark:border-gray-800">
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400">User</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400">Module</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400">Action</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400">Description</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-400">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {activities.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                                            No recent activity
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    activities.slice(0, 10).map((activity) => (
+                                        <tr key={activity.id} className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
+                                            <td className="px-4 py-3">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                                                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                                                            {activity.user ? activity.user.charAt(0).toUpperCase() : 'S'}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-sm font-medium text-black dark:text-white">
+                                                        {activity.user || 'System'}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                                    {activity.module}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                                                    activity.action === 'create' ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' :
+                                                    activity.action === 'update' ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                                                    activity.action === 'delete' ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' :
+                                                    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+                                                }`}>
+                                                    {activity.action}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">
+                                                {activity.description}
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                                                {new Date(activity.created_at).toLocaleTimeString()}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

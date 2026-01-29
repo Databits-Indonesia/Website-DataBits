@@ -52,7 +52,7 @@ async def list_products(target_lang: Language = Query("id"), db: Session = Depen
 @router.get("/stats/count", response_model=ProductCount, dependencies=[Depends(admin_or_owner)])
 def products_count(db: Session = Depends(get_db)):
     total = count_products(db)
-    return {"total_products": total}
+    return {"total_product": total}
 
 @router.put("/{product_id}", response_model=ProductRead, dependencies=[Depends(admin_or_owner)])
 def update(product_id: int, data: ProductUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

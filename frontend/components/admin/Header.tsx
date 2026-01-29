@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Search, Bell, Moon, Sun, Menu } from 'lucide-react';
+import { APIClient } from '@/lib/api-client';
 
 interface AdminHeaderProps {
     onMenuClick: () => void;
@@ -163,8 +164,14 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                                     </li>
                                 </ul>
                                 <button
-                                    onClick={() => {
-                                        window.location.href = '/admin';
+                                    onClick={async () => {
+                                        try {
+                                            await APIClient.logout();
+                                        } catch (error) {
+                                            console.error('Logout failed:', error);
+                                        } finally {
+                                            window.location.href = '/admin';
+                                        }
                                     }}
                                     className="flex w-full items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-red-600 lg:text-base"
                                 >

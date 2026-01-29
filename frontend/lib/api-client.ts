@@ -22,12 +22,14 @@ export class APIClient {
         options: RequestInit = {}
     ): Promise<T> {
         const token = this.getAuthToken();
+        const isUsingCookieAuth = this.isUsingCookieAuth();
         const headers: Record<string, string> = {
             'Content-Type': 'application/json',
             ...(options.headers as Record<string, string>),
         };
 
-        if (token) {
+        // Only add Authorization header for token-based auth
+        if (token && !isUsingCookieAuth) {
             headers['Authorization'] = `Bearer ${token}`;
         }
 
@@ -71,33 +73,46 @@ export class APIClient {
 
         console.log('Authorization header:', authHeader);
         console.log('Set-Cookie header:', setCookieHeader);
+        console.log('Response cookies available:', document.cookie);
+
+        let tokenSaved = false;
 
         // Try to extract token from Authorization header
         if (authHeader && authHeader.startsWith('Bearer ')) {
             const token = authHeader.substring(7);
             if (typeof window !== 'undefined') {
                 localStorage.setItem('auth_token', token);
+                localStorage.setItem('auth_method', 'token');
                 console.log('Token saved from Authorization header');
+                tokenSaved = true;
             }
         }
         // Check if token is in response body
         else if (data.access_token) {
             if (typeof window !== 'undefined') {
                 localStorage.setItem('auth_token', data.access_token);
-                console.log('Token saved from response body');
+                localStorage.setItem('auth_method', 'token');
+                console.log('Token saved from response body:', data.access_token);
+                tokenSaved = true;
             }
         }
         // If using HTTP-only cookies, we don't need to store anything
         else if (setCookieHeader || response.headers.has('set-cookie')) {
             console.log('Using cookie-based authentication');
-            // Set a flag to indicate we're using cookie auth
             if (typeof window !== 'undefined') {
                 localStorage.setItem('auth_method', 'cookie');
+                console.log('Auth method set to cookie');
             }
         } else {
             console.warn('No token found in response. Response data:', data);
             console.warn('All headers:', Array.from(response.headers.entries()));
         }
+
+        console.log('Auth state after login:', {
+            hasToken: !!this.getAuthToken(),
+            isUsingCookie: this.isUsingCookieAuth(),
+            tokenSaved
+        });
 
         return data;
     }

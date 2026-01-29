@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { APIClient } from '@/lib/api-client';
 import {
     LayoutDashboard,
     FileText,
@@ -177,8 +178,14 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
                 {/* Sidebar Footer */}
                 <div className="mt-auto border-t border-gray-200 p-4 dark:border-gray-800">
                     <button
-                        onClick={() => {
-                            window.location.href = '/admin';
+                        onClick={async () => {
+                            try {
+                                await APIClient.logout();
+                            } catch (error) {
+                                console.error('Logout failed:', error);
+                            } finally {
+                                window.location.href = '/admin';
+                            }
                         }}
                         className={`flex w-full items-center gap-2.5 rounded-lg px-4 py-2.5 font-medium text-red-600 duration-300 ease-in-out hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 ${isCollapsed ? 'justify-center px-2' : ''}`}
                     >
