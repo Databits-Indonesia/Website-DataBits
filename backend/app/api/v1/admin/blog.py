@@ -36,11 +36,11 @@ def create(data: BlogCreate2, db: Session = Depends(get_db), current_user = Depe
     user_id = int(current_user["sub"])
     return create_blog(db, data, user_id)
 
-@router.post("/upload", dependencies=[Depends(admin_or_owner)])
-def upload_image(file: UploadFile = File(...), current_user = Depends(get_current_user)):
-    image = validate_image_file(file)
-    cover_url = upload_cover(image)
-    return {"cover_url": cover_url}
+# @router.post("/upload", dependencies=[Depends(admin_or_owner)])
+# def upload_image(file: UploadFile = File(...), current_user = Depends(get_current_user)):
+#     image = validate_image_file(file)
+#     cover_url = upload_cover(image)
+#     return {"cover_url": cover_url}
 
 @router.get("", response_model=List[BlogRead], dependencies=[Depends(admin_or_owner)])
 async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(get_db)):

@@ -34,9 +34,10 @@ async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(
 @router.get("/{blog_id}", response_model=BlogRead)
 async def blog_detail(blog_id: int, target_lang: Language = Query("id"), db: Session = Depends(get_db)):
     blog = get_blog_by_id(db, blog_id)
-    blog.title, blog.content = await translate([blog.title, blog.content], target_lang)
+    blog.slug, blog.title, blog.content = await translate([blog.slug, blog.title, blog.content], target_lang)
     return BlogRead(
             id=blog.id,
+            slug=blog.slug,
             title=blog.title,
             content=blog.content,
             cover_url=blog.cover_url,

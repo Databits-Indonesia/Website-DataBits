@@ -16,6 +16,7 @@ UPLOAD_DIR = "app/uploads/blog"
 
 def create_blog(db: Session, data: BlogCreate2, user_id: int):
     blog = Blog(
+        slug=data.slug,
         title=data.title,
         content=data.content,
         cover_url=data.cover_url,
@@ -35,6 +36,7 @@ def create_blog(db: Session, data: BlogCreate2, user_id: int):
     )
     return BlogRead(
             id=blog.id,
+            slug=data.slug,
             title=blog.title,
             content=blog.content,
             cover_url=blog.cover_url,
@@ -58,6 +60,7 @@ def get_blogs(db: Session):
     return [
         BlogRead(
             id=blog.id,
+            slug=blog.slug,
             title=blog.title,
             content=blog.content,
             cover_url=blog.cover_url,
@@ -79,6 +82,9 @@ def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
     if not blog:
         raise HTTPException(status_code=404, detail="Blog not found")
     
+    if data.slug:
+        blog.slug = data.slug
+
     if data.title:
         blog.title = data.title
 
@@ -109,6 +115,7 @@ def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
     return BlogRead(
             id=blog.id,
             title=blog.title,
+            slug=blog.slug,
             content=blog.content,
             cover_url=blog.cover_url,
             views=blog.views,

@@ -6,7 +6,7 @@ class CategoryType(str, Enum):
     PROJECT = "project"
     BLOG = "blog"
     RESEARCH = "research"
-    CAREERS = "career"
+    CAREER = "career"
 
 class CategoryBase(BaseModel):
     name: str = Field(

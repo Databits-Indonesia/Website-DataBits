@@ -7,6 +7,7 @@ class Blog(Base):
     __tablename__ = "blogs"
 
     id = Column(Integer, primary_key=True, index=True)
+    slug = Column(String(255), unique=True, index=True)
     title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
     views = Column(Integer, default=0)

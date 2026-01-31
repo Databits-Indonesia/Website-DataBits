@@ -4,6 +4,10 @@ from typing import Optional
 from fastapi import UploadFile
 
 class BlogBase(BaseModel):
+    slug: str = Field(
+        ...,
+        description="Slug URL"
+    )
     title: str = Field(
         ...,
         description="Judul Blog"
@@ -34,6 +38,10 @@ class BlogCreate2(BlogBase):
     )
 
 class BlogUpdate(BaseModel):
+    slug: Optional[str] = Field(
+        None,
+        description="Slug URL (jika kosong slug tidak di ubah)"
+    )
     title: Optional[str] = Field(
         None,
         description="Judul Blog (jika kosong judul blog tidak di ubah)"
@@ -52,6 +60,10 @@ class BlogUpdate(BaseModel):
     )
 
 class BlogUpdate2(BaseModel):
+    slug: Optional[str] = Field(
+        None,
+        description="Slug URL (jika kosong slug tidak di ubah)"
+    )
     title: Optional[str] = Field(
         None,
         description="Judul Blog (jika kosong judul blog tidak di ubah)"
