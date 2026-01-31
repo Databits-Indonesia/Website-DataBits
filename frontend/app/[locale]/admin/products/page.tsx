@@ -152,7 +152,7 @@ export default function ProductManagementPage() {
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your products</p>
                 </div>
                 <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="btn btn-primary flex items-center"
                     onClick={() => handleOpenModal()}
                 >
                     <Plus className="w-4 h-4 mr-2" />
@@ -341,7 +341,7 @@ export default function ProductManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isSubmitting
                                     ? 'Saving...'

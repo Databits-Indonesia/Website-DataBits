@@ -1,73 +1,70 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useI18n } from '@/components/i18n-provider';
+import { API_BASE_URL, APIClient } from '@/lib/api-client';
 
 const BlogPage = () => {
   const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(t('blog.categoryAll'));
+  const [posts, setPosts] = useState<Array<{
+    id: number;
+    title: string;
+    content: string;
+    cover_url: string;
+    views: number;
+    created_at: string;
+    user: string;
+    category: string;
+  }>>([]);
+  const [loading, setLoading] = useState(true);
 
-  const allPosts = [
-    {
-      slug: 'generative-ai-business',
-      title: t('blog.post1Title'),
-      category: t('blog.post1Category'),
-      readTime: t('blog.post1ReadTime'),
-      date: t('blog.post1Date'),
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC6kpsvjziu-XR9FIWnr7c43CzORHO95BI-LaRSQ4_23pN6MepScVJDJLmPiuJW7DhZq9XSxPf6HJ-l8BQ96HwW9eawS42WdxywC4bJSr8uYkENWflotg5PYk5NXJVXKUsHZJGDT6vKz4WEPjuia7_aOv11d7tIhA4q8t1vFnKIXxF3qzaKh0YPYFALq1CiZEpI2z0JlUI-q382nZyzS8fZA6fMQa9GQiqt0-TsJvoBp94ImBza9f0zwXBhU0Bd9Dlu2Rz9ll29u2eh',
-      desc: t('blog.post1Desc'),
-      featured: true
-    },
-    {
-      slug: 'big-data-navigation',
-      title: t('blog.post2Title'),
-      category: t('blog.post2Category'),
-      readTime: t('blog.post2ReadTime'),
-      date: t('blog.post2Date'),
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCcZxJi1e6Gvtiin7A43Qutox0k__o8vWhk1H85U_OYCAYGT5vFlwsshm0S1pFDQBVNKWOIz1Sjjio3Mjrrr4iVvXRer655_Ln2165_vXztlCiXFBgKEDuk2pC8djUQtq4fMVjZVKgdk5EkwWFVovS3w8C_JobZVbpZVQ_98juXYaFlzQT-iVUNIA6P-wD4t7lES2uPyqCr9u1g4o7cO0kdEx0rtUB626_b61XFHOYzBqisIFvGGxWva-_jpPcaehA0bNHT-tFa9fN_',
-      desc: t('blog.post2Desc'),
-      featured: false
-    },
-    {
-      slug: 'tech-stack-scalable-ai',
-      title: t('blog.post3Title'),
-      category: t('blog.post3Category'),
-      readTime: t('blog.post3ReadTime'),
-      date: t('blog.post3Date'),
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDl1iVukPHABk2Vb_EAJLAKUJQ3qIQlTFwSEWW6rsHbKh-PM2bP08SisBT4IS-nEojWI1Tsz6LPwm0vJTkh4L3doc8O3lHNIGHsROUtMNtWzmk_CNQRkiAJ2lrJ0O6JB1R3sF9OAcuq7KTQDsnd-gacIT7WF7xoKHpXql7cB4J2DAXcFe0_tC-D2hulAKOAal6iaCXEw1kgMZLAVX4CaMg7bgjr5aNIuUewn6E0UwiksGlMeyfOHKMRU6Uw_kihhHPbTBVXLW401zgp',
-      desc: t('blog.post3Desc'),
-      featured: false
-    },
-    {
-      slug: 'ethical-ai',
-      title: t('blog.post4Title'),
-      category: t('blog.post4Category'),
-      readTime: t('blog.post4ReadTime'),
-      date: t('blog.post4Date'),
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIesjcL8TKqg13LVGjHhaUv0bxvMkvdMjZyAaDWG3Ty_RqEVvPs5uy25cuiC7NsYQCNgB-_gNrf1jgqH2QYdOCNW6LyK2gxPafBeJpT9-AggpiVreiUaLOmY9P5cI_Zv9AsVK1nRpJwo0ohtywFzvt3xuQFjakaUMqpL3Bq-6etJ7aPGnDbf29YNQl9qxaNURGRlT5AdHLWj_R_UbONmcF0fereGwpO3sPwOy51HcHBaOntpYk928vn8olZg4llcfekrgt57PeDRWX',
-      desc: t('blog.post4Desc'),
-      featured: false
-    }
-  ];
+  useEffect(() => {
+    setSelectedCategory(t('blog.categoryAll'));
+  }, [t]);
 
-  const categories = [t('blog.categoryAll'), t('blog.categoryProductUpdates'), t('blog.categoryDataScience'), t('blog.categoryEngineering'), t('blog.categoryAIResearch'), t('blog.categoryIndustryTrends')];
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const data = await APIClient.getPublicBlogs('en');
+        setPosts(data);
+      } catch (error) {
+        console.error('Failed to load blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const filteredPosts = allPosts.filter(post => {
+    loadBlogs();
+  }, []);
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(posts.map((post) => post.category)));
+    return [t('blog.categoryAll'), ...unique];
+  }, [posts, t]);
+
+  const estimateReadTime = (content: string) => {
+    const words = content.trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.ceil(words / 200));
+    return `${minutes} min read`;
+  };
+
+  const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          post.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                          post.content.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === t('blog.categoryAll') || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const featuredPost = allPosts.find(p => p.featured);
+  const featuredPost = posts[0];
   const isDefaultView = searchQuery === '' && selectedCategory === t('blog.categoryAll');
-  const postsToShow = isDefaultView ? allPosts.filter(p => !p.featured) : filteredPosts;
+  const postsToShow = isDefaultView ? posts.slice(1) : filteredPosts;
 
   return (
     <>
@@ -111,13 +108,13 @@ const BlogPage = () => {
       </div>
 
       {/* Featured Article - Only shown in default view */}
-      {isDefaultView && featuredPost && (
+      {isDefaultView && featuredPost && !loading && (
         <div>
           <h2 className="h2-sm mb-6">{t('blog.featuredArticles')}</h2>
-          <Link href={`/blog/${featuredPost.slug}`}>
+          <Link href={`/blog/${featuredPost.id}`}>
             <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 <Image 
-                  src={featuredPost.img} 
+                  src={`${API_BASE_URL}${featuredPost.cover_url}`} 
                   alt={featuredPost.title} 
                   width={400}
                   height={250}
@@ -127,10 +124,10 @@ const BlogPage = () => {
                   className="w-full h-64 object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500" 
                 />
                 <div className="flex flex-col justify-center gap-4">
-                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {featuredPost.readTime}</span>
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{featuredPost.category} · {estimateReadTime(featuredPost.content)}</span>
                     <h3 className="h3-lg group-hover:text-primary transition-colors">{featuredPost.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{featuredPost.desc}</p>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{featuredPost.date}</span>
+                    <p className="text-gray-600 dark:text-gray-400 line-clamp-3">{featuredPost.content}</p>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{new Date(featuredPost.created_at).toLocaleDateString()}</span>
                 </div>
             </div>
           </Link>
@@ -143,32 +140,36 @@ const BlogPage = () => {
           {isDefaultView ? t('blog.allArticles') : `${t('blog.searchResults')}(${postsToShow.length})`}
         </h2>
         
-        {postsToShow.length > 0 ? (
+        {loading ? (
+          <div className="flex items-center justify-center py-16">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        ) : postsToShow.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {postsToShow.map((post, i) => (
-                  <Link key={i} href={`/blog/${post.slug}`}>
-                    <div className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow cursor-pointer">
-                        <Image 
-                          src={post.img} 
-                          alt={post.title} 
-                          width={400}
-                          height={250}
-                          unoptimized
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
-                        />
-                        <div className="p-6 flex flex-col gap-3 grow">
-                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
-                            <h3 className="h3 group-hover:text-primary transition-colors">{post.title}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.desc}</p>
-                            <div className="mt-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                              <span>{post.date}</span>
-                              <span>{post.readTime}</span>
-                            </div>
-                        </div>
-                    </div>
-                  </Link>
+              {postsToShow.map((post) => (
+                <Link key={post.id} href={`/blog/${post.id}`}>
+                  <div className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow cursor-pointer">
+                      <Image 
+                        src={`${API_BASE_URL}${post.cover_url}`} 
+                        alt={post.title} 
+                        width={400}
+                        height={250}
+                        unoptimized
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                      />
+                      <div className="p-6 flex flex-col gap-3 grow">
+                          <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase">{post.category}</span>
+                          <h3 className="h3 group-hover:text-primary transition-colors">{post.title}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">{post.content}</p>
+                          <div className="mt-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                            <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                            <span>{estimateReadTime(post.content)}</span>
+                          </div>
+                      </div>
+                  </div>
+                </Link>
               ))}
           </div>
         ) : (

@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useI18n } from '@/components/i18n-provider';
+import { APIClient } from '@/lib/api-client';
 // import { useState } from 'react';
 // import { useRouter } from 'next/navigation';
 
@@ -13,66 +15,55 @@ const ResearchPage = () => {
   const { t } = useI18n();
 //   const [currentPage] = useState<Page>('PRODUCTS');
 //   const router = useRouter();
-  
-  const publications = [
-    {
-      title: t('research.pub1Title'),
-      authors: t('research.pub1Authors'),
-      venue: t('research.pub1Venue'),
-      year: t('research.pub1Year'),
-      link: '#',
-      abstract: t('research.pub1Abstract')
-    },
-    {
-      title: t('research.pub2Title'),
-      authors: t('research.pub2Authors'),
-      venue: t('research.pub2Venue'),
-      year: t('research.pub2Year'),
-      link: '#',
-      abstract: t('research.pub2Abstract')
-    },
-    {
-      title: t('research.pub3Title'),
-      authors: t('research.pub3Authors'),
-      venue: t('research.pub3Venue'),
-      year: t('research.pub3Year'),
-      link: '#',
-      abstract: t('research.pub3Abstract')
-    }
-  ];
 
-  const openSourceProjects = [
-    {
-      title: t('research.project1Title'),
-      desc: t('research.project1Desc'),
-      link: 'https://github.com/Databitss/Mangrove-Research',
-      kategori: t('research.project1Category')
-    },
-    {
-      title: t('research.project2Title'),
-      desc: t('research.project2Desc'),
-      link: 'https://github.com/Databits-Indonesia/Flask-CNN-Mangrove',
-      kategori: t('research.project2Category')
-    },
-    {
-      title: t('research.project3Title'),
-      desc: t('research.project3Desc'),
-      link: 'https://github.com/Databitss/databits',
-      kategori: t('research.project3Category')
-    },
-    {
-      title: t('research.project4Title'),
-      desc: t('research.project4Desc'),
-      link: 'https://github.com/Databitss/VideoCaptioning',
-      kategori: t('research.project4Category')
-    },
-    {
-      title: t('research.project5Title'),
-      desc: t('research.project5Desc'),
-      link: 'https://github.com/Databitss/AudioTransformer',
-      kategori: t('research.project5Category')
-    }
-  ];
+  const [publications, setPublications] = useState<Array<{
+    id: number;
+    title: string;
+    writer: string;
+    journal: string;
+    desc: string;
+    link: string;
+    publication_date: string;
+  }>>([]);
+  const [loadingPublications, setLoadingPublications] = useState(true);
+  const [openSourceResearch, setOpenSourceResearch] = useState<Array<{
+    id: number;
+    title: string;
+    desc: string;
+    link: string;
+    category_id: number;
+  }>>([]);
+  const [loadingResearch, setLoadingResearch] = useState(true);
+  
+  useEffect(() => {
+    const loadPublications = async () => {
+      try {
+        const data = await APIClient.getPublicPublications('en');
+        setPublications(data);
+      } catch (error) {
+        console.error('Failed to load publications:', error);
+      } finally {
+        setLoadingPublications(false);
+      }
+    };
+
+    loadPublications();
+  }, []);
+
+  useEffect(() => {
+    const loadResearch = async () => {
+      try {
+        const data = await APIClient.getPublicResearch('en');
+        setOpenSourceResearch(data);
+      } catch (error) {
+        console.error('Failed to load open source research:', error);
+      } finally {
+        setLoadingResearch(false);
+      }
+    };
+
+    loadResearch();
+  }, []);
 
   return (
     <>
@@ -122,9 +113,14 @@ const ResearchPage = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
-            {publications.map((pub, i) => (
+            {loadingPublications ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              </div>
+            ) : (
+              publications.map((pub, i) => (
               <motion.div 
-                key={i} 
+                key={pub.id} 
                 className="card card-hover group"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -135,17 +131,17 @@ const ResearchPage = () => {
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-3">
                   <h3 className="h3-sm group-hover:text-primary transition-colors flex-1">{pub.title}</h3>
                   <span className="text-sm font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 self-start">
-                    {pub.year}
+                    {new Date(pub.publication_date).getFullYear()}
                   </span>
                 </div>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  {pub.authors}
+                  {pub.writer}
                 </p>
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  {pub.venue}
+                  {pub.journal}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  {pub.abstract}
+                  {pub.desc}
                 </p>
                 <a 
                   href={pub.link} 
@@ -154,7 +150,8 @@ const ResearchPage = () => {
                   {t('research.readPaper')} <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
                 </a>
               </motion.div>
-            ))}
+            ))
+            )}
           </div>
         </div>
       </section>
@@ -187,9 +184,14 @@ const ResearchPage = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {openSourceProjects.map((project, i) => (
+              {loadingResearch ? (
+                <div className="col-span-full flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                </div>
+              ) : (
+              openSourceResearch.map((project, i) => (
                     <motion.div 
-                      key={i} 
+                  key={project.id} 
                       className="card card-hover flex flex-col group grow"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -199,7 +201,7 @@ const ResearchPage = () => {
                     >
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="h3 group-hover:text-primary transition-colors">{project.title}</h3>
-                            <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">{project.kategori}</span>
+                          <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Category {project.category_id}</span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 grow">{project.desc}</p>
                         <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
@@ -216,7 +218,8 @@ const ResearchPage = () => {
                             </a>
                         </div>
                     </motion.div>
-                ))}
+                  ))
+                  )}
             </div>
             
             <motion.div 

@@ -234,6 +234,32 @@ export class APIClient {
         }>>(`/blogs?target_lang=${target_lang}`);
     }
 
+    static async getPublicBlogs(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            title: string;
+            content: string;
+            cover_url: string;
+            views: number;
+            created_at: string;
+            user: string;
+            category: string;
+        }>>(`/public/blogs?target_lang=${target_lang}`);
+    }
+
+    static async getPublicBlogById(id: number, target_lang: 'id' | 'en' = 'id') {
+        return this.request<{
+            id: number;
+            title: string;
+            content: string;
+            cover_url: string;
+            views: number;
+            created_at: string;
+            user: string;
+            category: string;
+        }>(`/public/blogs/${id}?target_lang=${target_lang}`);
+    }
+
     static async uploadBlogImage(file: File): Promise<{ cover_url: string }> {
         const token = this.getAuthToken();
         const isUsingCookieAuth = this.isUsingCookieAuth();
@@ -350,6 +376,16 @@ export class APIClient {
         }>>(`/product?target_lang=${target_lang}`);
     }
 
+    static async getPublicProducts(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            name: string;
+            desc: string;
+            link: string;
+            icon: string;
+        }>>(`/public/product?target_lang=${target_lang}`);
+    }
+
     static async createProduct(data: {
         name: string;
         desc: string;
@@ -393,6 +429,17 @@ export class APIClient {
             cover_url: string;
             category: number;
         }>>(`/projects?target_lang=${target_lang}`);
+    }
+
+    static async getPublicProjects(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            title: string;
+            desc: string;
+            link: string;
+            cover_url: string;
+            category: string;
+        }>>(`/public/projects?target_lang=${target_lang}`);
     }
 
     static async deleteProject(projectId: number) {
@@ -491,6 +538,49 @@ export class APIClient {
         }>>(`/publication?target_lang=${target_lang}`);
     }
 
+    static async getPublicPublications(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            title: string;
+            writer: string;
+            journal: string;
+            desc: string;
+            link: string;
+            publication_date: string;
+        }>>(`/public/publication?target_lang=${target_lang}`);
+    }
+
+    static async createPublication(data: {
+        title: string;
+        writer: string;
+        journal: string;
+        desc: string;
+        link: string;
+        publication_date: string;
+    }) {
+        return this.request('/publication', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updatePublication(
+        publicationId: number,
+        data: Partial<{
+            title: string;
+            writer: string;
+            journal: string;
+            desc: string;
+            link: string;
+            publication_date: string;
+        }>
+    ) {
+        return this.request(`/publication/${publicationId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
+    }
+
     static async deletePublication(publicationId: number) {
         return this.request(`/publication/${publicationId}`, {
             method: 'DELETE',
@@ -506,6 +596,43 @@ export class APIClient {
             link: string;
             category_id: number;
         }>>(`/research?target_lang=${target_lang}`);
+    }
+
+    static async getPublicResearch(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            title: string;
+            desc: string;
+            link: string;
+            category_id: number;
+        }>>(`/public/research?target_lang=${target_lang}`);
+    }
+
+    static async createResearch(data: {
+        title: string;
+        desc: string;
+        link: string;
+        category_id: number;
+    }) {
+        return this.request('/research', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    }
+
+    static async updateResearch(
+        researchId: number,
+        data: Partial<{
+            title: string;
+            desc: string;
+            link: string;
+            category_id: number;
+        }>
+    ) {
+        return this.request(`/research/${researchId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
     }
 
     static async deleteResearch(researchId: number) {
@@ -529,6 +656,19 @@ export class APIClient {
     static async deleteMessage(messageId: number) {
         return this.request(`/messages/${messageId}`, {
             method: 'DELETE',
+        });
+    }
+
+    static async createPublicMessage(data: {
+        name: string;
+        email: string;
+        subject: string;
+        company: string;
+        message_content: string;
+    }) {
+        return this.request('/public/messages', {
+            method: 'POST',
+            body: JSON.stringify(data),
         });
     }
 

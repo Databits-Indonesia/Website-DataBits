@@ -266,7 +266,7 @@ export default function CareerManagementPage() {
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage open positions</p>
                 </div>
                 <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="btn btn-primary"
                     onClick={() => handleOpenModal()}
                 >
                     <Plus className="w-4 h-4 mr-2" />
@@ -353,7 +353,7 @@ export default function CareerManagementPage() {
                 <TabsContent value="categories" className="space-y-4">
                     <div className="flex justify-end">
                         <Button
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                            className="btn btn-primary"
                             onClick={() => handleOpenCategoryModal()}
                         >
                             <Plus className="w-4 h-4 mr-2" />
@@ -559,7 +559,7 @@ export default function CareerManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isSubmitting
                                     ? 'Saving...'
@@ -621,7 +621,7 @@ export default function CareerManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isCategorySubmitting}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isCategorySubmitting
                                     ? 'Saving...'

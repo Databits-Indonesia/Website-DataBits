@@ -5,6 +5,7 @@ import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { motion } from 'motion/react';
 import { useI18n } from '@/components/i18n-provider';
+import { APIClient } from '@/lib/api-client';
 // import { useRouter } from 'next/navigation';
 
 // type Page = 'HOME' | 'SERVICES' | 'PRODUCTS' | 'BLOG' | 'CONTACT' | 'ABOUT';
@@ -45,25 +46,36 @@ const ContactPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccessMessage('');
-    
-    if (validateForm()) {
-      setIsSubmitting(true);
-      // Simulate API call
-      setTimeout(() => {
-        setSuccessMessage(t('contact.successMessage'));
-        setFormData({
-          fullName: '',
-          email: '',
-          companyName: '',
-          subject: '',
-          message: ''
-        });
-        setErrors({});
-        setIsSubmitting(false);
-      }, 800);
+
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    try {
+      await APIClient.createPublicMessage({
+        name: formData.fullName,
+        email: formData.email,
+        subject: formData.subject,
+        company: formData.companyName,
+        message_content: formData.message,
+      });
+
+      setSuccessMessage(t('contact.successMessage'));
+      setFormData({
+        fullName: '',
+        email: '',
+        companyName: '',
+        subject: '',
+        message: ''
+      });
+      setErrors({});
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('Failed to send message');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -121,19 +133,22 @@ const ContactPage = () => {
                 ))}
             </div>
             <motion.div 
-              className="h-64 rounded-xl overflow-hidden grayscale contrast-125 brightness-75"
+              className="h-64 rounded-xl overflow-hidden dark:brightness-75 dark:contrast-125"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              whileHover={{ scale: 1.02, filter: 'grayscale(0%)', transition: { duration: 0.3 } }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
             >
-                <img 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGO_DGoz8Fe5XAhIRTNLShlpGBirZdKuA3ud_5ufDirt3JwEvDuGTHgV6T5XdrFtixSPCzalyNiU2gzEUQYK06eKWuX3zlJanjivun-0FI4WcNgLkoCWxi9wJArhYL76x7y6KhSgIxy8XklXGtNlE8FQdHAfY9ChBAJKRUxsXhhOuVXZmgA1maPDLzHnK0fYbFIjHFVsLJu7yX2t_49YFGxe-uS4ttxL3910qP6qTU5jPV-OECaFU8ue_aMmSkyo89sDqG60uStJj" 
-                  alt="Map showing DataBits headquarters"
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127107.05764654197!2d105.2423897!3d-5.4024126!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40dbcabf21b51f%3A0xdcb06324bff3cb9e!2sBandar%20Lampung%20City%2C%20Lampung!5e0!3m2!1sen!2sid!4v1769841402759!5m2!1sen!2sid"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
                   loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover" 
-                />
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                ></iframe>
             </motion.div>
         </motion.div>
 

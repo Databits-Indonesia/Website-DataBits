@@ -32,7 +32,7 @@ def create_research(db: Session, data: ResearchCreate, user_id: int):
             title=research.title,
             desc=research.desc,
             link=research.link,
-            category=research.category.name
+            category_id=research.category_id
         )
 
 def get_researchs(db: Session):
@@ -51,7 +51,7 @@ def get_researchs(db: Session):
             title=research.title,
             desc=research.desc,
             link=research.link,
-            category=research.category.name
+            category_id=research.category_id
         )
         for research in researchs
     ]
@@ -94,7 +94,7 @@ def update_research(db: Session, research_id: int, data: ResearchUpdate, user_id
             title=research.title,
             desc=research.desc,
             link=research.link,
-            category=research.category.name
+            category_id=research.category_id
         )
 
 def delete_research(db: Session, research_id: int, user_id: int):

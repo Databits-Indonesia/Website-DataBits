@@ -48,6 +48,11 @@ interface Category {
     type: 'project' | 'blog' | 'research' | 'career';
 }
 
+interface CategoryFormData {
+    name: string;
+    type: 'project' | 'blog' | 'research' | 'career';
+}
+
 interface ProjectFormData {
     title: string;
     desc: string;
@@ -63,6 +68,8 @@ export default function ProjectManagementPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [formData, setFormData] = useState<ProjectFormData>({
         title: '',
         desc: '',
@@ -70,7 +77,12 @@ export default function ProjectManagementPage() {
         category_id: 0,
         image: null,
     });
+    const [categoryFormData, setCategoryFormData] = useState<CategoryFormData>({
+        name: '',
+        type: 'project',
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isCategorySubmitting, setIsCategorySubmitting] = useState(false);
     const [imagePreview, setImagePreview] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -155,6 +167,32 @@ export default function ProjectManagementPage() {
         setImagePreview('');
     };
 
+    const handleOpenCategoryModal = (category?: Category) => {
+        if (category) {
+            setEditingCategory(category);
+            setCategoryFormData({
+                name: category.name,
+                type: category.type,
+            });
+        } else {
+            setEditingCategory(null);
+            setCategoryFormData({
+                name: '',
+                type: 'project',
+            });
+        }
+        setIsCategoryModalOpen(true);
+    };
+
+    const handleCloseCategoryModal = () => {
+        setIsCategoryModalOpen(false);
+        setEditingCategory(null);
+        setCategoryFormData({
+            name: '',
+            type: 'project',
+        });
+    };
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -216,6 +254,33 @@ export default function ProjectManagementPage() {
         }
     };
 
+    const handleSubmitCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsCategorySubmitting(true);
+
+        try {
+            if (editingCategory) {
+                await APIClient.updateCategory(editingCategory.id, {
+                    name: categoryFormData.name,
+                    type: categoryFormData.type,
+                });
+            } else {
+                await APIClient.createCategory({
+                    name: categoryFormData.name,
+                    type: categoryFormData.type,
+                });
+            }
+
+            await loadData();
+            handleCloseCategoryModal();
+        } catch (error) {
+            console.error('Failed to save category:', error);
+            alert('Failed to save category');
+        } finally {
+            setIsCategorySubmitting(false);
+        }
+    };
+
     const filteredProjects = projects.filter((project) =>
         project.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -236,7 +301,7 @@ export default function ProjectManagementPage() {
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your projects and categories</p>
                 </div>
                 <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="btn btn-primary flex items-center"
                     onClick={() => handleOpenModal()}
                 >
                     <Plus className="w-4 h-4 mr-2" />
@@ -335,7 +400,7 @@ export default function ProjectManagementPage() {
 
                 <TabsContent value="categories" className="space-y-4">
                     <div className="flex justify-end">
-                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                        <Button className="btn btn-primary" onClick={() => handleOpenCategoryModal()}>
                             <Plus className="w-4 h-4 mr-2" />
                             New Category
                         </Button>
@@ -366,7 +431,11 @@ export default function ProjectManagementPage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex items-center justify-end space-x-2">
-                                                    <Button variant="ghost" size="sm">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleOpenCategoryModal(category)}
+                                                    >
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                     <Button
@@ -542,6 +611,91 @@ export default function ProjectManagementPage() {
                                     : editingProject
                                     ? 'Update Project'
                                     : 'Create Project'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
+                <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold">
+                            {editingCategory ? 'Edit Category' : 'Create New Category'}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {editingCategory
+                                ? 'Update category details'
+                                : 'Add a new category for projects'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmitCategory}>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="category-name" className="text-sm font-medium">
+                                    Category Name
+                                </Label>
+                                <Input
+                                    id="category-name"
+                                    type="text"
+                                    placeholder="Enter category name"
+                                    value={categoryFormData.name}
+                                    onChange={(e) =>
+                                        setCategoryFormData({
+                                            ...categoryFormData,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="category-type" className="text-sm font-medium">
+                                    Category Type
+                                </Label>
+                                <Select
+                                    value={categoryFormData.type}
+                                    onValueChange={(value) =>
+                                        setCategoryFormData({
+                                            ...categoryFormData,
+                                            type: value as CategoryFormData['type'],
+                                        })
+                                    }
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select type" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="project">project</SelectItem>
+                                        <SelectItem value="blog">blog</SelectItem>
+                                        <SelectItem value="research">research</SelectItem>
+                                        <SelectItem value="career">career</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <DialogFooter className="gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleCloseCategoryModal}
+                                disabled={isCategorySubmitting}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={isCategorySubmitting}
+                                className="btn btn-primary"
+                            >
+                                {isCategorySubmitting
+                                    ? 'Saving...'
+                                    : editingCategory
+                                    ? 'Update Category'
+                                    : 'Create Category'}
                             </Button>
                         </DialogFooter>
                     </form>

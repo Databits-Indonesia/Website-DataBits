@@ -51,6 +51,10 @@ interface Category {
     type: 'project' | 'blog' | 'research' | 'career';
 }
 
+interface CategoryFormData {
+    name: string;
+}
+
 interface BlogFormData {
     title: string;
     content: string;
@@ -65,13 +69,19 @@ export default function BlogManagementPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [formData, setFormData] = useState<BlogFormData>({
         title: '',
         content: '',
         cover_url: '',
         category_id: 0,
     });
+    const [categoryFormData, setCategoryFormData] = useState<CategoryFormData>({
+        name: '',
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isCategorySubmitting, setIsCategorySubmitting] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -149,6 +159,29 @@ export default function BlogManagementPage() {
         });
     };
 
+    const handleOpenCategoryModal = (category?: Category) => {
+        if (category) {
+            setEditingCategory(category);
+            setCategoryFormData({
+                name: category.name,
+            });
+        } else {
+            setEditingCategory(null);
+            setCategoryFormData({
+                name: '',
+            });
+        }
+        setIsCategoryModalOpen(true);
+    };
+
+    const handleCloseCategoryModal = () => {
+        setIsCategoryModalOpen(false);
+        setEditingCategory(null);
+        setCategoryFormData({
+            name: '',
+        });
+    };
+
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -204,6 +237,33 @@ export default function BlogManagementPage() {
             setIsSubmitting(false);
         }
     };
+
+    const handleSubmitCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsCategorySubmitting(true);
+
+        try {
+            if (editingCategory) {
+                await APIClient.updateCategory(editingCategory.id, {
+                    name: categoryFormData.name,
+                    type: 'blog',
+                });
+            } else {
+                await APIClient.createCategory({
+                    name: categoryFormData.name,
+                    type: 'blog',
+                });
+            }
+
+            await loadData();
+            handleCloseCategoryModal();
+        } catch (error) {
+            console.error('Failed to save category:', error);
+            alert('Failed to save category');
+        } finally {
+            setIsCategorySubmitting(false);
+        }
+    };
     const filteredBlogs = blogs.filter((blog) =>
         blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         blog.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -225,7 +285,7 @@ export default function BlogManagementPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Blog Management</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage your blog posts and categories</p>
                 </div>
-                <Button className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" onClick={() => handleOpenModal()}>
+                <Button className="btn btn-primary" onClick={() => handleOpenModal()}>
                     <Plus className="w-4 h-4 mr-2" />
                     New Post
                 </Button>
@@ -330,7 +390,7 @@ export default function BlogManagementPage() {
                 {/* Categories Tab */}
                 <TabsContent value="categories" className="space-y-4">
                     <div className="flex justify-end">
-                        <Button className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                        <Button className="btn btn-primary" onClick={() => handleOpenCategoryModal()}>
                             <Plus className="w-4 h-4 mr-2" />
                             New Category
                         </Button>
@@ -361,7 +421,11 @@ export default function BlogManagementPage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex items-center justify-end space-x-2">
-                                                    <Button variant="ghost" size="sm">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleOpenCategoryModal(category)}
+                                                    >
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                     <Button
@@ -522,13 +586,86 @@ export default function BlogManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isSubmitting
                                     ? 'Saving...'
                                     : editingBlog
                                     ? 'Update Post'
                                     : 'Create Post'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
+                <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold">
+                            {editingCategory ? 'Edit Category' : 'Create New Category'}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {editingCategory
+                                ? 'Update category details'
+                                : 'Add a new blog category'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmitCategory}>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="category-name" className="text-sm font-medium">
+                                    Category Name
+                                </Label>
+                                <Input
+                                    id="category-name"
+                                    type="text"
+                                    placeholder="Enter category name"
+                                    value={categoryFormData.name}
+                                    onChange={(e) =>
+                                        setCategoryFormData({
+                                            ...categoryFormData,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    required
+                                    className="w-full"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="category-type" className="text-sm font-medium">
+                                    Category Type
+                                </Label>
+                                <Input
+                                    id="category-type"
+                                    type="text"
+                                    value="blog"
+                                    readOnly
+                                    className="w-full"
+                                />
+                            </div>
+                        </div>
+
+                        <DialogFooter className="gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleCloseCategoryModal}
+                                disabled={isCategorySubmitting}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={isCategorySubmitting}
+                                className="btn btn-primary"
+                            >
+                                {isCategorySubmitting
+                                    ? 'Saving...'
+                                    : editingCategory
+                                    ? 'Update Category'
+                                    : 'Create Category'}
                             </Button>
                         </DialogFooter>
                     </form>
