@@ -49,20 +49,12 @@ export default function AdminLoginPage() {
                 <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-8">
                     {/* Logo/Header */}
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
-                            <svg
-                                className="w-8 h-8 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                                />
-                            </svg>
+                        <div className="inline-flex items-center justify-center mb-4">
+                            <img 
+                                src="https://avatars.githubusercontent.com/u/167419822?s=200&v=4" 
+                                alt="DataBits Logo" 
+                                className="w-16 h-16 rounded-full shadow-lg"
+                            />
                         </div>
                         <h1 className="text-2xl font-bold text-white mb-2">Admin Portal</h1>
                         <p className="text-slate-400">Sign in to access the dashboard</p>

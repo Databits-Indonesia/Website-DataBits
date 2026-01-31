@@ -67,15 +67,15 @@ export default function AdminSidebar({ isOpen, onClose, isCollapsed }: AdminSide
             {/* Sidebar */}
             <aside
                 className={`fixed left-0 top-0 z-50 flex h-screen flex-col overflow-y-auto bg-white duration-300 ease-linear dark:bg-gray-900 lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                    } ${isCollapsed ? 'lg:w-20' : 'lg:w-72'} w-72`}
+                    } ${isCollapsed ? 'lg:w-20' : 'lg:w-60'} w-60`}
             >
                 {/* Sidebar Header */}
                 <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
                     <div
-                        className={`flex items-center gap-4 cursor-pointer ${isCollapsed ? 'justify-center w-full' : ''}`}
+                        className={`flex items-center justify-center cursor-pointer ${isCollapsed ? 'w-full' : ''}`}
                         onClick={() => router.push(localizePath(locale, '/'))}
                     >
-                        <img src="/logo.jpeg" alt="DataBits Logo" className="h-8" />
+                        <img src="/logo.jpeg" alt="DataBits Logo" className="h-8 w-8 object-contain" />
                     </div>
 
                     <button
