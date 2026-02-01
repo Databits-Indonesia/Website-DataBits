@@ -76,6 +76,9 @@ def get_blogs(db: Session):
 def get_blog_by_id(db: Session, blog_id: int):
     return db.query(Blog).filter(Blog.id == blog_id).first()
 
+def get_blog_by_slug(db: Session, slug: str):
+    return db.query(Blog).filter(Blog.slug == slug).first()
+
 def update_blog(db: Session, blog_id: int, data: BlogUpdate2, user_id: int):
     blog = get_blog_by_id(db, blog_id)
 

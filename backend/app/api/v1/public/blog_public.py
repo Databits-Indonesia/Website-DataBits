@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from app.schemas.blog import BlogRead
 from app.schemas.target_lang import Language
-from app.services.blog import get_blogs, get_blog_by_id, register_blog_view
+from app.services.blog import get_blogs, get_blog_by_slug, register_blog_view
 from app.services.translate import translate
 from app.core.database import get_db
 
@@ -31,9 +31,9 @@ async def list_blogs(target_lang: Language = Query("id"), db: Session = Depends(
             setattr(obj, f, value)
     return blogs
 
-@router.get("/{blog_id}", response_model=BlogRead)
-async def blog_detail(blog_id: int, target_lang: Language = Query("id"), db: Session = Depends(get_db)):
-    blog = get_blog_by_id(db, blog_id)
+@router.get("/{slug}", response_model=BlogRead)
+async def blog_detail(slug: str, target_lang: Language = Query("id"), db: Session = Depends(get_db)):
+    blog = get_blog_by_slug(db, slug)
     blog.slug, blog.title, blog.content = await translate([blog.slug, blog.title, blog.content], target_lang)
     return BlogRead(
             id=blog.id,

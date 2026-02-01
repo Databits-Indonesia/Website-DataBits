@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from app.schemas.auth import LoginRequest, TokenResponse, UserMe
-from app.services.auth import login_user
 from app.core.database import get_db
 from app.core.security import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.core.dependencies import get_current_user
@@ -10,6 +9,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/login", response_model=TokenResponse)
 def login(data: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    from app.services.auth import login_user
     token = login_user(db, data.email_username, data.password)
 
     if not token:
