@@ -178,7 +178,7 @@ export default function UserManagementPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">User Management</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">Manage users and their roles</p>
                 </div>
-                <Button className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" onClick={() => handleOpenModal()}>
+                <Button className="btn btn-primary" onClick={() => handleOpenModal()}>
                     <Plus className="w-4 h-4 mr-2" />
                     New User
                 </Button>
@@ -446,7 +446,7 @@ export default function UserManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isSubmitting
                                     ? 'Saving...'

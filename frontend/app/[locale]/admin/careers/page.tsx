@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -69,6 +71,8 @@ interface CategoryFormData {
 }
 
 export default function CareerManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [careers, setCareers] = useState<Career[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
@@ -99,7 +103,7 @@ export default function CareerManagementPage() {
     const loadData = async () => {
         try {
             const [careerData, categoryData] = await Promise.all([
-                APIClient.getCareers(),
+                APIClient.getCareers(locale === 'id' ? 'id' : 'en'),
                 APIClient.getCategoriesByType('career'),
             ]);
             setCareers(careerData);

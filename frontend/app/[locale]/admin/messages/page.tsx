@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +28,8 @@ interface Message {
 }
 
 export default function MessageManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -37,7 +41,7 @@ export default function MessageManagementPage() {
 
     const loadData = async () => {
         try {
-            const data = await APIClient.getMessages();
+            const data = await APIClient.getMessages(locale === 'id' ? 'id' : 'en');
             setMessages(data);
         } catch (error) {
             console.error('Failed to load messages:', error);

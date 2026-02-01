@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import StatCard from '@/components/admin/StatCard';
 import {
     Users,
@@ -10,10 +11,6 @@ import {
     Package,
     FolderKanban
 } from 'lucide-react';
-
-const ChartOne = dynamic(() => import('@/components/admin/Charts/ChartOne'), {
-    ssr: false,
-});
 
 interface Stats {
     users: number;
@@ -37,6 +34,8 @@ interface Activity {
 }
 
 export default function AdminDashboard() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [stats, setStats] = useState<Stats>({
         users: 0,
         blogs: 0,
@@ -85,7 +84,7 @@ export default function AdminDashboard() {
                 APIClient.getMessageCount(),
                 APIClient.getPublicationCount(),
                 APIClient.getResearchCount(),
-                APIClient.getActivities(),
+                APIClient.getActivities(locale === 'id' ? 'id' : 'en'),
             ]);
 
             const nextStats = {

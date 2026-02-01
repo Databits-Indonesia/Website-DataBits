@@ -1,14 +1,26 @@
 'use client';
 
+import { useRouter, usePathname } from 'next/navigation';
 import React from 'react';
 import { Search, Bell, Moon, Sun, Menu } from 'lucide-react';
 import { APIClient } from '@/lib/api-client';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { getCurrentLocale, localizePath, switchLocalePath } from "@/lib/i18n";
 
 interface AdminHeaderProps {
     onMenuClick: () => void;
 }
 
 export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
+    const router = useRouter();
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
+    // const pathname = localizePath(router.pathname, locale);
     const [darkMode, setDarkMode] = React.useState(false);
     const [showNotifications, setShowNotifications] = React.useState(false);
     const [showProfile, setShowProfile] = React.useState(false);
@@ -61,6 +73,20 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                             <Moon className="h-5 w-5 text-gray-600" />
                         )}
                     </button>
+                    {/* Language Button */}
+                    <DropdownMenu>
+                    <DropdownMenuTrigger className="btn btn-secondary px-3 py-1 text-sm">
+                        {locale.toUpperCase()}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                        <DropdownMenuItem onClick={() => router.push(switchLocalePath(pathname, 'en'))}>
+                        English
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push(switchLocalePath(pathname, 'id'))}>
+                        Indonesian
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                    </DropdownMenu>
 
                     {/* Notification */}
                     <div className="relative">

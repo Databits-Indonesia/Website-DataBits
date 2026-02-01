@@ -81,10 +81,22 @@ class BlogUpdate2(BaseModel):
         description="Url Cover Blog (jika kosong tidak di ubah)"
     )
 
-class BlogRead(BlogBase):
+class BlogRead(BaseModel):
     id: int = Field(
         ...,
         description="ID Blog"
+    )
+    slug: Optional[str] = Field(
+        None,
+        description="Slug URL"
+    )
+    title: str = Field(
+        ...,
+        description="Judul Blog"
+    )
+    content: str = Field(
+        ...,
+        description="Content Blog"
     )
     cover_url: str = Field(
         ...,

@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -73,6 +75,8 @@ interface ResearchFormData {
 }
 
 export default function ResearchManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [publications, setPublications] = useState<Publication[]>([]);
     const [research, setResearch] = useState<Research[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -114,8 +118,8 @@ export default function ResearchManagementPage() {
     const loadData = async () => {
         try {
             const [publicationsData, researchData, categoriesData] = await Promise.all([
-                APIClient.getPublications(),
-                APIClient.getResearch(),
+                APIClient.getPublications(locale === 'id' ? 'id' : 'en'),
+                APIClient.getResearch(locale === 'id' ? 'id' : 'en'),
                 APIClient.getCategoriesByType('research'),
             ]);
             setPublications(publicationsData);

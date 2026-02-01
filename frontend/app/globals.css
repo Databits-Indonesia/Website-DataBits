@@ -802,6 +802,81 @@ background: var(--color-bg);
   border-color: #374151;
 }
 
+.blog-content {
+  color: var(--color-text);
+  line-height: 1.3;
+  font-size: 1.05rem;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  color: var(--color-text);
+  font-weight: 800;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.blog-content h1 { font-size: 2rem; }
+.blog-content h2 { font-size: 1.6rem; }
+.blog-content h3 { font-size: 1.3rem; }
+
+.blog-content p {
+  margin: 0.75rem 0;
+  color: var(--color-text);
+}
+
+.blog-content ul {
+  margin: 0.50rem 0 0.5rem 1rem;
+  list-style: disc;
+}
+
+.blog-content li {
+  margin: 0.05rem 0;
+}
+
+.blog-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dark .blog-content a {
+  color: #93c5fd;
+}
+
+.blog-content code {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95em;
+  background: rgba(148, 163, 184, 0.2);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.35rem;
+}
+
+.blog-content pre {
+  background: #0b1220;
+  color: #e5e7eb;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.dark .blog-content pre {
+  background: #0f172a;
+}
+
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.blog-content td,
+.blog-content th {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

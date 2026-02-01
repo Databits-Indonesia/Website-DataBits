@@ -1,6 +1,5 @@
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
-import BlogTranslateWidget from '@/components/BlogTranslateWidget';
 import Image from 'next/image';
 import Link from 'next/link';
 import { APIClient, API_BASE_URL } from '@/lib/api-client';
@@ -17,7 +16,7 @@ function estimateReadTime(content: string): string {
 function MarkdownContent({ content }: { content: string }) {
   return (
     <div 
-      className="prose prose-invert dark:prose dark:prose-invert max-w-none"
+      className="blog-content"
       dangerouslySetInnerHTML={{ 
         __html: content
           .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -51,28 +50,8 @@ export default async function Page({
   params: Promise<{ slug: string; locale: string }>
 }) {
   const { slug, locale } = await params;
-  
-  // Only accept numeric IDs for API-driven blogs
-  const blogId = parseInt(slug, 10);
-  
-  if (isNaN(blogId)) {
-    return (
-      <>
-        <Navbar />
-        <main className="min-h-screen container mx-auto px-4 py-20">
-          <h1 className="h1 mb-4">Blog Post Not Found</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">The blog post you're looking for doesn't exist.</p>
-          <Link href={`/${locale}/blog`} className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
-            <span className="material-symbols-outlined text-[20px]">arrow_back</span>
-            Back to Blog
-          </Link>
-        </main>
-        <Footer />
-      </>
-    );
-  }
 
-  const blog = await APIClient.getPublicBlogById(blogId, (locale as 'id' | 'en') || 'en');
+  const blog = await APIClient.getPublicBlogById(slug, (locale as 'id' | 'en') || 'en');
   
   return (
     <>
@@ -95,8 +74,6 @@ export default async function Page({
 
         {/* Article Content */}
         <article className="container mx-auto px-4 md:px-10 py-12 md:py-20 max-w-4xl">
-          {/* Google Translate Widget */}
-          <BlogTranslateWidget />
           
           {/* Back to Blog Button */}
           <Link href={`/${locale}/blog`} className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8">

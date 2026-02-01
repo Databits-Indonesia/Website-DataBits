@@ -224,6 +224,7 @@ export class APIClient {
     static async getBlogs(target_lang: 'id' | 'en' = 'id') {
         return this.request<Array<{
             id: number;
+            slug: string;
             title: string;
             content: string;
             cover_url: string;
@@ -237,6 +238,7 @@ export class APIClient {
     static async getPublicBlogs(target_lang: 'id' | 'en' = 'id') {
         return this.request<Array<{
             id: number;
+            slug: string;
             title: string;
             content: string;
             cover_url: string;
@@ -247,9 +249,10 @@ export class APIClient {
         }>>(`/public/blogs?target_lang=${target_lang}`);
     }
 
-    static async getPublicBlogById(id: number, target_lang: 'id' | 'en' = 'id') {
+    static async getPublicBlogById(slug: string, target_lang: 'id' | 'en' = 'id') {
         return this.request<{
             id: number;
+            slug: string;
             title: string;
             content: string;
             cover_url: string;
@@ -257,7 +260,7 @@ export class APIClient {
             created_at: string;
             user: string;
             category: string;
-        }>(`/public/blogs/${id}?target_lang=${target_lang}`);
+        }>(`/public/blogs/${slug}?target_lang=${target_lang}`);
     }
 
     static async uploadBlogImage(file: File): Promise<{ cover_url: string }> {

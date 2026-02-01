@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,6 +64,8 @@ interface ProjectFormData {
 }
 
 export default function ProjectManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [projects, setProjects] = useState<Project[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
@@ -93,7 +97,7 @@ export default function ProjectManagementPage() {
     const loadData = async () => {
         try {
             const [projectsData, categoriesData] = await Promise.all([
-                APIClient.getProjects(),
+                APIClient.getProjects(locale === 'id' ? 'id' : 'en'),
                 APIClient.getCategoriesByType('project'),
             ]);
             setProjects(projectsData);
@@ -604,7 +608,7 @@ export default function ProjectManagementPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="btn btn-primary"
                             >
                                 {isSubmitting
                                     ? 'Saving...'

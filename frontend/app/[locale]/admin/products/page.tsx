@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,6 +42,8 @@ interface ProductFormData {
 }
 
 export default function ProductManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +63,7 @@ export default function ProductManagementPage() {
 
     const loadData = async () => {
         try {
-            const data = await APIClient.getProducts();
+            const data = await APIClient.getProducts(locale === 'id' ? 'id' : 'en');
             setProducts(data);
         } catch (error) {
             console.error('Failed to load product data:', error);

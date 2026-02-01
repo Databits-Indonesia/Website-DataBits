@@ -15,6 +15,7 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(t('blog.categoryAll'));
   const [posts, setPosts] = useState<Array<{
     id: number;
+    slug: string;
     title: string;
     content: string;
     cover_url: string;
@@ -111,7 +112,7 @@ const BlogPage = () => {
       {isDefaultView && featuredPost && !loading && (
         <div>
           <h2 className="h2-sm mb-6">{t('blog.featuredArticles')}</h2>
-          <Link href={`/blog/${featuredPost.id}`}>
+          <Link href={`/blog/${featuredPost.slug}`}>
             <div className="group grid grid-cols-1 md:grid-cols-2 gap-8 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:shadow-lg dark:hover:bg-white/5 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 <Image 
                   src={`${API_BASE_URL}${featuredPost.cover_url}`} 
@@ -147,7 +148,7 @@ const BlogPage = () => {
         ) : postsToShow.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {postsToShow.map((post) => (
-                <Link key={post.id} href={`/blog/${post.id}`}>
+                <Link key={post.id} href={`/blog/${post.slug}`}>
                   <div className="group border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col grow cursor-pointer">
                       <Image 
                         src={`${API_BASE_URL}${post.cover_url}`} 

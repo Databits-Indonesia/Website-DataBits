@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { APIClient } from '@/lib/api-client';
+import { getCurrentLocale } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,6 +65,8 @@ interface BlogFormData {
 }
 
 export default function BlogManagementPage() {
+    const pathname = usePathname();
+    const locale = getCurrentLocale(pathname);
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
@@ -92,7 +96,7 @@ export default function BlogManagementPage() {
     const loadData = async () => {
         try {
             const [blogsData, categoriesData] = await Promise.all([
-                APIClient.getBlogs(),
+                APIClient.getBlogs(locale === 'id' ? 'id' : 'en'),
                 APIClient.getCategoriesByType('blog'),
             ]);
             setBlogs(blogsData);
