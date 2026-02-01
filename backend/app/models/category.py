@@ -7,7 +7,7 @@ class CategoryType(enum.Enum):
     PROJECT = "project"
     BLOG = "blog"
     RESEARCH = "research"
-    CAREERS = "career"
+    CAREER = "career"
 
 class Category(Base):
     __tablename__ = "categories"

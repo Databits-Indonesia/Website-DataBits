@@ -35,8 +35,10 @@ def create(data: CareerCreate, db: Session = Depends(get_db), current_user = Dep
 async def list_career(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
     careers = get_careers(db)
     FIELDS = [
-        "title",
-        "content",
+        "position",
+        "work_mode",
+        "job_type",
+        "desc"
     ]
     if not careers:
         return []

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from app.schemas.auth import LoginRequest, TokenResponse, UserMe
-from app.services.auth import login_user
 from app.core.database import get_db
+from app.services.auth import login_user
 from app.core.security import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.core.dependencies import get_current_user
 
