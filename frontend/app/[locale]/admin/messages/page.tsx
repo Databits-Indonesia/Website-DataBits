@@ -166,7 +166,7 @@ export default function MessageManagementPage() {
                         {selectedMessage ? (
                             <div className="space-y-4">
                                 <div className="flex items-center space-x-3 pb-4 border-b border-slate-200 dark:border-slate-700">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center">
                                         <Mail className="w-5 h-5 text-white" />
                                     </div>
                                     <div>

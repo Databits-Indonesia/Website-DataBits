@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCurrentLocale, localizePath, switchLocalePath } from "@/lib/i18n";
+import { getCurrentLocale, switchLocalePath } from "@/lib/i18n";
 
 interface AdminHeaderProps {
     onMenuClick: () => void;
@@ -32,7 +32,7 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
 
     return (
         <header className="sticky top-0 z-30 flex w-full bg-white drop-shadow-sm dark:bg-gray-900 dark:drop-shadow-none">
-            <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-sm md:px-6 2xl:px-11">
+            <div className="flex grow items-center justify-between px-4 py-4 shadow-sm md:px-6 2xl:px-11">
                 {/* Left side - Menu button and Search */}
                 <div className="flex items-center gap-2 sm:gap-4">
                     {/* Hamburger Toggle */}
@@ -145,7 +145,7 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                                 <span className="block text-xs text-gray-500">Administrator</span>
                             </span>
 
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600">
+                            <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-600 to-purple-600">
                                 <div className="flex h-full w-full items-center justify-center">
                                     <span className="text-sm font-medium text-white">A</span>
                                 </div>
