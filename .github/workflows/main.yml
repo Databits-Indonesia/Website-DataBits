@@ -1,0 +1,19 @@
+name: Deploy FastAPI to cPanel
+on:
+  push:
+    branches: [ main ]
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: SFTP Deploy
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.FTP_SERVER }}
+        port: 21
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        source: "./backend/*"
+        target: "/home/datf1542/public_html/api.databitsid.tech/admin/"
