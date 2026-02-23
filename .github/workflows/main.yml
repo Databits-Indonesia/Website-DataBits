@@ -12,6 +12,7 @@ jobs:
       uses: appleboy/scp-action@v0.1.4
       with:
         host: ${{ secrets.FTP_SERVER }}
+        port: 21
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         source: "./backend/*"
