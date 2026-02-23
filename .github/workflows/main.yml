@@ -8,12 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: SFTP Deploy
-      uses: appleboy/scp-action@v0.1.4
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
-        host: ${{ secrets.FTP_SERVER }}
-        port: 21
+        server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        source: "./backend/*"
-        target: "/home/datf1542/public_html/api.databitsid.tech/admin/"
+        folder: ./backend/
+        server-dir: /home/datf1542/public_html/api.databitsid.tech/
