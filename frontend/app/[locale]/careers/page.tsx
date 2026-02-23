@@ -1,12 +1,54 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react'
 import Navbar from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useI18n } from '@/components/i18n-provider';
+import { APIClient } from '@/lib/api-client';
+
+interface CareerPosition {
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+  apply_link: string;
+}
 
 const CareersPage = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const [openPositions, setOpenPositions] = useState<CareerPosition[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        setLoading(true);
+        const careers = await APIClient.getPublicCareers(locale as 'id' | 'en');
+        
+        // Map API response to component structure
+        const mappedPositions = careers.map((career) => ({
+          title: career.position,
+          department: career.category,
+          location: career.work_mode,
+          type: career.job_type,
+          description: career.desc,
+          apply_link: career.apply_link,
+        }));
+        
+        setOpenPositions(mappedPositions);
+      } catch (err) {
+        console.error('Failed to fetch careers:', err);
+        setError('Failed to load career positions');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCareers();
+  }, [locale]);
   
   const benefits = [
     {
@@ -41,50 +83,21 @@ const CareersPage = () => {
     }
   ];
 
-  const openPositions = [
-    {
-      title: 'Senior Machine Learning Engineer',
-      department: 'Engineering',
-      location: 'Remote / Jakarta',
-      type: 'Full-time',
-      description: 'Lead the development of advanced ML models and contribute to our core AI infrastructure.'
-    },
-    {
-      title: 'Data Scientist',
-      department: 'Research',
-      location: 'Remote / Jakarta',
-      type: 'Full-time',
-      description: 'Analyze complex datasets and develop predictive models to drive business insights.'
-    },
-    {
-      title: 'AI Research Scientist',
-      department: 'Research',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Conduct cutting-edge research in deep learning and publish in top-tier conferences.'
-    },
-    {
-      title: 'Full Stack Developer',
-      department: 'Engineering',
-      location: 'Remote / Jakarta',
-      type: 'Full-time',
-      description: 'Build scalable web applications and APIs that power our AI solutions.'
-    },
-    {
-      title: 'DevOps Engineer',
-      department: 'Engineering',
-      location: 'Remote / Jakarta',
-      type: 'Full-time',
-      description: 'Manage infrastructure, CI/CD pipelines, and ensure system reliability.'
-    },
-    {
-      title: 'Product Manager',
-      department: 'Product',
-      location: 'Jakarta',
-      type: 'Full-time',
-      description: 'Define product strategy and roadmap for our AI-powered solutions.'
-    }
-  ];
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex flex-col min-h-[calc(100vh-(--spacing(20)))]">
+          <section className="section">
+            <div className="container mx-auto text-center">
+              <p className="text-red-600 dark:text-red-400">{error}</p>
+            </div>
+          </section>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -183,44 +196,56 @@ const CareersPage = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
-              {openPositions.map((position, i) => (
-                <motion.div 
-                  key={i} 
-                  className="card card-hover group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                >
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-3">
-                    <div className="flex-1">
-                      <h3 className="h3-sm group-hover:text-primary transition-colors mb-2">{position.title}</h3>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
-                          {position.department}
-                        </span>
-                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px]">location_on</span>
-                          {position.location}
-                        </span>
-                        <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
-                          {position.type}
-                        </span>
+              {loading ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-600 dark:text-gray-400">Loading job positions...</p>
+                </div>
+              ) : openPositions.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-600 dark:text-gray-400">No open positions at the moment.</p>
+                </div>
+              ) : (
+                openPositions.map((position, i) => (
+                  <motion.div 
+                    key={i} 
+                    className="card card-hover group"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-3">
+                      <div className="flex-1">
+                        <h3 className="h3-sm group-hover:text-primary transition-colors mb-2">{position.title}</h3>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
+                            {position.department}
+                          </span>
+                          <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[14px]">location_on</span>
+                            {position.location}
+                          </span>
+                          <span className="text-xs font-medium px-2 py-1 rounded bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
+                            {position.type}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                    {position.description}
-                  </p>
-                  <a 
-                    href="#" 
-                    className="inline-flex items-center gap-1 text-sm font-bold icon-color hover:text-primary transition-colors"
-                  >
-                    {t('careers.applyNow')} <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                  </a>
-                </motion.div>
-              ))}
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      {position.description}
+                    </p>
+                    <a 
+                      href={position.apply_link} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-bold icon-color hover:text-primary transition-colors"
+                    >
+                      {t('careers.applyNow')} <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </a>
+                  </motion.div>
+                ))
+              )}
             </div>
 
             <motion.div 
@@ -234,7 +259,7 @@ const CareersPage = () => {
                 {t('careers.noPositionText')}
               </p>
               <motion.a 
-                href="#" 
+                href="mailto:databitsteam@gmail.com" 
                 className="btn btn-secondary"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

@@ -331,6 +331,18 @@ export class APIClient {
         }>>(`/career?target_lang=${target_lang}`);
     }
 
+    static async getPublicCareers(target_lang: 'id' | 'en' = 'id') {
+        return this.request<Array<{
+            id: number;
+            position: string;
+            work_mode: string;
+            job_type: string;
+            desc: string;
+            apply_link: string;
+            category: string;
+        }>>(`/public/career?target_lang=${target_lang}`);
+    }
+
     static async createCareer(data: {
         position: string;
         work_mode: string;
