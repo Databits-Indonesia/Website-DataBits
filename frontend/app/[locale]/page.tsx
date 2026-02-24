@@ -18,7 +18,7 @@ type PageMeta = {
   structuredData?: Record<string, unknown>;
 };
 
-const SITE_URL = typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'https://databits.co-id.id';
+const SITE_URL = typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'https://databitsid.tech';
 const SITE_NAME = 'DataBits';
 
 const ORGANIZATION_SCHEMA = {

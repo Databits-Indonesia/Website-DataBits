@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   },
 }
 
-export async function generateStaticParams() {
-  return (locales as readonly string[]).map((locale) => ({ locale }))
+export async function generateStaticParams(): Promise<{ locale: Locale }[]> {
+  return locales.map((locale) => ({ locale }))
 }
 
 export default async function LocaleLayout({
@@ -21,9 +21,10 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
+  const { locale: rawLocale } = await params
+  const locale = rawLocale as Locale
   const dict = await getDictionary(locale)
   return (
     <div lang={locale} className="bg-background-light dark:bg-background-dark text-gray-800 dark:text-white antialiased font-display">
