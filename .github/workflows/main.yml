@@ -14,5 +14,5 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        folder: ./backend/
-        server-dir: /home/datf1542/public_html/api.databitsid.tech/
+        local-dir: ./backend/
+        server-dir: api.databitsid.tech/
