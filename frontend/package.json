@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preview": "next start",
+    "start": "NODE_ENV=production node server.js",
     "test": "vitest"
   },
   "dependencies": {
