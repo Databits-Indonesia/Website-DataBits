@@ -25,8 +25,13 @@ import os
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=["http://localhost:3000"],
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://databitsid.tech",
+        "https://databitsid.tech",
+        "http://api.databitsid.tech",
+        "https://api.databitsid.tech",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
