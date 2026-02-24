@@ -17,9 +17,11 @@ jobs:
                 version: 10
             - name: 🧱 Install Dependencies
               run: pnpm install
+              working-directory: ./frontend
 
             - name: 🛠️ Build App
               run: pnpm run build
+              working-directory: ./frontend
 
             - name: 📤 Deploy via FTP
               uses: SamKirkland/FTP-Deploy-Action@v4.3.6
