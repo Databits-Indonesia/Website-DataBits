@@ -1,5 +1,12 @@
-// API Base URL
-export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8000';
+// API Base URL - Uses Next.js rewrites to proxy requests
+// In development: requests go through Next.js (/api/* rewrites to backend)
+// Direct fallback to external URL if rewrites are not configured
+export const API_BASE_URL =
+    typeof window !== 'undefined' && window.location.hostname === 'localhost'
+        ? '/api'  // Use relative path for Next.js rewrites in development
+        : process.env.NEXT_PUBLIC_API_BASE_URL ||
+          process.env.API_BASE_URL ||
+          '/api';  // Use rewrites by default
 
 // API Client with authentication
 export class APIClient {
