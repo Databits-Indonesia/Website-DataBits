@@ -11,16 +11,13 @@ from app.services.research import (
 )
 from app.services.translate import translate
 from app.core.database import get_db
-from app.core.dependencies import (
-    admin_or_owner, 
-)
 
 router = APIRouter(
     prefix="/public/research",
     tags=["Research Public"]
 )
 
-@router.get("", response_model=List[ResearchRead], dependencies=[Depends(admin_or_owner)])
+@router.get("", response_model=List[ResearchRead])
 async def list_researchs(target_lang: Language = Query("id"), db: Session = Depends(get_db)):
     researchs = get_researchs(db)
     FIELDS = [
@@ -38,7 +35,7 @@ async def list_researchs(target_lang: Language = Query("id"), db: Session = Depe
             setattr(obj, f, value)
     return researchs
 
-@router.get("/stats/count", response_model=ResearchCount, dependencies=[Depends(admin_or_owner)])
+@router.get("/stats/count", response_model=ResearchCount)
 def researchs_count(db: Session = Depends(get_db)):
     total = count_researchs(db)
     return {"total_researchs": total}
