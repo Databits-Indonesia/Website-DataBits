@@ -9,7 +9,7 @@ from app.api.v1.admin import (
     research, service,
     sup_career, user
 )
-from app.api.v1.public import (
+from app.api.v1.public_routes import (
     about_public, blog_public, 
     career_public, category_public, 
     contact_public, home_public, 
