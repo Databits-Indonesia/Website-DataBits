@@ -31,6 +31,7 @@ app.add_middleware(
         "https://databitsid.tech",
         "http://api.databitsid.tech",
         "https://api.databitsid.tech",
+        "https://api-databits.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
